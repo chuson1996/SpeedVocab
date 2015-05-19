@@ -1,0 +1,250 @@
+/* -------------------------------------- App -------------------------------------- */
+body {
+    font: 16px 'Source Sans Pro';
+    background-color: #F4F0EA;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.remaining-count{
+    background-color: rgb(123, 158, 255);
+    padding-left: 60px;
+    padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    box-shadow: inset 0 8px 8px -8px rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+.folder-list{
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
+    border-radius: 3px;
+    background-color:white;
+    padding: 8px 13px 8px 13px;
+    margin: 5px 5px 5px 5px;
+}
+.AddNewFormDiv{
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
+    border-radius: 3px;
+    background-color:white;
+    padding: 8px 13px 8px 13px;
+    margin: 5px 5px 5px 5px;
+}
+/*.starAll{*/
+
+/*}*/
+.starAll, .unstarAll{
+    border: 1px solid rgb(214, 214, 214);
+    background-color: rgb(252, 251, 248);
+    height: 40px;
+    width: 120px;
+    margin-bottom: 3px;
+    float: right;
+    text-align:left;
+}
+.star-btn>div{
+    background: url('../icons/star-shape4.png');
+}
+.star-btn-selected{
+    color:red;
+    font-weight: 800;
+}
+.details{
+    width: 120px;
+    vertical-align: top;
+    padding-top:15px;
+}
+.details img{
+    width: 18px;
+    margin-right:10px;
+}
+a{
+    cursor:pointer;
+}
+table.wordlist{
+    background-color: white;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
+    border-radius: 3px;
+}
+hr {
+    margin-top: 0px;
+    margin-bottom: 13px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+pre{
+    font: 16px 'Source Sans Pro';
+}
+.accuracy{
+    background: #f4f0ea;
+    border-radius: 4px;
+    cursor: default;
+    float: left;
+    padding: 4px 5px;
+    position: relative;
+    width: 105px;
+    margin-right: 12px;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.score{
+    display: block;
+    margin: 0 4px 0 2px;
+    font: 300 22px "Helvetica Neue",arial,sans-serif;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.9);
+    -webkit-font-smoothing: antialiased;
+    float: left;
+    text-align: right;
+    width: 25px;
+}
+.answers{
+    color: #999;
+    display: block;
+    letter-spacing: 0.13em;
+    line-height: 10px;
+    -webkit-user-select: none;
+}
+.answers .right{
+    margin-top: 2px;
+}
+.answers .wrong{
+
+}
+.answers .icon{
+    display: inline;
+    font-size: 12px;
+    vertical-align: 2px;
+}
+.glyph {
+    display: inline-block;
+    font: 16px/1 glyphs-h105-web;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-font-smoothing: antialiased;
+}
+.border-left-green{
+    border-left: 3px solid green;
+}
+.border-left-red{
+    border-left: 3px solid #b8231a;
+}
+.border-left-orange{
+    border-left: 3px solid #EEC075;;
+}
+table.wordlist{
+    border-radius: 0 4px 4px 0;
+    border-top: 1px solid #dad7d0;
+    border-right: 1px solid #dad7d0;
+    border-bottom: 1px solid #dad7d0;
+}
+table.wordlist>tr>td{
+    border-bottom:1px solid #eee;
+}
+.wordlist pre{
+    width:310px;
+    font-size:14px;
+}
+.folder-list .btn{
+    width: 100%;
+    height: 25px;
+    padding: 0 0 0 0;
+    margin-bottom: 3px;
+}
+
+
+/* -------------------------------------- Learn -------------------------------------- */
+
+
+div.counter{
+    max-width: 160px;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
+    border-radius: 3px;
+    background-color: rgb(255, 242, 207);
+    padding: 8px 13px 8px 13px;
+    margin: 0px 5px 5px 5px;
+}
+div.resultDiv{
+    padding:8px 8px 8px 8px;
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
+    border-radius: 3px;
+
+
+}
+div.resultDiv pre{
+    font: 16px 'Source Sans Pro';
+    background-color: rgb(255, 255, 255);
+    border-color: white;
+    border-width: 1px;
+}
+div.resultDiv-correct{
+    background-color: rgba(156,244,192,0.6);
+}
+div.resultDiv-wrong{
+    background-color: rgba(241,140,140,0.7);
+}
+.resultText{
+    font-size:20px;
+    font-family: Oswald,Arial,sans-serif;
+}
+.answer{
+    border: 1px solid;
+    border-color: #999 #b5b5b5 #d2d2d2 #b5b5b5;
+    background: #f9f9f9;
+    color: #222;
+    padding: 4px;
+    vertical-align: middle;
+    width: 70%;
+}
+.button{
+    background: #1f6fd9;
+    border: 1px solid #1d66c8;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font: 500 12px/24px "lucida grande","lucida sans unicode",arial,sans-serif;
+    padding: 0 10px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
+}
+#answer-button{
+    padding: 3px 9px;
+    vertical-align: middle;
+    margin-right: 0;
+    margin-left: 16px;
+}
+#reset-button{
+    padding: 3px 9px;
+    vertical-align: middle;
+}
+.button:hover, .button:active {
+    background-color: #2379ea;
+}
+.wronganswer{
+    text-decoration: line-through;
+}
+.questionDiv, .summary{
+    box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
+    border-radius: 3px;
+    background-color:white;
+    padding: 8px 13px 8px 13px;
+}
+p.h1{
+    font-size: 20px;
+    padding-bottom: 7px;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+
+.relative-center{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.missedTerms pre{
+    width:90%;
+    font-size:14px;
+}

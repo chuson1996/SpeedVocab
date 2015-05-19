@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+  head
+    title= title
+    script(src="//code.jquery.com/jquery-2.0.2.min.js")
+  body
+    h1= title
+    a(href="/contact")
+
+    if user
+        p Display name: #{user.name}
+        p Email: #{user.email}
+        p Created at: #{user.created}

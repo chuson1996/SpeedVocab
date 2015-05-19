@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+   head
+      title Choose a folder
+      script(data-require="jquery@2.1.3", data-semver="2.1.3", src="http://code.jquery.com/jquery-2.1.3.min.js")
+      link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+      script(data-require="bootstrap@*", data-semver="3.3.2", src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
+   body
+      div.container
+         div.row
+            div.col-md-12
+               a.btn.btn-default New Folder
+               | <br/>Or
+               h2 Choose a folder
+               each item in folders
+                  a.btn.btn-default(word-id=item._id)= item.name

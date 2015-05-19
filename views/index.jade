@@ -1,0 +1,16 @@
+doctype html
+html(lang="en")
+  head
+    title Speed Vocab
+    script(data-require="jquery@2.1.3", data-semver="2.1.3", src="http://code.jquery.com/jquery-2.1.3.min.js")
+      link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+      script(data-require="bootstrap@*", data-semver="3.3.2", src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
+      script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="https://code.angularjs.org/1.4.0-rc.1/angular.js")
+
+      link(rel="stylesheet", href="stylesheets/style.css")
+      script(src="javascripts/scriptIndex.js")
+  body
+    div.container
+      div.row
+        div.col-md-12
+          a.btn(href="/auth/google") Sign in with Google
