@@ -125,8 +125,8 @@ module.exports = function(app){
             console.log(doc);
             var updateCor=doc.NoCorrectAns+1;
             var updateWor=(doc.NoWrongAns||0)-1;
-            if (updateCor>7) updateCor=7;
-            if (updateWor>7) updateWor=7;
+            if (updateCor>9) updateCor=9;
+            if (updateWor>9) updateWor=9;
             if (updateWor<0) updateWor=0;
             if (updateCor<0) updateCor=0;
             Words.update({_id: wordid, userId: req.session.passport.user},{
