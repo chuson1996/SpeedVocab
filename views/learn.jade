@@ -52,7 +52,7 @@ html(lang="en")
                         a(ng-click="playAudio()")
                             img(style="margin-left:20px; width:17px;", src="../icons/volume24.png")
                         <hr/>
-                        form(ng-submit="submit()")
+                        form(ng-submit="submit()", style="width:100%; display:inline-block; ")
                             input.answer(type="text", ng-model="answer")
                             input#answer-button.button(type="submit", value="Answer", ng-disabled="finished")
                     div.summary(ng-show="finished")
