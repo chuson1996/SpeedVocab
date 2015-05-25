@@ -50,13 +50,21 @@
         //------------------------  Add Words ------------------------------
         $scope.currentOpenningFolder = '';
         $scope.currentWordlist=[];
+        $scope.refreshPage = function(num){
+            // console.log('Refresh Page');
+            if (num) $scope.openingPage = num;
+            else $scope.openingPage=1;
+            $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
+        };
         $scope.submit = function(){
             Word.addWord($scope.currentOpenningFolder, $scope.newword, $scope.newmeaning, $scope.newexample, $scope.newimage).then(function(res){
                 res.editing = false;
                 $scope.resetForm();
                 $scope.$apply(function(){
                     $scope.currentWordlist.push(res);
+                    $scope.refreshPage();
                 });
+
                 //document.getElementById("AddNewForm").reset();
 
 
@@ -88,16 +96,12 @@
                 $scope.currentWordlist= orderByScoreFilter(data);
                 $scope.toTestWords = Word.wordCart;
 
-                $scope.refeshPage();
+                $scope.refreshPage();
             });
 
 
         };
-        $scope.refeshPage = function(num){
-            if (num) $scope.openingPage = num;
-            else $scope.openingPage=1;
-            $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
-        };
+
         $scope.nextPage = function(){
             $scope.openingPage++;
             $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
@@ -196,7 +200,7 @@
 
             });
             $scope.currentWordlist.splice($scope.currentWordlist.indexOf(item),1);
-
+            $scope.refreshPage();
             if ($scope.wordCart && $scope.wordCart.length>0)
                 if ($scope.wordCart.indexOf(item)!==-1){
                     $scope.wordCart.splice($scope.wordCart.indexOf(item),1);
