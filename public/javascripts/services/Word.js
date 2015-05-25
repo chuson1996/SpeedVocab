@@ -2,6 +2,12 @@
  * Created by chuso_000 on 6/5/2015.
  */
 //(function(){
+    function onError(err){
+        console.log(err);
+        return new Promise(function(resolve, reject){
+            reject('Error');
+        });
+    }
     var app= angular.module('SpeedVocab');
     app.service('Word', function($http){
         var self=this;
@@ -72,7 +78,8 @@
             });
             return $http.get('/speedvocab/api/defineWord/'+word).then(function(res){
                 // Error Handling................
-
+                console.log(res);
+                // ------------------------------
                 var data = res.data;
                 var toSend ={};
                 toSend.pronunctiation = data.pronunciation;
@@ -86,16 +93,14 @@
                     toSend.results.push(item);
                 });
                 return toSend;
-            });
+            }, onError);
         };
         self.paraphaseToExample=function(para){
             var str ='';
-            str += 'Pronunciation: '+para.pronunctiation.all;
             para.results.forEach(function(result){
-                str +='\nDef: ('+result.partOfSpeech+') '+result.definition;
-                if(result.synonyms!==undefined) str +='\nSyn: '+result.synonyms.join(', ');
-                if(result.examples!==undefined) str +='\nEx: \n'+result.examples.join('.\n');
-                str+='\n------------------------------***------------------------------';
+                str +='<p><b>Def: ('+result.partOfSpeech+') '+result.definition+'</b></p>';
+                if(result.synonyms!==undefined) str +='<p>Syn: '+result.synonyms.join(', ')+'</p>';
+                if(result.examples!==undefined) str +='<pre><i>'+result.examples.join('.<br>')+'</i></pre>';
             });
 
             return str;

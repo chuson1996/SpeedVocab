@@ -16,6 +16,9 @@
                     i.status=false;
                     return i;
                 });
+                self.toLearnWords.sort(function(a,b){
+                    return ((a.NoCorrectAns- a.NoWrongAns) >(b.NoCorrectAns- b.NoWrongAns) ? 1: -1);
+                });
                 //console.log('self.toLearnWords: ',self.toLearnWords);
                 self.total=self.toLearnWords.length;
                 console.log('total: ',self.total);

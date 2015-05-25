@@ -1,13 +1,62 @@
 /* -------------------------------------- App -------------------------------------- */
 body {
     font: 16px 'Source Sans Pro';
-    background-color: #F4F0EA;
+    background-color: #EBEBEB;
+    background-image: url('../images/testimonial.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 a {
     color: #00B7FF;
 }
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 1px solid #ccc;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+}
+/* -------------------------------------- Animation -----------------------------------------*/
+tr{
+    opacity: 1;
+    animation-name: item-enter;
+    animation-duration: 0.5s;
+}
+@-webkit-keyframes item-enter {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes item-enter {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+/*@-webkit-keyframes starShow {*/
+    /*from {opacity: 0;}*/
+    /*to {opacity: 1;}*/
+/*}*/
+/*@keyframes starShow {*/
+    /*from {opacity: 0;}*/
+    /*to {opacity: 1;}*/
+/*}*/
+img.notselected, img.selected{
+    animation-name: item-enter;
+    animation-duration: 1s;
+}
 
+.devider-color{
+    width: 100%;
+    height: 3px;
+    background-image: url('../images/stripe.png');
+    background-repeat: repeat-x;
+}
 .remaining-count{
     background-color: rgb(123, 158, 255);
     padding-left: 60px;
@@ -23,13 +72,23 @@ a {
     background-color:white;
     padding: 8px 13px 8px 13px;
     margin: 5px 5px 5px 5px;
+    border: 1px solid;
+    border-color: rgba(136, 136, 136, 0.58);
 }
 .AddNewFormDiv{
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
     border-radius: 3px;
     background-color:white;
     padding: 8px 13px 8px 13px;
-    margin: 5px 5px 5px 5px;
+    margin: 0px 0px 5px 0px;
+}
+form input{
+    border-top: 0px;
+    border-left: 0px;
+    border-bottom: 2px solid rgba(7, 51, 196, 0.48);
+    float: right;
+    margin-right: 50px;
+    border-right: 2px solid rgba(138, 135, 226, 0.38);
 }
 /*.starAll{*/
 
@@ -57,10 +116,31 @@ a {
 }
 .details img{
     width: 18px;
-    margin-right:10px;
+    margin-right:5px;
+    margin-left:5px;
 }
 a{
     cursor:pointer;
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: none;
+}
+.btn-mydefault{
+    border-radius: 3px;
+    border: 1px solid #34495e;
+    background: #ffffff;
+    padding: 5px 13px 5px 13px;
+    list-style: none;
+    color: #34495e;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-align: center;
+}
+.btn-mydefault:hover{
+    background: #34495e;
+    color: #ffffff;
+    transition: all 0.3s;
 }
 table.wordlist{
     background-color: white;
@@ -78,26 +158,54 @@ pre{
 }
 .accuracy{
     background: #f4f0ea;
-    border-radius: 4px;
     cursor: default;
     float: left;
     padding: 4px 5px;
     position: relative;
-    width: 105px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
     margin-right: 12px;
     margin-left: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+    text-align:center;
 }
 .score{
-    display: block;
-    margin: 0 4px 0 2px;
+    display: inline-block;
+    margin-top: 13px;
+    margin-left: 0px;
     font: 300 22px "Helvetica Neue",arial,sans-serif;
     text-shadow: 0 1px 0 rgba(255,255,255,0.9);
     -webkit-font-smoothing: antialiased;
-    float: left;
-    text-align: right;
     width: 25px;
+
+}
+.score-red{
+    background-color: rgba(184, 35, 26, 0.17);
+    color: black;
+    transition: background-color 0.5s, color 0.5s;
+}
+.score-red:hover{
+    background-color: rgba(184, 35, 26, 1);
+    color: white;
+}
+.score-green{
+    background-color: rgba(0, 128, 0, 0.15);
+    color: black;
+    transition: background-color 0.5s, color 0.5s;
+}
+.score-green:hover{
+    background-color: rgba(0, 128, 0, 1);
+    color: white;
+}
+.score-orange{
+    background-color: rgba(238, 192, 117, 0.32);
+    transition: background-color 0.5s, color 0.5s;
+}
+.score-orange:hover{
+    background-color: rgba(238, 192, 117, 1);
+    color: white;
 }
 .answers{
     color: #999;
@@ -117,6 +225,7 @@ pre{
     font-size: 12px;
     vertical-align: 2px;
 }
+
 .glyph {
     display: inline-block;
     font: 16px/1 glyphs-h105-web;
@@ -144,20 +253,42 @@ table.wordlist>tr>td{
     border-bottom:1px solid #eee;
 }
 .wordlist pre{
-    width:310px;
+
     font-size:14px;
 }
-.folder-list .btn{
+.folder-list .folder-btn{
     width: 100%;
     height: 25px;
     padding: 0 0 0 0;
-    margin-bottom: 3px;
+    text-align: left;
+    padding-left:10px;
+    margin-bottom: 0px;
+    border-top: 0;
+    border-bottom: 0;
+    border-radius: 0;
+    transition: padding-left 0.5s;
 }
 
+.folder-btn:first{
+    border-top: 0;
+}
+.folder-list .folder-btn:hover{
+    padding-left:20px;
+    text-decoration: wavy;
+}
+.btn-group .btn{
+    height:20px;
+    width:20px;
+    padding: 0 0 0 0;
+}
+/* ------------------------------------- ngAnimate ----------------------------------- */
 
 /* -------------------------------------- Learn -------------------------------------- */
 
-
+p, pre, span, i, b{
+    font-size:14px;
+    font-family: 'Open Sans', sans-serif;
+}
 div.counter{
     max-width: 160px;
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);

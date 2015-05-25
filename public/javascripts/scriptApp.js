@@ -20,10 +20,22 @@
     }
 
 
-    var app = angular.module('SpeedVocab',[]);
+    var app = angular.module('SpeedVocab',['textAngular']);
+    app.config(function($provide){
+        $provide.decorator('taOptions',['$delegate', function(taOptions){
+            taOptions.toolbar = [
+                ['h2','p', 'pre', 'quote'],
+                ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                ['html']
 
+            ];
+            return taOptions;
+        }]);
+    });
 
     app.controller('MainController', ['$scope','$http','Word','Folder', function($scope,$http,Word,Folder){
+
         $scope.range = function(n) {
             return new Array(n);
         };
@@ -33,20 +45,21 @@
             $scope.newexample='';
             $scope.newimage='';
             $scope.wordImages=[];
+            //console.log('Form reseted');
         };
         //------------------------  Add Words ------------------------------
         $scope.currentOpenningFolder = '';
         $scope.currentWordlist=[];
         $scope.submit = function(){
             Word.addWord($scope.currentOpenningFolder, $scope.newword, $scope.newmeaning, $scope.newexample, $scope.newimage).then(function(res){
-                console.log(res);
+                res.editing = false;
                 $scope.resetForm();
-                //$scope.newword = '';
-                //$scope.newmeaning='';
-                //$scope.newexample='';
-                //$scope.newimage='';
-                //$scope.wordImages=[];
-                $scope.getWords($scope.currentOpenningFolder);
+                $scope.$apply(function(){
+                    $scope.currentWordlist.push(res);
+                });
+                //document.getElementById("AddNewForm").reset();
+
+
             });
         };
         //------------------------- Folders -----------------------------
@@ -58,6 +71,7 @@
             //addFolder();
             Folder.addFolder();
         };
+        $scope.openingPage = 1;
         // -------------------------- getWords -----------------------------
         $scope.getWords = function(folderId){
             //console.log('clicked');
@@ -65,15 +79,33 @@
             Word.getWords(folderId).then(function(data){
 
                 data.map(function(item){
-                   var i = item;
+                    var i = item;
                     item.editing=false;
+                    item.selectedToCart=false;
                     return item;
                 });
                 //console.log(data);
-                $scope.currentWordlist= data;
+                $scope.currentWordlist= orderByScoreFilter(data);
                 $scope.toTestWords = Word.wordCart;
+
+                $scope.refeshPage();
             });
+
+
         };
+        $scope.refeshPage = function(num){
+            if (num) $scope.openingPage = num;
+            else $scope.openingPage=1;
+            $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
+        };
+        $scope.nextPage = function(){
+            $scope.openingPage++;
+            $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
+        };
+        $scope.previousPage = function(){
+            $scope.openingPage--;
+            $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
+        }
 
         //----------------------- Get Suggested Images ---------------------------
         $scope.getSuggestedImages = function(text){
@@ -91,23 +123,18 @@
 
         //-------------------------- to-test words -------------------------------
         $scope.toTestWords = Word.wordCart;
-        $scope.toggleToTestWords = function(wordId,$event){
-            if (Word.wordCart.indexOf(wordId)==-1){
+        $scope.toggleToTestWords = function(word,$event){
+            if (Word.wordCart.indexOf(word._id)==-1){
                 //$scope.toTestWords.push(wordId);
-                Word.wordCart.push(wordId);
+                Word.wordCart.push(word._id);
+                word.selectedToCart=true;
 
             }else{
                 //$scope.toTestWords.splice($scope.toTestWords.indexOf(wordId), 1);
-                Word.wordCart.splice(Word.wordCart.indexOf(wordId), 1);
+                Word.wordCart.splice(Word.wordCart.indexOf(word._id), 1);
+                word.selectedToCart=false;
             }
             $scope.toTestWords = Word.wordCart;
-            //$(elem).toggleClass('star-btn-selected');
-            //console.log($($event.target).parent());
-            $($event.target).parent().children('.notselected').toggle(200);
-            $($event.target).parent().children('.selected').toggle(200);
-            //console.log('toTestWords: ', $scope.toTestWords);
-            //console.log('Word.wordCart: ', Word.wordCart);
-            //console.log($event.target);
         }
         $scope.goToTest = function(){
             $.post('/speedvocab/storeTestingWordsToSession',{
@@ -138,22 +165,18 @@
             Word.words.forEach(function(word){
                 Word.wordCart.push(word._id);
             });
-            $scope.toTestWords = Word.wordCart;
-            $('.star-btn').each(function(){
-                //$(this).removeClass('star-btn-selected');
-                //$(this).addClass('star-btn-selected');
-                $(this).children('img.notselected').hide(200);
-                $(this).children('img.selected').show(200);
+            $scope.currentWordlist.map(function(item){
+                item.selectedToCart = true;
+                return item;
             });
+            $scope.toTestWords = Word.wordCart;
         };
         $scope.unstarAll = function(){
             Word.wordCart=[];
             $scope.toTestWords = Word.wordCart;
-            $('.star-btn').each(function(){
-                //$(this).removeClass('star-btn-selected');
-                $(this).children('img.notselected').show(200);
-                $(this).children('img.selected').hide(200);
-                //$(this).addClass('star-btn-selected');
+            $scope.currentWordlist.map(function(item){
+                item.selectedToCart = false;
+                return item;
             });
         }
 
@@ -170,11 +193,14 @@
         };
         $scope.deleteItem = function(item){
             Word.deleteWord(item._id).then(function(res){
-                $scope.currentWordlist.splice($scope.currentWordlist.indexOf(item),1);
+
+            });
+            $scope.currentWordlist.splice($scope.currentWordlist.indexOf(item),1);
+
+            if ($scope.wordCart && $scope.wordCart.length>0)
                 if ($scope.wordCart.indexOf(item)!==-1){
                     $scope.wordCart.splice($scope.wordCart.indexOf(item),1);
                 }
-            });
         };
         // ------------- Get word's definition
         $scope.defineWord = function(word){
@@ -191,18 +217,20 @@
     function onError(err){
         console.log('!!!!',err);
     }
-    app.filter('orderByScore', function(){
-        return function(items){
-            var filtered=[];
-            items.forEach(function(item){
-                filtered.push(item);
-            });
-            filtered.sort(function(a,b){
-                return ((a.NoCorrectAns- a.NoWrongAns) >(b.NoCorrectAns- b.NoWrongAns) ? 1: -1);
+    function orderByScoreFilter(items){
+        var filtered=[];
+        if (items === undefined) return items;
+        items.forEach(function(item){
+            filtered.push(item);
+        });
+        filtered.sort(function(a,b){
+            return ((a.NoCorrectAns- a.NoWrongAns) >(b.NoCorrectAns- b.NoWrongAns) ? 1: -1);
 
-            });
-            return filtered;
-        }
+        });
+        return filtered;
+    }
+    app.filter('orderByScore', function(){
+        return orderByScoreFilter;
     });
 
 

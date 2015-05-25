@@ -42,31 +42,49 @@ module.exports = function(app){
         res.send('OK');
     });
     app.post('/speedvocab/post/addword', function(req,res){
-        console.log(req.body);
-        Words.update({
+        //console.log(req.body);
+        //Words.update({
+        //    userId: req.session.passport.user,
+        //    folderId: req.body.folderId,
+        //    word:req.body.addword
+        //}, {
+        //    $set:{
+        //        userId: req.session.passport.user,
+        //        folderId: req.body.folderId,
+        //        word:req.body.addword,
+        //        meaning: req.body.addmeaning,
+        //        example: req.body.addexample,
+        //        image: req.body.addimage,
+        //        NoCorrectAns: 0,
+        //        NoWrongAns: 0,
+        //        createdAt: Date()
+        //    }
+        //
+        //},{
+        //    upsert: true
+        //}, function(err, doc){
+        //    if (err) throw err;
+        //    console.log('The doc: ',doc);
+        //});
+        var newWord = new Words({
             userId: req.session.passport.user,
             folderId: req.body.folderId,
-            word:req.body.addword
-        }, {
-            $set:{
-                userId: req.session.passport.user,
-                folderId: req.body.folderId,
-                word:req.body.addword,
-                meaning: req.body.addmeaning,
-                example: req.body.addexample,
-                image: req.body.addimage,
-                NoCorrectAns: 0,
-                NoWrongAns: 0,
-                createdAt: Date()
-            }
-
-        },{
-            upsert: true
-        }, function(err, doc){
-            if (err) throw err;
-            console.log(doc);
+            word:req.body.addword,
+            meaning: req.body.addmeaning,
+            example: req.body.addexample,
+            image: req.body.addimage,
+            NoCorrectAns: 0,
+            NoWrongAns: 0,
+            createdAt: Date()
         });
-        res.send('OK');
+        //console.log('The new word: ',newWord);
+        newWord.save(function(err){
+            if (err) throw err;
+            delete newWord.userId;
+            res.json(newWord);
+        });
+
+
     });
     app.post('/speedvocab/storeTestingWordsToSession', function(req,res){
         console.log(req.body);
@@ -266,8 +284,9 @@ module.exports = function(app){
             .header("X-Mashape-Key", "1XzINqg3Rfmshizwhfrgi54LAaX5p1Aj9Y5jsn6roqcGczBBD4")
             .header("Accept", "application/json")
             .end(function (result) {
-                //console.log(result.status);
-                if (result.status == 404) return res.status(500).send('Not found');
+                //console.log('result: ',result.body);
+                //console.log('status: ',result.status);
+                if (result.status !== 200) return res.status(500).send('Not found');
                 return res.json(result.body);
             });
     });

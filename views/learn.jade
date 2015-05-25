@@ -11,6 +11,14 @@ html(lang="en")
         link(href='http://fonts.googleapis.com/css?family=Oswald', rel='stylesheet', type='text/css')
         link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css')
         //---------------------------------------------------------------------------
+        //--------------------------- Text Editor -----------------------------------
+        link(rel='stylesheet', href='/javascripts/lib/textAngular.css')
+        script(src='/javascripts/lib/textAngular-rangy.min.js')
+        script(src='/javascripts/lib/textAngular-sanitize.min.js')
+        script(src='/javascripts/lib/textAngular.min.js')
+        link(rel='stylesheet prefetch', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
+        link(rel='stylesheet prefetch', href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
+        //---------------------------------------------------------------------------
         //script(data-require="ng-table@*", data-semver="0.3.0", src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js")
         //script(data-require="ng-table-export@0.1.0", data-semver="0.1.0", src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js")
         //link(data-require="ng-table@*", data-semver="0.3.0", rel="stylesheet", href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css")
@@ -64,7 +72,8 @@ html(lang="en")
                                                 span(ng-show="term.answer", style="text-decoration: line-through; margin-left: 5px", ng-repeat="obj in term.answer track by $index") {{obj}}
                                                     span(ng-show="$index<term.answer.length-1") ,
                                                 | &nbsp;)
-                                            pre(ng-bind="term.example", ng-show="term.example")
+                                            //pre(ng-bind="term.example", ng-show="term.example")
+                                            div(ta-bind, ng-show="term.example", ng-model="term.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
                                         td(ng-show="term.image", style="width:120px")
                                             img(ng-src="{{term.image}}", style="max-width:120px")
                         input#reset-button.button.relative-center(type="button", value="Start over", ng-click="reset()")
@@ -75,5 +84,6 @@ html(lang="en")
                     div.resultDiv(style="width:100%; min-height:200px",ng-show="result", ng-class="{'resultDiv-correct': result.correct, 'resultDiv-wrong': !result.correct}")
                         p.wronganswer(ng-show="!result.correct") {{result.answer}}
                         p.resultText {{result.word}} : {{result.meaning}}
-                        pre(ng-show="result.example") {{result.example}}
+                        //pre(ng-show="result.example") {{result.example}}
+                        div(ta-bind, ng-model="result.example", ng-show="result.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
                         img(ng-src="{{result.image}}", ng-show="result.image", style="max-width: 100%;")

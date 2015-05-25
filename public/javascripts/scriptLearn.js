@@ -2,7 +2,19 @@
  * Created by chuso_000 on 8/5/2015.
  */
 (function(){
-    var app = angular.module('SpeedVocab',['services']);
+    var app = angular.module('SpeedVocab',['services','textAngular']);
+    app.config(function($provide){
+        $provide.decorator('taOptions',['$delegate', function(taOptions){
+            taOptions.toolbar = [
+                ['h2','p', 'pre', 'quote'],
+                ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                ['html']
+
+            ];
+            return taOptions;
+        }]);
+    });
     app.controller('LearnController', function($scope, $http, LearnRound, Word){
         $scope.remaining=0;
         $scope.incorrect=0;
@@ -215,6 +227,8 @@
         }
 
         function containInWord(ans,wrd){
+            console.log('ans: ', ans);
+            if (!ans) return false;
             var ArrWrd = wrd.split(",");
             var valid=false;
             for (var i=0; i<ArrWrd.length;i++){

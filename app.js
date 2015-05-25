@@ -13,7 +13,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var _ = require('underscore');
 
-var http = require('http').Server(app);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -192,6 +192,10 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
+
+
+var http = require('http').Server(app);
+
 
 function startServer(){
   //console.log(app.get('port'));
