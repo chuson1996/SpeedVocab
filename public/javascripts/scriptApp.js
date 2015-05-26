@@ -62,6 +62,7 @@
                 $scope.resetForm();
                 $scope.$apply(function(){
                     $scope.currentWordlist.push(res);
+                    $scope.currentWordlist= orderByScoreFilter($scope.currentWordlist);
                     $scope.refreshPage();
                 });
 
