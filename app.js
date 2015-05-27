@@ -142,7 +142,8 @@ app.get("/speedvocab/api/flickr/:text", function(req,res){
 
 });
 
-
+var soundcloudRoutes = require('./routes/soundcloud.js');
+app.use('/soundcloud', soundcloudRoutes);
 
 // Facebook Authentication
 var authFacebook = require('./lib/authFacebook.js')(app,{

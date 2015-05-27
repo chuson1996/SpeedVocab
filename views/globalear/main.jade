@@ -1,0 +1,29 @@
+div(ng-controller="MainController as mainCtrl")
+   div.row
+      div.col-md-4
+         div#SoundCloudWidget
+      div.col-md-8
+         button(ng-click="mainCtrl.getSoundInTrack()") getSoundInTrack
+         button(ng-click="mainCtrl.getCurrentSound()") getCurrentSound
+         button(ng-click="mainCtrl.searchTrack()") randomThing
+         input(ng-model="mainCtrl.stringQuery", type="text")
+         <br>
+         table(ng-show="mainCtrl.randomTracks")
+            tr
+               td Artwork
+               td Genre
+               td ID
+               td Permalink_url
+               td Title
+               td Tag list
+            tr(ng-repeat="track in mainCtrl.randomTracks")
+               td
+                  img(ng-src="{{track.artwork_url}}")
+               td
+                  |{{track.genre}}
+               td {{track.id}}
+               td
+                  a(href="{{track.permalink_url}}") {{track.permalink_url}}
+               td {{track.title}}
+               td {{track.tag_list}}
+
