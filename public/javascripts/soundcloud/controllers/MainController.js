@@ -14,7 +14,6 @@ function initialize(){
                 url: "",
                 views: {
                     "viewA": { templateUrl: "/soundcloud/template/main" }
-
                 }
             })
             .state('404',{
