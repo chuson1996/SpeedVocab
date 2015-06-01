@@ -8,7 +8,7 @@
             reject('Error');
         });
     }
-    var app= angular.module('SpeedVocab');
+    var app= angular.module('services');
     app.service('Word', function($http){
         var self=this;
         self.wordCart=[];
@@ -64,12 +64,12 @@
 
         self.updateNoCorrectAns=function(wordid){
             return $http.put('/speedvocab/api/updateNoCorrectAns/'+wordid,{}).then(function(res){
-                return res;
+                return res.data;
             });
         };
         self.updateNoWrongAns=function(wordid){
             return $http.put('/speedvocab/api/updateNoWrongAns/'+wordid,{}).then(function(res){
-                return res;
+                return res.data;
             });
         };
         self.defineWord=function(word){

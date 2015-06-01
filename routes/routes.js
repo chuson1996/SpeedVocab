@@ -23,10 +23,13 @@ module.exports = function(app){
     });
 
     app.get('/speedvocab', function(req,res){
+        res.render('speedvocab');
+    });
+    app.get('/speedvocab/template/app', function(req,res){
         res.render('app');
     });
 
-    app.get('/speedvocab/learn', function(req,res){
+    app.get('/speedvocab/template/learn', function(req,res){
         res.render('learn');
     })
     // ------------ Handle POST request -------------
@@ -136,10 +139,14 @@ module.exports = function(app){
                 }
             }, function(err,doc){
                 if (err) throw err;
-                //console.log(doc);
+                res.json({
+                    _id: wordid,
+                    NoWrongAns: updateWor,
+                    NoCorrectAns: updateCor
+                });
             });
         });
-        res.send('OK');
+
     });
     app.put('/speedvocab/api/updateNoWrongAns/:wordid', function(req,res){
         var wordid= req.params.wordid;
@@ -160,10 +167,14 @@ module.exports = function(app){
                 }
             }, function(err,doc){
                 if (err) throw err;
-                //console.log(doc);
+                res.json({
+                    _id: wordid,
+                    NoWrongAns: updateWor,
+                    NoCorrectAns: updateCor
+                });
             });
         });
-        res.send('OK');
+
     });
 
     // ------------------ Handle DELETE Request --------------------------
@@ -227,6 +238,7 @@ module.exports = function(app){
                 o.NoWrongAns=term.NoWrongAns;
                 o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
                 o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+                o.createdAt = term.createdAt;
                 //console.log('after: ',o);
                 toSend.push(o);
             });
@@ -241,17 +253,6 @@ module.exports = function(app){
     app.get('/speedvocab/api/toLearnWords', function(req,res){
         var toSend=[];
         Words.find({ userId:req.session.passport.user, _id:{$in: req.session.toTestWords}}).exec().then(function(docs){
-            //docs.map(function(doc){
-            //    return {
-            //        _id: doc._id,
-            //        folderId: doc.folderId,
-            //        word: doc.word,
-            //        meaning: doc.meaning,
-            //        example: doc.example,
-            //        image: doc.image,
-            //        NoCorrectAns: doc.NoCorrectAns
-            //    }
-            //});
             var folderInfo;
             Folder.findOne({userId:req.session.passport.user, _id: docs[0].folderId}).then(function(folder){
                 //console.log(folder);
@@ -277,6 +278,17 @@ module.exports = function(app){
 
         });
         //res.json(req.session.toTestWords);
+    });
+    app.get('/speedvocab/api/word/:id', function(req,res){
+        Words.findOne({ userId:req.session.passport.user, _id:req.params.id}).exec().then(function(word){
+            Folder.findOne({userId:req.session.passport.user, _id: word.folderId}).then(function(folder){
+                res.json({
+                    word: word,
+                    folder: folder
+                });
+            });
+
+        });
     });
     app.get('/speedvocab/api/defineWord/:word', function(req,res){
         // These code snippets use an open-source library. http://unirest.io/nodejs

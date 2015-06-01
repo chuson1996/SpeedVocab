@@ -1,157 +1,124 @@
-doctype html
-html(lang="en")
-    head
-        title For the Finnish Test!
-        script(data-require="jquery@2.1.3", data-semver="2.1.3", src="http://code.jquery.com/jquery-2.1.3.min.js")
-        link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
-        script(data-require="bootstrap@*", data-semver="3.3.2", src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
-        script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="https://code.angularjs.org/1.4.0-rc.1/angular.js")
 
-        //--------------------------- Import Font -----------------------------------
-        link(href='http://fonts.googleapis.com/css?family=Oswald', rel='stylesheet', type='text/css')
-        link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css')
-        link(href='http://fonts.googleapis.com/css?family=Open+Sans|Roboto|Raleway', rel='stylesheet', type='text/css')
-        //---------------------------------------------------------------------------
-        //script(data-require="ng-table@*", data-semver="0.3.0", src="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.js")
-        //script(data-require="ng-table-export@0.1.0", data-semver="0.1.0", src="http://bazalt-cms.com/assets/ng-table-export/0.1.0/ng-table-export.js")
-        //link(data-require="ng-table@*", data-semver="0.3.0", rel="stylesheet", href="http://bazalt-cms.com/assets/ng-table/0.3.0/ng-table.css")
-        //--------------------------- Text Editor -----------------------------------
-        link(rel='stylesheet', href='/javascripts/lib/textAngular.css')
-        script(src='/javascripts/lib/textAngular-rangy.min.js')
-        script(src='/javascripts/lib/textAngular-sanitize.min.js')
-        script(src='/javascripts/lib/textAngular.min.js')
-        link(rel='stylesheet prefetch', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
-        link(rel='stylesheet prefetch', href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
-        //---------------------------------------------------------------------------
-        //------------------- ngTable ---------------------------
-        script(src="/bower_components/ng-table/dist/ng-table.js")
-        //link(rel="stylesheet", href="/bower_components/ng-table/dist/ng-table.min.css")
+div.container(ng-controller="MainController")
 
-        script(src="../javascripts/scriptApp.js")
-        script(src="../javascripts/services/Folder.js")
-        script(src="../javascripts/services/Word.js")
+    div.row
 
-        link(rel="stylesheet", href="../stylesheets/style.css")
-
-
-    body(ng-app="SpeedVocab")
-        div.container(ng-controller="MainController")
-
+        div.col-md-4
             div.row
+                div.col-md-12
+                    a.btn.btn-mydefault(ng-click="goToTest()", style="height:40px; padding-top: 8px; margin-bottom:3px; ") to-test Words length: {{toTestWords.length}}
+            div.devider-color
+            div.AddNewFormDiv
+               form#AddNewForm(ng-submit="submit()")
+                   span(style="line-height:28px") Word:
+                   input(type="text", required, ng-model="newword", ng-disabled="currentOpenningFolder===''")
+                   // button(type="button",ng-click="seecurrentWordlist()") Click to see currentWordlist
+                   <br/>
+                   span(style="line-height:28px") Meaning:
+                   input(type="text", required ,ng-model="newmeaning", ng-disabled="currentOpenningFolder===''")
+                   <br/>
+                   | Example:
+                   <br/>
+                   //textarea(name="",id="",cols="30",rows="10",ng-model="newexample", ng-disabled="currentOpenningFolder===''", style="width: 100%; height: 100px; font-size: 14px;")
+                   div(text-angular, ng-model="newexample", style="width:100%; height: 100px")
+                   <br/>
+                   button.btn.btn-mydefault(type="button", ng-click="defineWord(newword)", ng-disabled="currentOpenningFolder===''") Go Dictionary Power (English only)! Go!
+                   <br/>
+                   | Image:
+                   // input(type="text", ng-model="newimage", ng-disabled="currentOpenningFolder===''")
+                   a.btn(ng-click="getSuggestedImages(newword)", ng-disabled="currentOpenningFolder===''", ng-show="newimage==='' || newimage===undifined") Choose image
+                   a.btn(ng-click="removeNewImage()", ng-show="newimage!=='' && newimage!==undefinded") Remove image
+                   <br/>
+                   div.choosenImageDiv(style="height:200px", ng-show="newimage!=='' && newimage!==undefinded")
+                       img(style="max-height:200px; max-width:95%;", ng-src="{{newimage}}")
+                   div.suggestImages(style="height:200px; overflow-y:scroll; overflow-x:auto;", ng-show="newimage==='' || newimage===undifined")
+                       a.suggestedImage.btn(ng-repeat="image in wordImages", ng-click="suggestedImageBtn(image)")
+                           img(style="max-width:95%; max-height:200px; float:left", ng-src="{{image}}")
+                   button.btn.btn-mydefault(type="submit", ng-disabled="currentOpenningFolder===''") Submit
+                   button.btn.btn-mydefault(type="button", ng-disabled="currentOpenningFolder===''", ng-click="resetForm()") Reset
 
-                div.col-md-4
-                    div.row
-                        div.col-md-12
-                            a.btn.btn-mydefault(ng-click="goToTest()", style="height:40px; padding-top: 8px; margin-bottom:3px; ") to-test Words length: {{toTestWords.length}}
-                    div.devider-color
-                    div.AddNewFormDiv
-                       form#AddNewForm(ng-submit="submit()")
-                           span(style="line-height:28px") Word:
-                           input(type="text", required, ng-model="newword", ng-disabled="currentOpenningFolder===''")
-                           // button(type="button",ng-click="seecurrentWordlist()") Click to see currentWordlist
-                           <br/>
-                           span(style="line-height:28px") Meaning:
-                           input(type="text", required ,ng-model="newmeaning", ng-disabled="currentOpenningFolder===''")
-                           <br/>
-                           | Example:
-                           <br/>
-                           //textarea(name="",id="",cols="30",rows="10",ng-model="newexample", ng-disabled="currentOpenningFolder===''", style="width: 100%; height: 100px; font-size: 14px;")
-                           div(text-angular, ng-model="newexample", style="width:100%; height: 100px")
-                           <br/>
-                           button.btn.btn-mydefault(type="button", ng-click="defineWord(newword)", ng-disabled="currentOpenningFolder===''") Go Dictionary Power (English only)! Go!
-                           <br/>
-                           | Image:
-                           // input(type="text", ng-model="newimage", ng-disabled="currentOpenningFolder===''")
-                           a.btn(ng-click="getSuggestedImages(newword)", ng-disabled="currentOpenningFolder===''", ng-show="newimage==='' || newimage===undifined") Choose image
-                           a.btn(ng-click="removeNewImage()", ng-show="newimage!=='' && newimage!==undefinded") Remove image
-                           <br/>
-                           div.choosenImageDiv(style="height:200px", ng-show="newimage!=='' && newimage!==undefinded")
-                               img(style="max-height:200px; max-width:95%;", ng-src="{{newimage}}")
-                           div.suggestImages(style="height:200px; overflow-y:scroll; overflow-x:auto;", ng-show="newimage==='' || newimage===undifined")
-                               a.suggestedImage.btn(ng-repeat="image in wordImages", ng-click="suggestedImageBtn(image)")
-                                   img(style="max-width:95%; max-height:200px; float:left", ng-src="{{image}}")
-                           button.btn.btn-mydefault(type="submit", ng-disabled="currentOpenningFolder===''") Submit
-                           button.btn.btn-mydefault(type="button", ng-disabled="currentOpenningFolder===''", ng-click="resetForm()") Reset
+            div(style="padding:5px 5px 5px 5px; background-color: white")
+                div.folder-list
 
-                    div(style="padding:5px 5px 5px 5px; background-color: white")
-                        div.folder-list
+                   div(ng-repeat="folder in folders")
+                       a.btn.btn-mydefault.folder-btn(ng-click="getWords(folder._id)", style="") {{folder.name}}
+                       // button(type="button",ng-click="seecurrentWordlist()") Click to see currentWordlist
+                   <br/><br/>
+                   a.btn.btn-mydefault(ng-click="addFolder()") New Folder
 
-                           div(ng-repeat="folder in folders")
-                               a.btn.btn-mydefault.folder-btn(ng-click="getWords(folder._id)", style="") {{folder.name}}
-                               // button(type="button",ng-click="seecurrentWordlist()") Click to see currentWordlist
-                           <br/><br/>
-                           a.btn.btn-mydefault(ng-click="addFolder()") New Folder
+        div.col-md-8(style="border-size:1px;", ng-show="$data" )
+            div.row
+                div.col-md-12(ng-show="wordLoaded()")
+                    button.btn-mydefault.starAll(ng-click="starAll()", style="width:150px")
+                        img(src="../icons/star-shape4.png", style="width:18px")
+                        span(style="margin-left: 10px") Star All
+                    button.btn-mydefault.unstarAll(ng-show="selectedAll() || selectedUnder6()", ng-click="unstarAll()", style="width:150px")
+                        img(src="../icons/flower135.png", style="width:18px")
+                        span(style="margin-left: 10px") Clear all
+                    button.btn-mydefault.starUnder6(ng-click="starUnder6()", style="width:150px")
+                        img(src="../icons/star-shape4.png", style="width:18px")
+                        span(style="margin-left: 10px; weight: 600") Star Under 6
+            div.devider-color
+            div(style="padding:10px 10px 10px 10px; background-color: white")
+                div(style="display:inline-block; text-align:center; width: 100%")
+                    div.col-md-2
+                        button.btn-mydefault(ng-click="previousPage()", style="width:90px;display:inline-block; ") Previous
+                    div.col-md-8(style="text-align: center;padding-top: 6px;")
+                        p Page: {{openingPage}}
 
-                div.col-md-8(style="border-size:1px;", ng-show="$data" )
-                    div.row
-                        div.col-md-12
-                            button.btn-mydefault.starAll(ng-show="!selectedAll() && wordLoaded()", ng-click="starAll()", style="width:150px")
-                                img(src="../icons/star-shape4.png", style="width:18px")
-                                span(style="margin-left: 10px") Star All
-                            button.btn-mydefault.unstarAll(ng-show="selectedAll()", ng-click="unstarAll()", style="width:150px")
-                                img(src="../icons/flower135.png", style="width:18px")
-                                span(style="margin-left: 10px") Unstall All
-                    div.devider-color
-                    div(style="padding:10px 10px 10px 10px; background-color: white")
-                        div(style="display:inline-block; text-align:center; width: 100%")
-                            div.col-md-2
-                                button.btn-mydefault(ng-click="previousPage()", style="width:90px;display:inline-block; ") Previous
-                            div.col-md-8(style="text-align: center;padding-top: 6px;")
-                                p Page: {{openingPage}}
-
-                            div.col-md-2
-                                button.btn-mydefault(ng-click="nextPage()", style="width: 90px;display:inline-block;") Next
+                    div.col-md-2
+                        button.btn-mydefault(ng-click="nextPage()", style="width: 90px;display:inline-block;") Next
 
 
 
-                        div.row(style="overflow-y:scroll; max-height:85vh;box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);    border-radius: 3px;    background-color: white;    padding: 0px 0px 2px 0px;    margin: 5px 5px 5px 5px;")
-                            //script(type="text/ng-template", id="custom/pager")
-                            //    ul.pager.ng-cloak
-                            //            li(ng-repeat="page in pages", ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}", ng-show="page.type == 'prev' || page.type == 'next'", ng-switch="page.type")
-                            //                a(ng-switch-when="prev", ng-click="params.page(page.number)", href="") &laquo; Previous
-                            //                a(ng-switch-when="next", ng-click="params.page(page.number)", href="") Next &raquo;
+                div.row(style="overflow-y:scroll; max-height:85vh;box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);    border-radius: 3px;    background-color: white;    padding: 0px 0px 2px 0px;    margin: 5px 5px 5px 5px;")
+                    //script(type="text/ng-template", id="custom/pager")
+                    //    ul.pager.ng-cloak
+                    //            li(ng-repeat="page in pages", ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}", ng-show="page.type == 'prev' || page.type == 'next'", ng-switch="page.type")
+                    //                a(ng-switch-when="prev", ng-click="params.page(page.number)", href="") &laquo; Previous
+                    //                a(ng-switch-when="next", ng-click="params.page(page.number)", href="") Next &raquo;
 
-                            table.wordlist.table(style="width:100%;")
-                                tbody
-                                    tr(style="border-top:1px solid #eee;",ng-repeat="item in $data ", ng-animate=" 'tableItemAnimate' ")
-                                        td(ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
-                                            div.accuracy(ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
-                                                div.score
-                                                    span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
-                                                    //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
-                                                    |{{item.NoCorrectAns-item.NoWrongAns}}
+                    table.wordlist.table(style="width:100%;")
+                        tbody
+                            tr(style="border-top:1px solid #eee;",ng-repeat="item in $data ", ng-animate=" 'tableItemAnimate' ")
+                                td(ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                                    div.accuracy(ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                                        div.score
+                                            span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
+                                            //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
+                                            |{{item.NoCorrectAns-item.NoWrongAns}}
 
-                                        td
-                                            table(style="width:100%;")
-                                                tr
-                                                    td
-                                                        table(style="width:100%;")
-                                                            tr
-                                                                td(style="width:40%; padding: 5px;")
-                                                                    p(style="font-weight: 600;", ng-show="!item.editing") {{item.word}}
-                                                                    input(type="text", ng-model="item.word", ng-show="item.editing")
-                                                                td(style="width:60%; padding: 5px;")
-                                                                    p(ng-show="!item.editing") {{item.meaning}}
-                                                                    input(type="text", ng-model="item.meaning", ng-show="item.editing")
-                                                            tr(style="padding: 15px;")
-                                                                td(colspan="2")
-                                                                    //pre(ng-bind="item.example", ng-show="item.example && !item.editing")
-                                                                    div(ta-bind, ng-model="item.example", ng-show="item.example && !item.editing", style="max-height: 160px; overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
-                                                                    //textarea(ng-show="item.editing", ng-model="item.example", style="width: 100%; max-height: 200px")
-                                                                    div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
-                                                    td(style="padding: 5px; text-align:right", ng-show="item.image")
-                                                        img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:100px")
-                                        td.details(style="text-align:center; background-color: #f7f4f0; border-left: 1px solid #e2dfd9; border-bottom: 4px solid rgb(247, 244, 240);border-right: 4px solid rgb(247, 244, 240); width: 28px; vertical-align:middle")
-                                            a.star-btn(ng-click="toggleToTestWords(item, $event)")
-                                                img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
-                                                img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
-                                            a.edit-btn(ng-click="editItem(item)", ng-show="!item.editing")
-                                                img(src="../icons/pencil124.png", style="")
-                                            a.done-editing-btn(ng-show="item.editing", ng-click="doneEditing(item)")
-                                                img(src="../icons/tick11.png", style="")
-                                            a.del-btn(ng-click="deleteItem(item)")
-                                                img(src="../icons/cross105.png", style="")
-                                    //| {{item.word}} : {{item.meaning}}<br/>
-                                    //pre(ng-bind="item.example", ng-show="item.example")
-                                    //img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:220px")
-                                    //<hr/>
+                                td
+                                    table(style="width:100%;")
+                                        tr
+                                            td
+                                                table(style="width:100%;")
+                                                    tr
+                                                        td(style="width:40%; padding: 5px;")
+                                                            p(style="font-weight: 600;", ng-show="!item.editing") {{item.word}}
+                                                            input(type="text", ng-model="item.word", ng-show="item.editing")
+                                                        td(style="width:60%; padding: 5px;")
+                                                            p(ng-show="!item.editing") {{item.meaning}}
+                                                            input(type="text", ng-model="item.meaning", ng-show="item.editing")
+                                                    tr(style="padding: 15px;")
+                                                        td(colspan="2")
+                                                            //pre(ng-bind="item.example", ng-show="item.example && !item.editing")
+                                                            div(ta-bind, ng-model="item.example", ng-show="item.example && !item.editing", style="max-height: 160px; overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
+                                                            //textarea(ng-show="item.editing", ng-model="item.example", style="width: 100%; max-height: 200px")
+                                                            div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
+                                            td(style="padding: 5px; text-align:right", ng-show="item.image")
+                                                img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:100px")
+                                td.details(style="text-align:center; background-color: #f7f4f0; border-left: 1px solid #e2dfd9; border-bottom: 4px solid rgb(247, 244, 240);border-right: 4px solid rgb(247, 244, 240); width: 28px; vertical-align:middle")
+                                    a.star-btn(ng-click="toggleToTestWords(item, $event)")
+                                        img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
+                                        img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
+                                    a.edit-btn(ng-click="editItem(item)", ng-show="!item.editing")
+                                        img(src="../icons/pencil124.png", style="")
+                                    a.done-editing-btn(ng-show="item.editing", ng-click="doneEditing(item)")
+                                        img(src="../icons/tick11.png", style="")
+                                    a.del-btn(ng-click="deleteItem(item)")
+                                        img(src="../icons/cross105.png", style="")
+                            //| {{item.word}} : {{item.meaning}}<br/>
+                            //pre(ng-bind="item.example", ng-show="item.example")
+                            //img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:220px")
+                            //<hr/>

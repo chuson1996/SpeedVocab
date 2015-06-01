@@ -2,7 +2,7 @@
  * Created by chuso_000 on 6/5/2015.
  */
 //(function(){
-    var app= angular.module('SpeedVocab');
+    var app= angular.module('services',[]);
     app.service('Folder', ['$http',function($http){
         var self=this;
         self.getFolders=function(){

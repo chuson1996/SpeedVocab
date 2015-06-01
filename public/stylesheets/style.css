@@ -1,4 +1,8 @@
 /* -------------------------------------- App -------------------------------------- */
+header{
+    min-height: 40px;
+    width:100%;
+}
 body {
     font: 16px 'Source Sans Pro';
     background-color: #EBEBEB;
@@ -50,6 +54,14 @@ img.notselected, img.selected{
     animation-name: item-enter;
     animation-duration: 1s;
 }
+img.loading{
+    width: 400px;
+    height:400px;
+    position: fixed;
+    left:calc(50% - 200px);
+    top:calc(50% - 200px);
+    display: none;
+}
 
 .devider-color{
     width: 100%;
@@ -93,7 +105,7 @@ form input{
 /*.starAll{*/
 
 /*}*/
-.starAll, .unstarAll{
+.starAll,.unstarAll, .starUnder6{
     border: 1px solid rgb(214, 214, 214);
     background-color: rgb(252, 251, 248);
     height: 40px;
@@ -101,6 +113,9 @@ form input{
     margin-bottom: 3px;
     float: right;
     text-align:left;
+}
+.unstarAll{
+    float:left;
 }
 .star-btn>div{
     background: url('../icons/star-shape4.png');
