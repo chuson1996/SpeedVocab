@@ -1,6 +1,7 @@
 (function() {
     var app = angular.module('SpeedVocab', ['controllers','ui.router']);
     app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+
         $stateProvider
             .state('index', {
                 url: "",
@@ -9,7 +10,7 @@
                 }
             })
             .state('learn', {
-                url: "/learn",
+
                 views: {
                     "viewA": {templateUrl: "/speedvocab/template/learn"}
                 }
