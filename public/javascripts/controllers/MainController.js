@@ -36,14 +36,18 @@
             if (num) $scope.openingPage = num;
             else $scope.openingPage=1;
             $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
+
         };
         $scope.submit = function(){
             Word.addWord($scope.currentOpenningFolder, $scope.newword, $scope.newmeaning, $scope.newexample, $scope.newimage).then(function(res){
                 res.editing = false;
                 $scope.resetForm();
                 $scope.$apply(function(){
-                    $scope.currentWordlist.push(res);
-                    $scope.currentWordlist= orderByScoreFilter($scope.currentWordlist);
+                    //$scope.currentWordlist.push(res);
+                    Word.words.push(res);
+                    //$scope.currentWordlist= orderByScoreFilter($scope.currentWordlist);
+                    Word.words= orderByScoreFilter(Word.words);
+                    $scope.currentWordlist = Word.words;
                     $scope.refreshPage();
                 });
 

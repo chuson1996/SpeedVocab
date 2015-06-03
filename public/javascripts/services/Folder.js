@@ -7,9 +7,11 @@
         var self=this;
         self.getFolders=function(){
             return $http.get('/speedvocab/api/getfolders').then(function (res) {
-                //console.log(folders.data);
-                self.folders = res.data;
-                return res.data;
+                //console.log(res.data);
+                self.folders = res.data.sort(function(a,b){
+                    return new Date(a.createdAt) < new Date(b.createdAt);
+                });
+                return self.folders;
             });
         }
         self.addFolder=function(){

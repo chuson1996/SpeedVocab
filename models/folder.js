@@ -4,7 +4,7 @@ var folderSchema = mongoose.Schema({
     name: String,
     fromLang: String,
     toLang: String,
-    created: Date
+    createdAt: Date
 });
 var Folder = mongoose.model('Folder',folderSchema);
 module.exports = Folder;

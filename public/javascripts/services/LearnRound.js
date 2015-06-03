@@ -42,12 +42,7 @@
         self.divideToRounds = function(){
             //self.wordlist
             var toLearnWords = self.toLearnWords;
-            var i =0;
-            while(toLearnWords.length>0){
-                self.rounds[i]=toLearnWords.slice(0,10);
-                toLearnWords.splice(0,10);
-                i++;
-            }
+            self.rounds = _.chunk(toLearnWords,10);
             //console.log(self.rounds);
 
         }
