@@ -34,8 +34,11 @@ div.container(ng-controller="MainController")
                    div.choosenImageDiv(style="height:200px", ng-show="newimage!=='' && newimage!==undefinded")
                        img(style="max-height:200px; max-width:95%;", ng-src="{{newimage}}")
                    div.suggestImages(style="height:180px; overflow-y:scroll; overflow-x:auto;", ng-show="newimage==='' || newimage===undifined")
+                       div.suggestImagesOnLoading(ng-show="suggestImagesOnLoading", style="text-align:center; position:absolute")
+                           img(style="height:180px", src="../icons/ajax-loader(2).gif")
                        a.suggestedImage.btn(ng-repeat="image in wordImages", ng-click="suggestedImageBtn(image)")
                            img(style="max-width:95%; max-height:200px; float:left", ng-src="{{image}}")
+
                    div
                        //span(style="line-height:28px") Image address:
                        input.form-control(type="text", ng-model="newimage", ng-disabled="currentOpenningFolder===''", style="margin-top: 3px;", placeholder="Image URL")
@@ -135,7 +138,11 @@ script.
 
         $(window).resize(function(){
             $('.wordboard').css({ "max-height": ($(window).height()-170) + 'px' });
-
+            $('div.suggestImagesOnLoading').width($('div.suggestImages').width());
+            $('div.suggestImagesOnLoading').height($('div.suggestImages').height());
+            console.log("$('div.suggestImages').offset().top: ", $('div.suggestImages').offset().top);
+            console.log("$('div.suggestImages').offset().left: ", $('div.suggestImages').offset().left);
+            /* $('div.suggestImagesOnLoading').offset({top: $('div.suggestImages').offset().top, left: $('div.suggestImages').offset().left});*/
         }).resize();
 
     });

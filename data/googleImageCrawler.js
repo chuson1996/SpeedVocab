@@ -58,9 +58,7 @@ function goCrawler(url) {
     });
     c.queue({
         uri: 'https://www.google.fi/search?site=&tbm=isch&source=hp&q='+url.replace(' ','+'),
-        timeout:2000,
         retries:2,
-        retryTimeout:1000,
     });
     return def.promise;
 }

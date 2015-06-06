@@ -10,7 +10,7 @@
         //    $scope.wordImages= wordImages;
         //});
         console.log('get suggested images');
-        $http.get('/speedvocab/api/getSuggestedImages/'+encodeURIComponent(text)).then(function(res){
+        return $http.get('/speedvocab/api/getSuggestedImages/'+encodeURIComponent(text)).then(function(res){
             //console.log(res.data);
             $scope.wordImages= res.data;
         });
@@ -118,8 +118,10 @@
 
         //----------------------- Get Suggested Images ---------------------------
         $scope.getSuggestedImages = function(text){
-            getSuggestedImages($http,$scope,text);
-
+            $scope.suggestImagesOnLoading = true;
+            getSuggestedImages($http,$scope,text).then(function(){
+                $scope.suggestImagesOnLoading = false;
+            });
         };
 
         $scope.suggestedImageBtn = function(image){
