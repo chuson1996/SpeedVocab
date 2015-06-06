@@ -4,6 +4,7 @@
 var Folder = require('../models/folder.js');
 var Words = require('../models/word.js');
 var unirest = require('unirest');
+var rp = require('request-promise');
 module.exports = function(app){
 
     app.get('/', function(req, res, next) {
@@ -132,6 +133,7 @@ module.exports = function(app){
             if (updateWor>9) updateWor=9;
             if (updateWor<0) updateWor=0;
             if (updateCor<0) updateCor=0;
+            if (updateWor>updateCor) updateWor = updateCor;
             Words.update({_id: wordid, userId: req.session.passport.user},{
                 $set:{
                     NoWrongAns:updateWor,
@@ -301,6 +303,44 @@ module.exports = function(app){
                 if (result.status !== 200) return res.status(500).send('Not found');
                 return res.json(result.body);
             });
+    });
+    app.get('/speedvocab/api/defineWordFI2EN/:word', function(req,res){
+        var sou = 'fi',
+            tar = 'en',
+            qq = req.params.word;
+
+        rp('https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20150209T212534Z.94adfd8a495e3628.73c2afbdd079b4a53fdbcc4b4c9578b1905112bf&lang='+sou+'-'+tar+'&text='+qq+'')
+            .then(function(response){
+                response = JSON.parse(response);
+                var toSend = response.def.reduce(function(pre,cur,index,arr){
+                    if (!pre[cur.pos]) {
+                        pre[cur.pos] = [];
+                        //console.log('Initiate pre[cur.pos] -> []');
+                    }
+                    cur.tr.forEach(function(cur){
+                        if (!pre[cur.pos]) pre[cur.pos]=[];
+                        //console.log('cur',cur);
+                        pre[cur.pos].push(cur.text);
+
+                    })
+                    return pre;
+                },{});
+                console.log(toSend);
+                return res.json(toSend);
+
+            })
+            .then(null, function(err){
+                console.log('Error: ',err);
+                return res.status(500).send(err);
+            })
+
+    });
+    var googleImageCrawler = require('../data/googleImageCrawler.js');
+    app.get("/speedvocab/api/getSuggestedImages/:q", function(req,res){
+        googleImageCrawler(req.params.q).then(function(data){
+            //console.log('data(images url): ', data);
+            res.json(data);
+        });
     });
 
 }

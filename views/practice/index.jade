@@ -1,15 +1,36 @@
 doctype html
 html(lang="en")
     head
-        title Speed Vocab
+        title Practices
         script(data-require="jquery@2.1.3", data-semver="2.1.3", src="http://code.jquery.com/jquery-2.1.3.min.js")
-            link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
-            script(data-require="bootstrap@*", data-semver="3.3.2", src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
-            script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="https://code.angularjs.org/1.4.0-rc.1/angular.js")
-            link(rel="stylesheet", href="stylesheets/style.css")
+        link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
+        script(data-require="bootstrap@*", data-semver="3.3.2", src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
+        script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="https://code.angularjs.org/1.4.0-rc.1/angular.js")
+        script(src="../javascripts/lib/angular-ui-router.js")
+        script(src="../javascripts/lib/lodash.min.js")
+        link(rel="stylesheet", href="../stylesheets/style.css")
+        script.
+            angular.module('app',['ui.router'])
+                .config(function($stateProvider) {
+                    var practiceNo = $stateProvider.id || 1;
+                    $stateProvider.state('index',{
+                        url:'/:id',
+                        templateUrl: 'template/practice/'+practiceNo,
+                        controller: function($stateParams){
+                            console.log('$stateParams in index page: ', $stateParams);
+                        }
+                    })
+                })
+                .controller('MainController',function($location) {
+                    console.log($location);
+                })
+
+
+
 
     body
-        div.container
-            div.row
+        div.container(ng-app="app")
+            div.row(ng-controller="MainController")
                 div.col-md-12
-                    
+                    | UI-Router practicing<br>
+                    ui-view

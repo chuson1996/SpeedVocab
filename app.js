@@ -120,30 +120,33 @@ app.use('/speedvocab', function(req,res,next){
 var routes = require('./routes/routes.js');
 routes(app);
 
-var Flickr = require("flickrapi"),
-    flickrOptions = {
-      api_key: credentials.flickrapi.api_key,
-      secret: credentials.flickrapi.secret
-    };
-
-app.get("/speedvocab/api/flickr/:text", function(req,res){
-  Flickr.tokenOnly(flickrOptions, function(error, flickr) {
-    // we can now use "flickr" as our API object
-    flickr.photos.search({
-      text: req.params.text,
-      per_page: 10
-    }, function(err, result) {
-      if(err) { throw new Error(err); }
-      //console.log(result);
-      res.json(result.photos.photo);
-    });
-
-  });
-
-});
+//var Flickr = require("flickrapi"),
+//    flickrOptions = {
+//      api_key: credentials.flickrapi.api_key,
+//      secret: credentials.flickrapi.secret
+//    };
+//
+//app.get("/speedvocab/api/flickr/:text", function(req,res){
+//  Flickr.tokenOnly(flickrOptions, function(error, flickr) {
+//    // we can now use "flickr" as our API object
+//    flickr.photos.search({
+//      text: req.params.text,
+//      per_page: 10
+//    }, function(err, result) {
+//      if(err) { throw new Error(err); }
+//      //console.log(result);
+//      res.json(result.photos.photo);
+//    });
+//
+//  });
+//
+//});
 
 var soundcloudRoutes = require('./routes/soundcloud.js');
 app.use('/soundcloud', soundcloudRoutes);
+
+var practiceRoutes = require('./routes/practice.js');
+app.use('/practice', practiceRoutes);
 
 // Facebook Authentication
 var authFacebook = require('./lib/authFacebook.js')(app,{

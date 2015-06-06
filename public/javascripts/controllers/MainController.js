@@ -1,13 +1,18 @@
 (function(app){
 
     function getSuggestedImages($http,$scope, text){
-        $http.get('/speedvocab/api/flickr/'+encodeURIComponent(text)).then(function(res){
-            var wordImages=[];
-            res.data.forEach(function(photo){
-                wordImages.push(encodeFlickrImageUrl(photo));
-            });
-            console.log(wordImages);
-            $scope.wordImages= wordImages;
+        //$http.get('/speedvocab/api/flickr/'+encodeURIComponent(text)).then(function(res){
+        //    var wordImages=[];
+        //    res.data.forEach(function(photo){
+        //        wordImages.push(encodeFlickrImageUrl(photo));
+        //    });
+        //    console.log(wordImages);
+        //    $scope.wordImages= wordImages;
+        //});
+        console.log('get suggested images');
+        $http.get('/speedvocab/api/getSuggestedImages/'+encodeURIComponent(text)).then(function(res){
+            //console.log(res.data);
+            $scope.wordImages= res.data;
         });
     }
 
@@ -30,13 +35,22 @@
         };
         //------------------------  Add Words ------------------------------
         $scope.currentOpenningFolder = '';
+        $scope.totalPages=0;
         $scope.currentWordlist=[];
+        $scope.loadingDefinition = Word.loadingDefinition;
         $scope.refreshPage = function(num){
             // console.log('Refresh Page');
             if (num) $scope.openingPage = num;
             else $scope.openingPage=1;
+            $scope.totalPages = Math.ceil($scope.currentWordlist.length/10);
             $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
 
+        };
+        $scope.goToFirstPage = function(){
+            $scope.refreshPage(1);
+        };
+        $scope.goToLastPage = function(){
+            $scope.refreshPage($scope.totalPages);
         };
         $scope.submit = function(){
             Word.addWord($scope.currentOpenningFolder, $scope.newword, $scope.newmeaning, $scope.newexample, $scope.newimage).then(function(res){
@@ -227,11 +241,27 @@
 
         };
         // ------------- Get word's definition
+
         $scope.defineWord = function(word){
+            $scope.loadingDefinition=true;
             Word.defineWord(word).then(function(res){
                 //console.log(res);
+                $scope.loadingDefinition=false;
                 $scope.newexample=Word.paraphaseToExample(res);
-            }, onError);
+            }).catch(function(err){
+                onError(err);
+                $scope.loadingDefinition=false;
+            });
+        };
+        $scope.defineWordFI2EN = function(word){
+            $scope.loadingDefinition=true;
+            Word.defineWordFI2EN(word).then(function(res){
+                $scope.loadingDefinition=false;
+                $scope.newexample=Word.paraphaseToExampleFI2EN(res);
+            }).catch(function(err){
+                onError(err);
+                $scope.loadingDefinition=false;
+            });
         };
 
     }]);

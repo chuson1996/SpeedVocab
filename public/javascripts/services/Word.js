@@ -95,6 +95,24 @@
                 return toSend;
             }, onError);
         };
+        self.defineWordFI2EN=function(word){
+            if (word==='' || word===undefined) return new Promise(function(resolve, reject){
+                reject('Word is undefined');
+            });
+            return $http.get('/speedvocab/api/defineWordFI2EN/'+word).then(function(res){
+                // Error Handling................
+                //console.log(res);
+
+                return res.data;
+            }, onError);
+        };
+        self.paraphaseToExampleFI2EN =function(para) {
+            var str = _.reduce(para,function(pre, cur, index, arr){
+                return pre+'<p>('+index+') '+cur.join(', ')+'</p>';
+            },'');
+            //console.log(str);
+            return str;
+        }
         self.paraphaseToExample=function(para){
             var str ='';
             para.results.forEach(function(result){
@@ -105,6 +123,7 @@
 
             return str;
         };
+        self.loadingDefinition=false;
     });
 
 //}());
