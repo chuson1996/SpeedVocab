@@ -68,7 +68,7 @@ img.loadingDefinition{
 .suggestImagesOnLoading{
     animation-name: item-enter;
     transition: all 0.3s;
-    background-color: rgba(224, 67, 67, 0.47);
+    /*background-color: rgba(224, 67, 67, 0.47);*/
 }
 
 .devider-color{
