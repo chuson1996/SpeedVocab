@@ -26,12 +26,12 @@ module.exports ={
             development:{
                 appId:'1041106732841-f228s5bco39dvo8is9efu2lhnkcn8luv.apps.googleusercontent.com',
                 appSecret:'PHVOgY3PQOR-6wiEuEBochBn',
-                redirect_uri: 'http://localhost:3000/acount'
+                redirect_uri: 'http://chuson.herokuapp.com/acount'
             },
             production:{
                 appId:'1041106732841-f228s5bco39dvo8is9efu2lhnkcn8luv.apps.googleusercontent.com',
                 appSecret:'PHVOgY3PQOR-6wiEuEBochBn',
-                redirect_uri: 'http://localhost:3000/acount'
+                redirect_uri: 'http://chuson.herokuapp.com/acount'
             }
         }
     },
