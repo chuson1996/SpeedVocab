@@ -169,7 +169,7 @@ a:hover{
     color: #ffffff;
     transition: all 0.3s;
 }
-table.wordlist{
+div.wordlist{
     background-color: white;
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
     border-radius: 3px;
@@ -270,14 +270,15 @@ pre{
 .border-left-orange{
     border-left: 3px solid #EEC075;;
 }
-table.wordlist{
+div.wordlist{
     border-radius: 0 4px 4px 0;
     border-top: 1px solid #dad7d0;
     border-right: 1px solid #dad7d0;
     border-bottom: 1px solid #dad7d0;
 }
-table.wordlist>tr>td{
+div.wordlist>div>div{
     border-bottom:1px solid #eee;
+    border-right: 1px solid #eee;
 }
 .wordlist pre{
 
@@ -308,12 +309,21 @@ table.wordlist>tr>td{
     width:20px;
     padding: 0 0 0 0;
 }
+.innerTableTd{
+    width:100%;
+}
+.hasImage{
+    width: calc(100% - 170px);
+}
+div.inline-block{
+    display:inline-block;
+}
 /* ------------------------------------- ngAnimate ----------------------------------- */
 
 /* -------------------------------------- Learn -------------------------------------- */
 
 p, pre, span, i, b{
-    font-size:14px;
+    font-size:15px;
     font-family: 'Open Sans', sans-serif;
 }
 div.counter{

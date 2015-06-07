@@ -89,50 +89,88 @@ div.container(ng-controller="MainController")
                     //                a(ng-switch-when="prev", ng-click="params.page(page.number)", href="") &laquo; Previous
                     //                a(ng-switch-when="next", ng-click="params.page(page.number)", href="") Next &raquo;
 
-                    table.wordlist.table(style="width:100%;")
-                        tbody
-                            tr(style="border-top:1px solid #eee;",ng-repeat="item in $data ", ng-animate=" 'tableItemAnimate' ")
-                                td(ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
-                                    div.accuracy(ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
-                                        div.score
-                                            span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
-                                            //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
-                                            |{{item.NoCorrectAns-item.NoWrongAns}}
+                    //table.wordlist.table(style="width:100%;")
+                    //    tbody
+                    //        tr(style="border-top:1px solid #eee;",ng-repeat="item in $data ", ng-animate=" 'tableItemAnimate' ")
+                    //            td(ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                    //                div.accuracy(ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                    //                    div.score
+                    //                        span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
+                    //                        //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
+                    //                        |{{item.NoCorrectAns-item.NoWrongAns}}
+                    //
+                    //            td(style="max-width: calc(100% - 167px);")
+                    //                div(style="width:100%;")
+                    //                    div
+                    //                        div(ng-class="{hasImage: item.image, innerTableTd: !item.image}", style="display:inline-block")
+                    //                            div
+                    //                                div
+                    //                                    div(style="width:40%; padding: 5px; display: inline-block")
+                    //                                        p(style="font-weight: 600;", ng-show="!item.editing") {{item.word}}
+                    //                                        input(type="text", ng-model="item.word", ng-show="item.editing")
+                    //                                    div(style="width:60%; padding: 5px; display: inline-block")
+                    //                                        p(ng-show="!item.editing") {{item.meaning}}
+                    //                                        input(type="text", ng-model="item.meaning", ng-show="item.editing")
+                    //                                div(style="padding: 15px;")
+                    //                                    div
+                    //                                        //pre(ng-bind="item.example", ng-show="item.example && !item.editing")
+                    //                                        div(ta-bind, ng-model="item.example", ng-show="item.example && !item.editing", style="max-height: 160px; overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
+                    //                                        //textarea(ng-show="item.editing", ng-model="item.example", style="width: 100%; max-height: 200px")
+                    //                                        div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
+                    //                        div(style="padding: 5px; text-align:right; width:170px; display: inline-block; vertical-align: top", ng-show="item.image")
+                    //                            img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:100px; max-width: 170px;")
+                    //            td.details(style="text-align:center; background-color: #f7f4f0; border-left: 1px solid #e2dfd9; border-bottom: 4px solid rgb(247, 244, 240);border-right: 4px solid rgb(247, 244, 240); width: 28px; vertical-align:middle")
+                    //                a.star-btn(ng-click="toggleToTestWords(item, $event)")
+                    //                    img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
+                    //                    img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
+                    //                a.edit-btn(ng-click="editItem(item)", ng-show="!item.editing")
+                    //                    img(src="../icons/pencil124.png", style="")
+                    //                a.done-editing-btn(ng-show="item.editing", ng-click="doneEditing(item)")
+                    //                    img(src="../icons/tick11.png", style="")
+                    //                a.del-btn(ng-click="deleteItem(item)")
+                    //                    img(src="../icons/cross105.png", style="")
+                    //
 
-                                td
-                                    table(style="width:100%;")
-                                        tr
-                                            td
-                                                table(style="width:100%;")
-                                                    tr
-                                                        td(style="width:40%; padding: 5px;")
-                                                            p(style="font-weight: 600;", ng-show="!item.editing") {{item.word}}
-                                                            input(type="text", ng-model="item.word", ng-show="item.editing")
-                                                        td(style="width:60%; padding: 5px;")
-                                                            p(ng-show="!item.editing") {{item.meaning}}
-                                                            input(type="text", ng-model="item.meaning", ng-show="item.editing")
-                                                    tr(style="padding: 15px;")
-                                                        td(colspan="2")
-                                                            //pre(ng-bind="item.example", ng-show="item.example && !item.editing")
-                                                            div(ta-bind, ng-model="item.example", ng-show="item.example && !item.editing", style="max-height: 160px; overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
-                                                            //textarea(ng-show="item.editing", ng-model="item.example", style="width: 100%; max-height: 200px")
-                                                            div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
-                                            td(style="padding: 5px; text-align:right", ng-show="item.image")
-                                                img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:100px")
-                                td.details(style="text-align:center; background-color: #f7f4f0; border-left: 1px solid #e2dfd9; border-bottom: 4px solid rgb(247, 244, 240);border-right: 4px solid rgb(247, 244, 240); width: 28px; vertical-align:middle")
-                                    a.star-btn(ng-click="toggleToTestWords(item, $event)")
-                                        img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
-                                        img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
-                                    a.edit-btn(ng-click="editItem(item)", ng-show="!item.editing")
-                                        img(src="../icons/pencil124.png", style="")
-                                    a.done-editing-btn(ng-show="item.editing", ng-click="doneEditing(item)")
-                                        img(src="../icons/tick11.png", style="")
-                                    a.del-btn(ng-click="deleteItem(item)")
-                                        img(src="../icons/cross105.png", style="")
-                            //| {{item.word}} : {{item.meaning}}<br/>
-                            //pre(ng-bind="item.example", ng-show="item.example")
-                            //img(ng-src="{{item.image}}", ng-show="item.image", style="max-height:220px")
-                            //<hr/>
+                    div.wordlist.table.inline-block(style="width:100%;")
+
+                        div(style="background-color: #F7F4F0;",ng-repeat="item in $data ", ng-animate=" 'tableItemAnimate' ")
+                            div.inline-block(style="width:calc(100% - 47px);padding: 10px; background-color: white;",ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                                div.accuracy(ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                                    div.score
+                                        span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
+                                        //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
+                                        |{{item.NoCorrectAns-item.NoWrongAns}}
+                                td(style="max-width: calc(100% - 167px);")
+                                div.inline-block(style="width:calc(100% - 100px)")
+                                    div
+                                        div(ng-class="{hasImage: item.image, innerTableTd: !item.image}", style="display:inline-block")
+                                            div
+                                                div
+                                                    div(style="width:40%; padding: 30px 5px 5px 17px; display: inline-block")
+                                                        p(style="font-weight: 600;", ng-show="!item.editing") {{item.word}}
+                                                        input(type="text", ng-model="item.word", ng-show="item.editing")
+                                                    div(style="width:60%; padding: 5px; display: inline-block")
+                                                        p(ng-show="!item.editing") {{item.meaning}}
+                                                        input(type="text", ng-model="item.meaning", ng-show="item.editing")
+                                                div(style="padding: 15px;")
+                                                    div
+                                                        //pre(ng-bind="item.example", ng-show="item.example && !item.editing")
+                                                        div(ta-bind, ng-model="item.example", ng-show="item.example && !item.editing", style="max-height: 160px; overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
+                                                        //textarea(ng-show="item.editing", ng-model="item.example", style="width: 100%; max-height: 200px")
+                                                        div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
+                                        div(style="padding: 5px; text-align:right; width:170px; display: inline-block; vertical-align: top", ng-show="item.image")
+                                            img(ng-src="{{item.image}}", ng-show="item.image", style="max-width: 170px;")
+                            div.details.inline-block(style="text-align: center;background-color: #f7f4f0;/* border-left: 1px solid #e2dfd9; */border-bottom: 4px solid rgb(247, 244, 240);border-right: 4px solid rgb(247, 244, 240);width: 28px;vertical-align: top;padding-left: 5px;")
+                                a.star-btn(ng-click="toggleToTestWords(item, $event)")
+                                    img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
+                                    img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
+                                a.edit-btn(ng-click="editItem(item)", ng-show="!item.editing")
+                                    img(src="../icons/pencil124.png", style="")
+                                a.done-editing-btn(ng-show="item.editing", ng-click="doneEditing(item)")
+                                    img(src="../icons/tick11.png", style="")
+                                a.del-btn(ng-click="deleteItem(item)")
+                                    img(src="../icons/cross105.png", style="")
+
 script.
     $(document).ready(function(){
 
@@ -140,9 +178,9 @@ script.
             $('.wordboard').css({ "max-height": ($(window).height()-170) + 'px' });
             $('div.suggestImagesOnLoading').width($('div.suggestImages').width());
             $('div.suggestImagesOnLoading').height($('div.suggestImages').height());
-            console.log("$('div.suggestImages').offset().top: ", $('div.suggestImages').offset().top);
+            /* console.log("$('div.suggestImages').offset().top: ", $('div.suggestImages').offset().top);
             console.log("$('div.suggestImages').offset().left: ", $('div.suggestImages').offset().left);
-            /* $('div.suggestImagesOnLoading').offset({top: $('div.suggestImages').offset().top, left: $('div.suggestImages').offset().left});*/
+            $('div.suggestImagesOnLoading').offset({top: $('div.suggestImages').offset().top, left: $('div.suggestImages').offset().left});*/
         }).resize();
 
     });
