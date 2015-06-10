@@ -1,0 +1,10 @@
+html{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.color-div{
+    /*width:30px;*/
+    height:40px;
+    margin:2px 2px 2px 2px;
+    border-radius: 10px;
+}

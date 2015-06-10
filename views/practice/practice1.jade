@@ -1,1 +1,8 @@
-p This is practice 1
+div.row(ng-controller="animateCtrl as ctrl")
+    div.col-sm-2.color-div(ng-repeat="item in ctrl.animateCollection track by $index", class="animated", ng-click="ctrl.startAnimation(item, $event)", style="background-color: {{ctrl.generateRandomColor($index)}}")
+        | {{item}}
+
+    div.col-sm-12
+        button.btn.btn-default(ng-disabled="ctrl.onChaosMode",ng-click="ctrl.chaosMode()") Chaos mode
+        button.btn.btn-default(ng-disabled="!ctrl.onChaosMode",ng-click="ctrl.stopChaosMode()") Stop chaos mode
+

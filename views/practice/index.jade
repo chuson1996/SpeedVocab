@@ -8,7 +8,9 @@ html(lang="en")
         script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="https://code.angularjs.org/1.4.0-rc.1/angular.js")
         script(src="../javascripts/lib/angular-ui-router.js")
         script(src="../javascripts/lib/lodash.min.js")
-        link(rel="stylesheet", href="../stylesheets/style.css")
+
+        link(rel="stylesheet", href="../stylesheets/lib/animate.css")
+        link(rel="stylesheet", href="../javascripts/practices/stylesheet/practice1.css")
         script.
             angular.module('app',['ui.router'])
                 .config(function($stateProvider) {
@@ -17,12 +19,12 @@ html(lang="en")
                         url:'/:id',
                         templateUrl: 'template/practice/'+practiceNo,
                         controller: function($stateParams){
-                            console.log('$stateParams in index page: ', $stateParams);
+                            // console.log('$stateParams in index page: ', $stateParams);
                         }
                     })
                 })
                 .controller('MainController',function($location) {
-                    console.log($location);
+                    // console.log($location);
                 })
 
 
@@ -32,5 +34,10 @@ html(lang="en")
         div.container(ng-app="app")
             div.row(ng-controller="MainController")
                 div.col-md-12
+
+
                     | UI-Router practicing<br>
                     ui-view
+
+
+        script(src="../javascripts/practices/controllers/animateController.js")

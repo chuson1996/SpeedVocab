@@ -91,6 +91,12 @@
                     $scope.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoCorrectAns = res.NoCorrectAns;
                     $scope.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoWrongAns = res.NoWrongAns;
                 });
+                // Animation
+                $('.resultDiv').removeClass('tada');
+                $('.resultDiv').removeClass('shake');
+                $('.resultDiv').removeClass('animated');
+                setTimeout(function(){$('.resultDiv').addClass('animated tada');},100);
+                // ---------
                 $scope.correct++;
             }else{
                 showResult($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo],answer, false);
@@ -102,6 +108,12 @@
                     $scope.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoCorrectAns = res.NoCorrectAns;
                     $scope.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoWrongAns = res.NoWrongAns;
                 });
+                // Animation
+                $('.resultDiv').removeClass('animated');
+                $('.resultDiv').removeClass('shake');
+                $('.resultDiv').removeClass('tada');
+                setTimeout(function(){$('.resultDiv').addClass('animated shake');},100);
+                // ---------
                 $scope.incorrect++;
             }
 
@@ -161,8 +173,7 @@
             $scope.question=question($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo], $scope.reverse);
             $scope.questionVoice=questionVoice($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo], $scope.reverse);
             $scope.remaining=function(){
-
-                return $scope.rounds[$scope.ongoingRoundNo].reduce(function(final, cur, index, arr){
+                return _.flatten($scope.rounds, true).reduce(function(final, cur, index, arr){
                     if (cur.status==false) return final+1;
                     return final;
                 },0);
