@@ -16,7 +16,8 @@ a {
     color: #00B7FF;
 }
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 6px;
+    border-radius:3px;
 }
 ::-webkit-scrollbar-track {
     background-color: #eaeaea;
@@ -50,10 +51,13 @@ tr{
     /*from {opacity: 0;}*/
     /*to {opacity: 1;}*/
 /*}*/
-img.notselected, img.selected{
+.star-btn img.notselected, img.selected{
     animation-name: item-enter;
     animation-duration: 1s;
+    width:30px;
+    height:30px;
 }
+
 img.loading{
     width: 400px;
     height:400px;
@@ -207,6 +211,8 @@ pre{
     -webkit-font-smoothing: antialiased;
     width: 25px;
 
+    cursor:pointer;
+
 }
 .score-red{
     background-color: rgba(184, 35, 26, 0.17);
@@ -270,6 +276,18 @@ pre{
 .border-left-orange{
     border-left: 3px solid #EEC075;;
 }
+.border-left-blue{
+    border-left: 8px solid rgba(0, 108, 231, 0.58);
+    /*opacity: 0.5;*/
+}
+.background-blue{
+    background-color: rgba(109, 136, 242, 0.31);
+}
+div.wordlist div.list-body{
+    width:calc(100% - 47px);
+    padding: 10px;
+    background-color: white;
+}
 div.wordlist{
     border-radius: 0 4px 4px 0;
     border-top: 1px solid #dad7d0;
@@ -323,7 +341,7 @@ div.inline-block{
 /* -------------------------------------- Learn -------------------------------------- */
 
 p, pre, span, i, b{
-    font-size:15px;
+    font-size:14px;
     font-family: 'Open Sans', sans-serif;
 }
 div.counter{
@@ -338,6 +356,9 @@ div.resultDiv{
     padding:8px 8px 8px 8px;
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);
     border-radius: 3px;
+    -webkit-animation-duration: 0.7s;
+    /*-webkit-animation-delay: 2s;*/
+    /*-webkit-animation-iteration-count: infinite;*/
 
 
 }

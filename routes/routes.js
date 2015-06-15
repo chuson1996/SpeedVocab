@@ -162,6 +162,7 @@ module.exports = function(app){
             if (updateWor>7) updateWor=7;
             if (updateWor<0) updateWor=0;
             if (updateCor<0) updateCor=0;
+            if (updateWor>updateCor) updateWor = updateCor;
             Words.update({_id: wordid, userId: req.session.passport.user},{
                 $set:{
                     NoWrongAns:updateWor,
@@ -222,9 +223,6 @@ module.exports = function(app){
         });
     });
     app.get('/speedvocab/api/getwords', function(req,res){
-        if (req.params.SaveToSession===true){
-            req.session.openningFolder = req.query.openningFolder;
-        }
         console.log(req.session.passport.user, req.query.openningFolder);
         var toSend=[];
         Words.find({userId: req.session.passport.user, folderId: req.query.openningFolder}).then(function(words){

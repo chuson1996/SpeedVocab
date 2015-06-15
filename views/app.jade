@@ -61,7 +61,7 @@ div.container(ng-controller="MainController")
                     button.btn-mydefault.starAll(ng-click="starAll()", style="width:150px")
                         img(src="../icons/star-shape4.png", style="width:18px")
                         span(style="margin-left: 10px") Star All
-                    button.btn-mydefault.unstarAll(ng-show="selectedAll() || selectedUnder6()", ng-click="unstarAll()", style="width:150px")
+                    button.btn-mydefault.unstarAll(ng-show="toTestWords.length", ng-click="unstarAll()", style="width:150px")
                         img(src="../icons/flower135.png", style="width:18px")
                         span(style="margin-left: 10px") Clear all
                     button.btn-mydefault.starUnder6(ng-click="starUnder6()", style="width:150px")
@@ -134,13 +134,17 @@ div.container(ng-controller="MainController")
                     div.wordlist.table.inline-block(style="width:100%;")
 
                         div(style="background-color: #F7F4F0;",ng-repeat="item in $data ", ng-animate=" 'tableItemAnimate' ")
-                            div.inline-block(style="width:calc(100% - 47px);padding: 10px; background-color: white;",ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
-                                div.accuracy(ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
-                                    div.score
-                                        span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
-                                        //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
-                                        |{{item.NoCorrectAns-item.NoWrongAns}}
-                                td(style="max-width: calc(100% - 167px);")
+                            div.inline-block.list-body(style="",ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5), 'border-left-blue ': item.selectedToCart} ",)
+                                div.inline-block(style="width:80px; vertical-align: top; margin-top:5px;")
+                                    div.accuracy(ng-click="toggleToTestWords(item, $event)",ng-class="{'score-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'score-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'score-green': ((item.NoCorrectAns-item.NoWrongAns)>5)}")
+                                        div.score
+                                            span(ng-show="(item.NoCorrectAns-item.NoWrongAns)>0", style="font-size: 20px; margin-right: 1px;") +
+                                            //span(ng-show="(item.NoCorrectAns-item.NoWrongAns)<0")
+                                            |{{item.NoCorrectAns-item.NoWrongAns}}
+                                    <br>
+                                    //a.star-btn(ng-click="toggleToTestWords(item, $event)")
+                                    //    img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
+                                    //    img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
                                 div.inline-block(style="width:calc(100% - 100px)")
                                     div
                                         div(ng-class="{hasImage: item.image, innerTableTd: !item.image}", style="display:inline-block")
@@ -161,9 +165,7 @@ div.container(ng-controller="MainController")
                                         div(style="padding: 5px; text-align:right; width:170px; display: inline-block; vertical-align: top", ng-show="item.image")
                                             img(ng-src="{{item.image}}", ng-show="item.image", style="max-width: 170px;")
                             div.details.inline-block(style="text-align: center;background-color: #f7f4f0;/* border-left: 1px solid #e2dfd9; */border-bottom: 4px solid rgb(247, 244, 240);border-right: 4px solid rgb(247, 244, 240);width: 28px;vertical-align: top;padding-left: 5px;")
-                                a.star-btn(ng-click="toggleToTestWords(item, $event)")
-                                    img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
-                                    img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
+
                                 a.edit-btn(ng-click="editItem(item)", ng-show="!item.editing")
                                     img(src="../icons/pencil124.png", style="")
                                 a.done-editing-btn(ng-show="item.editing", ng-click="doneEditing(item)")

@@ -15,8 +15,8 @@ div.container(ng-controller="LearnController")
                 input(type="checkbox", ng-model="speakText")
                 p(style="display:inline-block;margin: 2px;") Speak Text
 
-        div.col-md-5
-            div.questionDiv(ng-show="!finished")
+        div.col-md-5(ng-show="!finished")
+            div.questionDiv
                 //p Round {{ongoingRoundNo+1}}
                 p(ng-bind="question", style="display: inline-block;")
                 a(ng-click="playAudio()")
@@ -25,35 +25,50 @@ div.container(ng-controller="LearnController")
                 form(ng-submit="submit()", style="width:100%; display:inline-block; ")
                     input.answer(type="text", ng-model="answer")
                     input#answer-button.button(type="submit", value="Answer", ng-disabled="finished")
-            div.summary(ng-show="finished")
-                p.h1.relative-center(style="font-family: Oswald,Arial,sans-serif;") Summary
-                <hr/>
-                div(ng-show="!missedTerms.length>0")
-                    p.h1(style="color:green") Well done!
-                div(ng-show="missedTerms.length>0")
-                    p.h1 Missed
-                    div.missedTerms(ng-show="missedTerms.length>0")
-                        table(style="width:100%")
-                            tr(ng-repeat="term in missedTerms track by $index")
-                                td(style="vertical-align:top")
-                                    p {{$index + 1}}.
-                                        span(style="color:#b00 !important; margin-left:3px") {{term.word}} &rarr; {{term.meaning}}
-                                        | &nbsp;(
-                                        span(ng-show="term.answer", style="text-decoration: line-through; margin-left: 5px", ng-repeat="obj in term.answer track by $index") {{obj}}
-                                            span(ng-show="$index<term.answer.length-1") ,
-                                        | &nbsp;)
-                                    //pre(ng-bind="term.example", ng-show="term.example")
-                                    div(ta-bind, ng-show="term.example", ng-model="term.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
-                                td(ng-show="term.image", style="width:120px")
-                                    img(ng-src="{{term.image}}", style="max-width:120px")
-                input#reset-button.button.relative-center(type="button", value="Start over", ng-click="reset()")
+        div.summary.col-sm-9(ng-show="finished")
+            p.h1.relative-center(style="font-family: Oswald,Arial,sans-serif;") Summary
+            <hr/>
+            div(ng-show="!missedTerms.length>0")
+                p.h1(style="color:green") Well done!
+            div(ng-show="missedTerms.length>0")
+                p.h1 Missed
+                div.missedTerms(ng-show="missedTerms.length>0")
+                    //table(style="width:100%")
+                    //    tr(ng-repeat="term in missedTerms track by $index")
+                    //        td(style="vertical-align:top")
+                    //            p {{$index + 1}}.
+                    //                span(style="color:#b00 !important; margin-left:3px") {{term.word}} &rarr; {{term.meaning}}
+                    //                | &nbsp;(
+                    //                span(ng-show="term.answer", style="text-decoration: line-through; margin-left: 5px", ng-repeat="obj in term.answer track by $index") {{obj}}
+                    //                    span(ng-show="$index<term.answer.length-1") ,
+                    //                | &nbsp;)
+                    //            //pre(ng-bind="term.example", ng-show="term.example")
+                    //            div(ta-bind, ng-show="term.example", ng-model="term.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px; max-width: 90%")
+                    //        td(ng-show="term.image", style="width:120px")
+                    //            img(ng-src="{{term.image}}", style="max-width:120px")
+                    div.row
+                        div.row(ng-repeat="term in missedTerms track by $index", style="margin-bottom:8px;")
+                            div.col-sm-9(style="vertical-align:top; padding:2px 13px 2px 29px")
+                                p {{$index + 1}}.
+                                    span(style="color:#b00 !important; margin-left:3px") {{term.word}} &rarr; {{term.meaning}}
+                                    | &nbsp;(
+                                    span(ng-show="term.answer", style="text-decoration: line-through; margin-left: 5px", ng-repeat="obj in term.answer track by $index") {{obj}}
+                                        span(ng-show="$index<term.answer.length-1") ,
+                                    | &nbsp;)
+                                //pre(ng-bind="term.example", ng-show="term.example")
+                                div(ta-bind, ng-show="term.example", ng-model="term.example", style="overflow-y: auto;padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px;")
+                            div.col-sm-3(ng-show="term.image", style="text-align: center;")
+                                img.inline-block(ng-src="{{term.image}}", style="max-width:120px")
+
+            input#reset-button.button.relative-center(type="button", value="Start over", ng-click="reset()")
 
 
 
-        div.col-md-5
+        div.col-md-5(ng-show="!finished")
             div.resultDiv(style="width:100%; min-height:200px",ng-show="result", ng-class="{'resultDiv-correct': result.correct, 'resultDiv-wrong': !result.correct}")
                 p.wronganswer(ng-show="!result.correct") {{result.answer}}
                 p.resultText {{result.word}} : {{result.meaning}}
                 //pre(ng-show="result.example") {{result.example}}
                 div(ta-bind, ng-model="result.example", ng-show="result.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
-                img(ng-src="{{result.image}}", ng-show="result.image", style="max-width: 100%;")
+                div(style="text-align: center;")
+                    img.inline-block(ng-src="{{result.image}}", ng-show="result.image", style="max-width: 100%;")

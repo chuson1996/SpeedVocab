@@ -92,10 +92,10 @@
                     $scope.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoWrongAns = res.NoWrongAns;
                 });
                 // Animation
-                $('.resultDiv').removeClass('tada');
+                $('.resultDiv').removeClass('pulse');
                 $('.resultDiv').removeClass('shake');
                 $('.resultDiv').removeClass('animated');
-                setTimeout(function(){$('.resultDiv').addClass('animated tada');},100);
+                setTimeout(function(){$('.resultDiv').addClass('animated pulse');},100);
                 // ---------
                 $scope.correct++;
             }else{
@@ -111,7 +111,7 @@
                 // Animation
                 $('.resultDiv').removeClass('animated');
                 $('.resultDiv').removeClass('shake');
-                $('.resultDiv').removeClass('tada');
+                $('.resultDiv').removeClass('pulse');
                 setTimeout(function(){$('.resultDiv').addClass('animated shake');},100);
                 // ---------
                 $scope.incorrect++;
