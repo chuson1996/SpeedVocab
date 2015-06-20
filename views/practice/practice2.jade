@@ -1,0 +1,30 @@
+div.row.practice2(ng-controller="foodBalancerCtrl as ctrl")
+    div.col-sm-12.order-test
+        div(style="width:200px; background-color: red; display: inline-block")
+        div(style="width:150px; background-color: blue; display: inline-block")
+        div(style="width:auto; background-color: green; display: inline-block")
+    div.col-sm-12
+        table.fadeInLeft.animated
+            tr
+                td
+                    p Name
+                td
+                    p Calories
+                td
+                    p Protein
+                td
+                    p Carbs
+                td
+                    p Fat
+            tr(ng-repeat="item in ctrl.foodList | orderBy: '-calories'")
+                td
+                    p {{item.name}}
+                td
+                    p {{item.calories}}
+                td
+                    p {{item.protein}}
+                td
+                    p {{item.carbs}}
+                td
+                    p {{item.fat}}
+

@@ -1,4 +1,4 @@
-div.row(ng-controller="animateCtrl as ctrl")
+div.row.practice1(ng-controller="animateCtrl as ctrl")
     div.col-sm-2.color-div(ng-repeat="item in ctrl.animateCollection track by $index", class="animated", ng-click="ctrl.startAnimation(item, $event)", style="background-color: {{ctrl.generateRandomColor($index)}}")
         | {{item}}
 

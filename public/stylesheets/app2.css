@@ -1,0 +1,302 @@
+@-webkit-keyframes item-enter {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+@keyframes item-enter {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+.app2 .learn-opt{
+    height: 75px;
+    width: 164px;
+    padding: 1px 0 0 8px;
+    font-family: Prociono, Oswald, Arial, sans-serif;
+    border-radius: 7px;
+    border: 1px solid darkblue;
+    background-color: rgba(100, 149, 237, 0.12);
+    color: darkblue;
+    cursor: pointer;
+    margin-top: 18px;
+    display: inline-block;
+
+    transition: color 0.3s, border 0.3s, background-color 0.3s;
+}
+.app2 .learn-opt:hover{
+    border: 1px solid rgba(2, 166, 51, 0.78);
+    background-color: rgba(63, 237, 72, 0.03);
+    color:rgba(2, 166, 51, 0.78);
+    transition: color 0.3s, border 0.3s, background-color 0.3s;
+}
+.app2 .learn-opt h2{
+    display:inline-block;margin-left:6px;
+}
+.app2 .learn-opt i{
+    font-size:25px;
+}
+.app2 .back-to-folder{
+    height: 75px;
+    width: 30px;
+    display: inline-block;
+    margin-right: 5px;
+    background-color: rgba(0, 0, 139, 0.56);
+    border-radius: 8px 3px 3px 8px;
+}
+.app2 .back-to-folder .fa-angle-left{
+    margin-top: 19px;
+    font-size: 36px;
+    margin-left: 8px;
+    color: white;
+}
+
+.app2 .addnewToggleBar{
+    /*background-color: rgba(82, 170, 228, 0.77);*/
+    text-align: center;
+}
+
+.app2 .suggestedImagesDiv{
+    white-space: nowrap;
+    overflow-x: auto;
+}
+.app2 .toggleExampleBar{
+    height: 23px;
+    width: 100%;
+    background-color: rgba(11, 114, 200, 0.17);
+    margin-top: -4px;
+    margin-bottom: -4px;
+    box-shadow: 0px -9px 7px 3px rgba(108, 126, 144, 0.68);
+    text-align: center;
+    cursor: pointer;
+    display: inline-block;
+    z-index: 9999;
+
+}
+.app2 .exampleDiv{
+    max-height: 160px;
+    overflow-y: hidden;
+    /*background-color: rgba(128, 128, 128, 0);*/
+    padding: 8px 8px 8px 12px;
+    margin-bottom: 5px;
+    /*margin-left:10px;*/
+    /*margin-right: 10px;*/
+    /*box-shadow: 0 2px 6px 0px rgba(0, 0, 0, 0.48);*/
+}
+.app2 .imageDiv{
+    padding:0;
+    margin-top: 4px;
+    margin-bottom: 8px;
+    text-align: center;
+    padding-left:5px;
+}
+.app2 .page-navigator{
+    /*border: 1px solid black;*/
+    margin-top: 10px;
+    border-radius: 7px;
+}
+.app2 .wordlist-st{
+    overflow-y: auto;
+    overflow-x: hidden;
+
+
+    /*box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.31),1px 1px 4px rgba(0, 0, 0, 0.21);*/
+    /*border-radius: 7px;*/
+}
+.app2 .addnew-st{
+    /*border: 1px solid black;*/
+    /*border-radius: 6px;*/
+    padding-top: 0px;
+    background-color: white;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.31),1px 1px 4px rgba(0, 0, 0, 0.21);
+    border-radius: 7px;
+    margin-top: 5px;
+}
+.app2 pre{
+    background-color: transparent;
+}
+.app2 .addnewDiv .row1{
+    padding: 4px 0 4px 0;
+}
+.app2 .addnewDiv{
+    margin-left: -15px;
+    margin-right: -15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.app2 .score{
+    width: 90%;
+    height: 30px;
+    padding-top:3px;
+    text-align: center;
+    display: inline-block;
+}
+.app2 .scoreDiv{
+    text-align: center;
+    margin-bottom:4px;
+}
+.app2 .submitButton{
+    width: 114px;
+    height: 39px;
+    margin-bottom: 10px;
+    margin-top: 6px;
+}
+.app2 .optionsDiv{
+    text-align: right;
+}
+.app2 .star-btn, .edit-btn, .done-editing-btn, .del-btn{
+    margin-left:4px;
+    margin-right:4px;
+    display: inline-block;
+}
+
+.app2 .edit-btn i{
+    font-size:22px;
+    font-weight: 500;
+    vertical-align: bottom;
+    line-height: 14px;
+    color:rgb(27, 21, 82);
+}
+.app2 .done-editing-btn i{
+    font-size:22px;
+    font-weight: 500;
+    vertical-align: bottom;
+    color:rgb(27, 21, 82);
+}
+.app2 .del-btn i{
+    font-size:23px;
+    font-weight: 500;
+    vertical-align: bottom;
+    color:rgb(27, 21, 82);
+}
+.app2 .del-btn{
+    vertical-align: top;
+}
+.app2 .star-btn span{
+    animation-name: item-enter;
+    animation-duration: 0.5s;
+    font-size: 25px;
+    vertical-align: bottom;
+    height: 21px;
+    color:rgb(27, 21, 82);
+}
+.app2 .optionsDiv i:hover{
+    color: rgb(40, 97, 145);
+}
+.app2 .optionsDiv span:hover{
+    color: rgb(40, 97, 145);
+}
+
+
+/*.app2 .star-btn, .edit-btn, .done-editing-btn, .del-btn img{*/
+    /*animation-name: item-enter;*/
+    /*animation-duration: 0.5s;*/
+    /*width:22px;*/
+    /*height:22px;*/
+    /*display: inline-block;*/
+/*}*/
+/*.app2 .star-btn img{*/
+    /*animation-name: item-enter;*/
+    /*animation-duration: 1s;*/
+    /*width:24px;*/
+    /*height:24px;*/
+/*}*/
+.app2 .starring a{
+    /*border: 1px solid rgb(214, 214, 214);*/
+    background-color: rgb(252, 251, 248);
+    padding: 4px 13px 5px 13px;
+    height: 30px;
+    width: 120px;
+    margin-bottom: 3px;
+    float: right;
+    text-align:center;
+    display: inline-block;
+}
+.app2 .starring .unstarAll{
+    float: left;
+    display: inline-block;
+}
+.app2 .btn-mydefault{
+    border-radius: 3px;
+    border: 1px solid #34495e;
+    background: #ffffff;
+    padding: 5px 13px 5px 13px;
+    list-style: none;
+    color: #34495e;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-align: center;
+    margin-left:2px;
+    margin-right:2px;
+}
+.app2 .btn-mydefault:hover{
+    background: #34495e;
+    color: #ffffff;
+    transition: all 0.3s;
+}
+.app2 .starring{
+    padding-top:15px;
+}
+
+.app2 .assistToolDiv{
+    text-align: center;
+}
+.app2 .assistToolDiv .translate, .imageSuggestion, .resetForm{
+    width:40px;
+    height:40px;
+    /*border: 1px dashed black;*/
+    border-radius: 4px;
+    display: inline-block;
+    padding-top:8px;
+    margin-right:3px;
+    margin-left:3px;
+}
+.app2 .assistToolDiv .resetForm{
+    font-size: 20px;
+    color: rgb(50, 40, 145);
+}
+.app2 .assistToolDiv .imageSuggestion{
+    font-size: 20px;
+    color: rgb(50, 40, 145);
+}
+.app2 .assistToolDiv .translate{
+    font-size: 22px;
+    color: rgb(50, 40, 145);
+}
+.app2 .assistToolDiv .resetForm:hover{
+    color: rgb(40, 97, 145);
+}
+.app2 .assistToolDiv .imageSuggestion:hover{
+    color: rgb(40, 97, 145);
+}
+.app2 .assistToolDiv .translate:hover{
+    color: rgb(40, 97, 145);
+}
+/*.app2*/
+/*.app2*/
+/*.app2*/
+/*.app2*/
+/*.app2*/
+@media(max-width: 620px){
+    .app2 .starring a{
+        /*border: 1px solid rgb(214, 214, 214);*/
+        /*background-color: rgb(252, 251, 248);*/
+        padding: 0px 13px 0px 13px;
+        height: 22px;
+        /*width: 120px;*/
+        /*margin-bottom: 3px;*/
+        /*float: right;*/
+        /*text-align:center;*/
+        /*display: inline-block;*/
+    }
+    .app2 .learn-opt {
+        width:118px;
+    }
+    .app2 .learn-opt h2{
+        margin-left: 6px;
+        font-size: 19px;
+        padding-top: 11px;
+        margin-top: 20px;
+    }
+    .app2 .learn-opt i{
+        font-size:20px;
+
+    }
+}

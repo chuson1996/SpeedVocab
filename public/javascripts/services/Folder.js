@@ -7,17 +7,14 @@
         var self=this;
         self.getFolders=function(){
             return $http.get('/speedvocab/api/getfolders').then(function (res) {
-                //console.log(res.data);
+                console.log('Getting folders...');
                 self.folders = res.data.sort(function(a,b){
                     return new Date(a.createdAt) < new Date(b.createdAt);
                 });
                 return self.folders;
             });
         }
-        self.addFolder=function(){
-            var newname=prompt('Name of the folder: ');
-            var newfromLang=prompt('fromLang: ');
-            var newtoLang=prompt('toLang: ');
+        self.addFolder=function(newname, newfromLang, newtoLang){
             $.post('/speedvocab/post/addfolder',{
                 folderName: newname,
                 fromLang: newfromLang,

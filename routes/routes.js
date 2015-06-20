@@ -12,22 +12,31 @@ module.exports = function(app){
     });
 
     app.get('/account',function(req,res){
-        //if (!req.session.passport.user)
-        //    return res.redirect(303,'/unauthorized');
-        ////res.type('text/plain').send(req.session.passport.user);
-        //var User = require('../models/user.js');
-        //User.findOne({_id: req.session.passport.user},function(err,user){
-        //    if (err) throw err;
-        //    res.render('layout',{title: "Logged in", user: user});
-        //});
-        res.redirect('/speedvocab');
+        if (!req.session.passport.user)
+            return res.redirect(303,'/unauthorized');
+        //res.type('text/plain').send(req.session.passport.user);
+        var User = require('../models/user.js');
+        User.findOne({_id: req.session.passport.user},function(err,user){
+            if (err) throw err;
+            //console.log(user);
+            req.session.detail = {
+                name: user.name,
+                email: user.email
+            };
+            res.redirect('/speedvocab');
+        });
+
     });
 
     app.get('/speedvocab', function(req,res){
+        //console.log(req.session.detail);
         res.render('speedvocab');
     });
     app.get('/speedvocab/template/app', function(req,res){
-        res.render('app');
+        console.log(req.session.detail);
+        if (req.session.detail)
+            return res.render('app2', req.session.detail);
+        return res.send('Out of session!');
     });
 
     app.get('/speedvocab/template/learn', function(req,res){
@@ -220,7 +229,7 @@ module.exports = function(app){
                 //res.send('Testing! Be cool!2');
             }
             res.json(toSend);
-        });
+        }).catch(console.error);
     });
     app.get('/speedvocab/api/getwords', function(req,res){
         console.log(req.session.passport.user, req.query.openningFolder);

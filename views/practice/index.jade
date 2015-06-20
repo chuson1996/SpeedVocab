@@ -11,17 +11,25 @@ html(lang="en")
 
         link(rel="stylesheet", href="../stylesheets/lib/animate.css")
         link(rel="stylesheet", href="../javascripts/practices/stylesheet/practice1.css")
+        link(rel="stylesheet", href="../javascripts/practices/stylesheet/practice2.css")
         script.
-            angular.module('app',['ui.router'])
+            angular.module('app',['ui.router','services','filters'])
                 .config(function($stateProvider) {
-                    var practiceNo = $stateProvider.id || 1;
-                    $stateProvider.state('index',{
-                        url:'/:id',
-                        templateUrl: 'template/practice/'+practiceNo,
-                        controller: function($stateParams){
-                            // console.log('$stateParams in index page: ', $stateParams);
-                        }
-                    })
+
+                    //console.log($stateProvider);
+                    $stateProvider
+                        .state('index',{
+                            url:'',
+                            template: '<h1>Index Page</h1>'
+                        })
+                        .state('practice',{
+                            url:'/:id',
+                            templateUrl: function($stateParams){
+                                var practiceNo =  $stateParams.id || 1;
+                                return 'template/practice/'+practiceNo;
+                            }
+
+                        })
                 })
                 .controller('MainController',function($location) {
                     // console.log($location);
@@ -39,5 +47,7 @@ html(lang="en")
                     | UI-Router practicing<br>
                     ui-view
 
-
+        script(src="../javascripts/practices/filters/OrderByFilters.js")
         script(src="../javascripts/practices/controllers/animateController.js")
+        script(src="../javascripts/practices/controllers/FoodBalancerController.js")
+        script(src="../javascripts/practices/services/foodList.js")

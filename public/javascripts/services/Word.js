@@ -12,6 +12,7 @@
     app.service('Word', function($http){
         var self=this;
         self.wordCart=[];
+        self.words=[];
         self.getWords=function(folderId){
             return $http.get('/speedvocab/api/getwords?openningFolder='+folderId).then(function(res){
                 self.words = res.data;

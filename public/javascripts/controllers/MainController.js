@@ -1,36 +1,25 @@
 (function(app){
 
     function getSuggestedImages($http,$scope, text){
-        //$http.get('/speedvocab/api/flickr/'+encodeURIComponent(text)).then(function(res){
-        //    var wordImages=[];
-        //    res.data.forEach(function(photo){
-        //        wordImages.push(encodeFlickrImageUrl(photo));
-        //    });
-        //    console.log(wordImages);
-        //    $scope.wordImages= wordImages;
-        //});
         console.log('get suggested images');
         return $http.get('/speedvocab/api/getSuggestedImages/'+encodeURIComponent(text)).then(function(res){
             //console.log(res.data);
-            $scope.wordImages= res.data;
+            $scope.suggestedImages= res.data;
         });
     }
 
-    function encodeFlickrImageUrl(photo){
-        var url='http://farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'.jpg';
-        return url;
-    }
+    //function encodeFlickrImageUrl(photo){
+    //    var url='http://farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'.jpg';
+    //    return url;
+    //}
     app.controller('MainController', ['$scope','$http','Word','Folder','AppLearnBridge','$state', function($scope,$http,Word,Folder,AppLearnBridge,$state){
 
-        $scope.range = function(n) {
-            return new Array(n);
-        };
         $scope.resetForm=function(){
             $scope.newword = '';
             $scope.newmeaning='';
             $scope.newexample='';
             $scope.newimage='';
-            $scope.wordImages=[];
+            $scope.suggestedImages=[];
             //console.log('Form reseted');
         };
         //------------------------  Add Words ------------------------------
@@ -38,6 +27,8 @@
         $scope.totalPages=0;
         $scope.currentWordlist=[];
         $scope.loadingDefinition = Word.loadingDefinition;
+
+        // Update items on the table
         $scope.refreshPage = function(num){
             // console.log('Refresh Page');
             if (num) $scope.openingPage = num;
@@ -114,7 +105,45 @@
         $scope.previousPage = function(){
             $scope.openingPage--;
             $scope.$data = ($scope.currentWordlist).slice(($scope.openingPage - 1) * 10, $scope.openingPage * 10);
-        }
+        };
+        $scope.expandExample = function(e){
+            //console.log('expanding...', e.target);
+            //console.log('status: ',$(e.target).parents('.wrap-exampleDiv').children('.exampleDiv').css('overflow-y'));
+            var parent=$(e.target).parents('.wrap-exampleDiv');
+            var exampleDiv = $(e.target).parents('.wrap-exampleDiv').children('.exampleDiv');
+            //console.log(parseInt($(e.target).parents('.wrap-exampleDiv').children('.exampleDiv').css('max-height')));
+            if (parseInt($(e.target).parents('.wrap-exampleDiv').children('.exampleDiv').css('max-height'))>160){
+                //console.log('Narrow');
+                //console.log('Height');
+                if (parseInt(exampleDiv.height())>160){
+                    exampleDiv
+                        .css('max-height',exampleDiv.height())
+                        .stop()
+                        .animate({
+                            'max-height':'160px'
+                        },300);
+                }else{
+                    //console.log('This run only when height <= 160px');
+                    exampleDiv
+                        .css('max-height','160px')
+                }
+                //$(e.target).text('More');
+                $(e.target).css('transform','');
+            }else{
+                //console.log('Expand');
+                $(e.target).parents('.wrap-exampleDiv').children('.exampleDiv')
+                    .stop()
+                    .animate({
+                        'max-height':'500px'
+                    },300);
+                //$(e.target).text('Less');
+                $(e.target).css('transform','rotate(180deg)');
+                    //.css('max-height','2000px')
+                    //.css('overflow-y','visible');
+            }
+
+            //console.log('status: ',$(e.target).parents('.wrap-exampleDiv').children('.exampleDiv').css('overflow-y'));
+        };
 
         //----------------------- Get Suggested Images ---------------------------
         $scope.getSuggestedImages = function(text){
@@ -124,13 +153,13 @@
             });
         };
 
-        $scope.suggestedImageBtn = function(image){
+        $scope.selectSuggestedImage = function(image){
             //console.log(image);
             $scope.newimage=image;
         };
         $scope.removeNewImage=function(){
             $scope.newimage='';
-        }
+        };
 
         //-------------------------- to-test words -------------------------------
         $scope.toTestWords = Word.wordCart;
@@ -192,13 +221,13 @@
                 return item;
             });
         };
-        $scope.selectedUnder6 = function(){
-            if (Word.wordCart==undefined || Word.words==undefined) return false;
-            if (Word.wordCart.length===0) return false;
-            return Word.wordCart.every(function(a){
-                return (a.NoCorrectAns - a.NoWrongAns) < 6;
-            });
-        };
+        //$scope.selectedUnder6 = function(){
+        //    if (Word.wordCart==undefined || Word.words==undefined) return false;
+        //    if (Word.wordCart.length===0) return false;
+        //    return Word.wordCart.every(function(a){
+        //        return (a.NoCorrectAns - a.NoWrongAns) < 6;
+        //    });
+        //};
         $scope.starUnder6 = function(){
             Word.wordCart=[];
             Word.words.forEach(function(word){
