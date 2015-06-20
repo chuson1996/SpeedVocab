@@ -55,7 +55,7 @@ div.container.app2(ng-controller="MainController as ctrl")
                                 div.col-md-7.newmeaningDiv
                                     input.form-control(type="text", ng-model="ctrl.newmeaning", placeholder="Definition")
                                 div.col-md-3.assistToolDiv
-                                    a
+                                    a(ng-click="ctrl.defineWord(ctrl.newword)")
                                         i.translate.fa.fa-language.fa-2x
                                     a(ng-click="ctrl.getSuggestedImages(ctrl.newword)")
                                         span.imageSuggestion.glyphicon.glyphicon-picture

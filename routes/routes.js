@@ -231,6 +231,16 @@ module.exports = function(app){
             res.json(toSend);
         }).catch(console.error);
     });
+    app.get('/speedvocab/api/getfolderById/:folderId', function(req,res){
+        Folder.findOne({
+            userId: req.session.passport.user,
+            _id: req.params.folderId
+        }).then(function(folder){
+            res.json(folder);
+        }).catch(function(){
+            res.status(500).send('Folder doesn\'t exist or you are not authorized to access it.')
+        })
+    })
     app.get('/speedvocab/api/getwords', function(req,res){
         console.log(req.session.passport.user, req.query.openningFolder);
         var toSend=[];
@@ -299,17 +309,47 @@ module.exports = function(app){
 
         });
     });
-    app.get('/speedvocab/api/defineWord/:word', function(req,res){
+    app.get('/speedvocab/api/defineWord/:word/:from/:to', function(req,res){
         // These code snippets use an open-source library. http://unirest.io/nodejs
-        unirest.get("https://wordsapiv1.p.mashape.com/words/"+req.params.word)
-            .header("X-Mashape-Key", "1XzINqg3Rfmshizwhfrgi54LAaX5p1Aj9Y5jsn6roqcGczBBD4")
-            .header("Accept", "application/json")
-            .end(function (result) {
-                //console.log('result: ',result.body);
-                //console.log('status: ',result.status);
-                if (result.status !== 200) return res.status(500).send('Not found');
-                return res.json(result.body);
-            });
+        var from = req.params.from;
+        var to = req.params.to;
+        if (from=='en' && to=='en'){
+            unirest.get("https://wordsapiv1.p.mashape.com/words/"+req.params.word)
+                .header("X-Mashape-Key", "1XzINqg3Rfmshizwhfrgi54LAaX5p1Aj9Y5jsn6roqcGczBBD4")
+                .header("Accept", "application/json")
+                .end(function (result) {
+                    //console.log('result: ',result.body);
+                    //console.log('status: ',result.status);
+                    if (result.status !== 200) return res.status(500).send('Not found');
+                    return res.json(result.body);
+                });
+        }else{
+            rp('https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20150209T212534Z.94adfd8a495e3628.73c2afbdd079b4a53fdbcc4b4c9578b1905112bf&lang='+from+'-'+to+'&text='+req.params.word+'')
+                .then(function(response){
+                    response = JSON.parse(response);
+                    var toSend = response.def.reduce(function(pre,cur,index,arr){
+                        if (!pre[cur.pos]) {
+                            pre[cur.pos] = [];
+                            //console.log('Initiate pre[cur.pos] -> []');
+                        }
+                        cur.tr.forEach(function(cur){
+                            if (!pre[cur.pos]) pre[cur.pos]=[];
+                            //console.log('cur',cur);
+                            pre[cur.pos].push(cur.text);
+
+                        })
+                        return pre;
+                    },{});
+                    console.log(toSend);
+                    return res.json(toSend);
+
+                })
+                .then(null, function(err){
+                    console.log('Error: ',err);
+                    return res.status(500).send(err);
+                })
+        }
+
     });
     app.get('/speedvocab/api/defineWordFI2EN/:word', function(req,res){
         var sou = 'fi',

@@ -13,7 +13,12 @@
                 });
                 return self.folders;
             });
-        }
+        };
+        self.getFolderById = function(folderId){
+            return $http.get('/speedvocab/api/getfolderById/'+folderId).then(function(res){
+                return res.data;
+            })
+        };
         self.addFolder=function(newname, newfromLang, newtoLang){
             $.post('/speedvocab/post/addfolder',{
                 folderName: newname,

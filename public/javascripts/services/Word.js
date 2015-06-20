@@ -73,48 +73,47 @@
                 return res.data;
             });
         };
-        self.defineWord=function(word){
+        self.defineWord=function(word, from, to){
             if (word==='' || word===undefined) return new Promise(function(resolve, reject){
                 reject('Word is undefined');
             });
-            return $http.get('/speedvocab/api/defineWord/'+word).then(function(res){
-                // Error Handling................
-                console.log(res);
-                // ------------------------------
-                var data = res.data;
-                var toSend ={};
-                toSend.pronunctiation = data.pronunciation;
-                toSend.results=[];
-                data.results.forEach(function(result){
-                    var item={};
-                    item.definition = result.definition;
-                    item.partOfSpeech = result.partOfSpeech;
-                    item.synonyms = result.synonyms;
-                    item.examples = result.examples;
-                    toSend.results.push(item);
-                });
-                return toSend;
-            }, onError);
-        };
-        self.defineWordFI2EN=function(word){
-            if (word==='' || word===undefined) return new Promise(function(resolve, reject){
-                reject('Word is undefined');
-            });
-            return $http.get('/speedvocab/api/defineWordFI2EN/'+word).then(function(res){
-                // Error Handling................
-                //console.log(res);
+            if (from=='en' && to=='en'){
+                return $http.get('/speedvocab/api/defineWord/'+word+'/'+from+'/'+to).then(function(res){
+                    // Error Handling................
+                    console.log(res);
+                    // ------------------------------
+                    var data = res.data;
+                    var toSend ={};
+                    toSend.pronunctiation = data.pronunciation;
+                    toSend.results=[];
+                    data.results.forEach(function(result){
+                        var item={};
+                        item.definition = result.definition;
+                        item.partOfSpeech = result.partOfSpeech;
+                        item.synonyms = result.synonyms;
+                        item.examples = result.examples;
+                        toSend.results.push(item);
+                    });
+                    return self.paraphaseToExampleEN2EN(toSend);
+                }, onError);
+            }else{
+                return $http.get('/speedvocab/api/defineWord/'+word+'/'+from+'/'+to).then(function(res){
+                    // Error Handling................
+                    //console.log(res);
 
-                return res.data;
-            }, onError);
+                    return self.paraphaseToExampleElse(res.data);
+                }, onError);
+            }
+
         };
-        self.paraphaseToExampleFI2EN =function(para) {
+        self.paraphaseToExampleElse =function(para) {
             var str = _.reduce(para,function(pre, cur, index, arr){
                 return pre+'<p>('+index+') '+cur.join(', ')+'</p>';
             },'');
             //console.log(str);
             return str;
         }
-        self.paraphaseToExample=function(para){
+        self.paraphaseToExampleEN2EN=function(para){
             var str ='';
             para.results.forEach(function(result){
                 str +='<p><b>Def: ('+result.partOfSpeech+') '+result.definition+'</b></p>';

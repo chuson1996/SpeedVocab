@@ -1,6 +1,3 @@
-/**
- * Created by chuso_000 on 19/6/2015.
- */
 /// <reference path="../typings/angular.d.ts" />
 var helper;
 (function (helper) {
@@ -284,26 +281,31 @@ var MainController = (function () {
     };
     // ------------- Get word's definition
     MainController.prototype.defineWord = function (word) {
+        var _this = this;
         this.loadingDefinition = true;
-        this.Word.defineWord(word).then(function (res) {
+        this.Folder.getFolderById(this.currentOpeningFolder).then(function (res) {
             //console.log(res);
-            this.loadingDefinition = false;
-            this.newexample = this.Word.paraphaseToExample(res);
+            return _this.Word.defineWord(word, res.fromLang, res.toLang);
+        }).then(function (res) {
+            //console.log(res);
+            _this.loadingDefinition = false;
+            _this.newexample = res;
         }).catch(function (err) {
-            this.onError(err);
-            this.loadingDefinition = false;
+            _this.onError(err);
+            _this.loadingDefinition = false;
         });
+        //this.Word.defineWord(word, currentFolder.fromLang, currentFolder.toLang)
     };
-    MainController.prototype.defineWordFI2EN = function (word) {
-        this.loadingDefinition = true;
-        this.Word.defineWordFI2EN(word).then(function (res) {
-            this.loadingDefinition = false;
-            this.newexample = this.Word.paraphaseToExampleFI2EN(res);
-        }).catch(function (err) {
-            this.onError(err);
-            this.loadingDefinition = false;
-        });
-    };
+    //defineWordFI2EN(word){
+    //    this.loadingDefinition=true;
+    //    this.Word.defineWordFI2EN(word).then(function(res){
+    //        this.loadingDefinition=false;
+    //        this.newexample=res;
+    //    }).catch(function(err){
+    //        this.onError(err);
+    //        this.loadingDefinition=false;
+    //    });
+    //}
     // --------------- Functions involved DOM manipulation ---------------------
     MainController.prototype.expandExample = function (e) {
         //console.log('expanding...', e.target);

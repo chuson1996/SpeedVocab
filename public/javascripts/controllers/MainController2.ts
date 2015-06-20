@@ -2,7 +2,7 @@
  * Created by chuso_000 on 19/6/2015.
  */
 /// <reference path="../typings/angular.d.ts" />
-
+declare var _;
 module helper{
     export function getSuggestedImages($http,text){
         console.log('get suggested images');
@@ -56,6 +56,7 @@ class MainController{
         if ($stateParams.folder){
             this.currentOpeningFolder = $stateParams.folder;
             this.getWords(this.currentOpeningFolder);
+
         }else{
 
             Folder.getFolders().then((data)=>{
@@ -285,25 +286,30 @@ class MainController{
     // ------------- Get word's definition
     defineWord(word){
         this.loadingDefinition=true;
-        this.Word.defineWord(word).then(function(res){
+        this.Folder.getFolderById(this.currentOpeningFolder).then((res)=>{
+            //console.log(res);
+            return this.Word.defineWord(word, res.fromLang, res.toLang);
+        }).then((res)=>{
             //console.log(res);
             this.loadingDefinition=false;
-            this.newexample=this.Word.paraphaseToExample(res);
-        }).catch(function(err){
+            this.newexample=res;
+        }).catch((err)=>{
             this.onError(err);
             this.loadingDefinition=false;
         });
+
+        //this.Word.defineWord(word, currentFolder.fromLang, currentFolder.toLang)
     }
-    defineWordFI2EN(word){
-        this.loadingDefinition=true;
-        this.Word.defineWordFI2EN(word).then(function(res){
-            this.loadingDefinition=false;
-            this.newexample=this.Word.paraphaseToExampleFI2EN(res);
-        }).catch(function(err){
-            this.onError(err);
-            this.loadingDefinition=false;
-        });
-    }
+    //defineWordFI2EN(word){
+    //    this.loadingDefinition=true;
+    //    this.Word.defineWordFI2EN(word).then(function(res){
+    //        this.loadingDefinition=false;
+    //        this.newexample=res;
+    //    }).catch(function(err){
+    //        this.onError(err);
+    //        this.loadingDefinition=false;
+    //    });
+    //}
     // --------------- Functions involved DOM manipulation ---------------------
     expandExample(e){
         //console.log('expanding...', e.target);
