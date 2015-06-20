@@ -139,12 +139,13 @@
     margin-top: 6px;
 }
 .app2 .optionsDiv{
-    text-align: right;
+    text-align: center;
 }
 .app2 .star-btn, .edit-btn, .done-editing-btn, .del-btn{
     margin-left:4px;
     margin-right:4px;
     display: inline-block;
+    margin-top:4px;
 }
 
 .app2 .edit-btn i{
