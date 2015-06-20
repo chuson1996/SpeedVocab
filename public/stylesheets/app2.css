@@ -275,8 +275,8 @@
 /*.app2*/
 /*.app2*/
 /*.app2*/
-@media(max-width: 620px){
-    .app2 .starring a{
+@media(max-width: 620px) {
+    .app2 .starring a {
         /*border: 1px solid rgb(214, 214, 214);*/
         /*background-color: rgb(252, 251, 248);*/
         padding: 0px 13px 0px 13px;
@@ -287,17 +287,39 @@
         /*text-align:center;*/
         /*display: inline-block;*/
     }
+
     .app2 .learn-opt {
-        width:118px;
+        width: 76px;
+        text-align: center;
+        padding: 0;
     }
-    .app2 .learn-opt h2{
-        margin-left: 6px;
-        font-size: 19px;
-        padding-top: 11px;
-        margin-top: 20px;
+
+    .app2 .learn-opt h2 {
+        /* margin-left: 6px; */
+        font-size: 16px;
+        padding-top: 0px;
+        margin-top: 0px;
     }
-    .app2 .learn-opt i{
-        font-size:20px;
+
+    .app2 .learn-opt i {
+        font-size: 18px;
+        margin-top: 12px;
 
     }
+    .app2 .back-to-folder {
+        /*height: 75px;*/
+        width: 18px;
+        /*display: inline-block;*/
+        /*margin-right: 5px;*/
+        /*background-color: rgba(0, 0, 139, 0.56);*/
+        /*border-radius: 8px 3px 3px 8px;*/
+    }
+    .app2 .back-to-folder .fa-angle-left {
+        margin-top: 25px;
+        font-size: 26px;
+        margin-left: 4px;
+        color: white;
+    }
+
+
 }
