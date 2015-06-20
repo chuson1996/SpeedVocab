@@ -1,5 +1,5 @@
 (function(app){
-    app.controller('LearnController', function($scope, $http, LearnRound, Word, orderByScoreService){
+    app.controller('LearnController', function($scope, $http, LearnRound, Word, orderByScoreService, $state){
         $scope.remaining=0;
         $scope.incorrect=0;
         $scope.correct=0;
@@ -163,6 +163,9 @@
             //console.log($scope.reverse);
             next();
             refresh();
+        };
+        $scope.back = function(){
+            $state.transitionTo('index',{folder:$scope.rounds[0][0].folderId})
         }
         function allCorrect(){
             return $scope.rounds[$scope.ongoingRoundNo].every(function(elem, index, array){
