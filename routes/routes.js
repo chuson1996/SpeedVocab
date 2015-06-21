@@ -50,9 +50,12 @@ module.exports = function(app){
             name: req.body.folderName,
             fromLang: req.body.fromLang,
             toLang: req.body.toLang,
-            created: Date()
-        }).save();
-        res.send('OK');
+            createdAt: Date()
+        }).save(function(err, doc){
+            if (err) return res.status(500).send('Something wrong');
+            return res.json(doc);
+        });
+        //res.send('OK');
     });
     app.post('/speedvocab/post/addword', function(req,res){
         //console.log(req.body);
@@ -99,13 +102,26 @@ module.exports = function(app){
 
 
     });
-    app.post('/speedvocab/storeTestingWordsToSession', function(req,res){
-        console.log(req.body);
-        req.session.toTestWords = req.body.toTestWords;
-        res.send('OK');
-    });
+
 
     // ------------- Handle PUT Request ----------------------------
+    app.put('/speedvocab/api/editfolder', function(req,res){
+        console.log(req.body);
+        Folder.update({
+            userId: req.session.passport.user,
+            _id: req.body._id
+        },{
+            $set:{
+                name: req.body.name,
+                fromLang: req.body.fromLang,
+                toLang: req.body.toLang
+            }
+        }, function(err, doc){
+            if (err) return res.status(500).send(err);
+            return res.send('OK');
+        });
+        //res.send('Working on it!')
+    })
     app.put('/speedvocab/api/editword/:wordid', function(req,res){
         var wordid= req.params.wordid;
         //console.log(req.body);
@@ -204,6 +220,15 @@ module.exports = function(app){
         });
         res.send('OK');
     });
+    app.delete('/speedvocab/api/deletefolder/:folderid', function(req,res){
+        Folder.remove({
+            userId: req.session.passport.user,
+            _id: req.params.folderid
+        }, function(err){
+            if(err) return res.status(500).send('Something wrong');
+            return res.send('OK');
+        })
+    })
     // ------------ Local API -----------------------
     app.get('/speedvocab/api/getfolders', function(req,res){
         Folder.find({userId: req.session.passport.user}).then(function(folders){

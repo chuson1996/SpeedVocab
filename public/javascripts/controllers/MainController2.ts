@@ -28,12 +28,30 @@ module helper{
         });
         return filtered;
     }
+    export function formatDate(createdAt){
+        var date = new Date(createdAt).getDate();
+        var month = new Date(createdAt).getMonth()+1;
+        var year = new Date(createdAt).getFullYear();
+        //console.log(new Date(createdAt).getDate());
+        //console.log(new Date(createdAt).getMonth()+1);
+        //console.log(new Date(createdAt).getFullYear());
+        var str = '';
+        var monthList='Jan Feb Mar April May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+        str += date+' '+monthList[month-1];
+        if (year!==new Date().getFullYear()) str += ' '+year;
+        return str;
+    }
 }
 class MainController{
     newword: string;
     newmeaning: string;
     newexample: string;
     newimage: string;
+
+
+    newnameF: string;
+    newfromLangF: string;
+    newtoLangF: string;
 
     suggestedImages: string[];
 
@@ -70,8 +88,17 @@ class MainController{
 
 
     }
+    formatDate(date){
+        return helper.formatDate(date);
+    }
     openFolder(folderId){
         this.$state.transitionTo('index',{folder: folderId},{notify:true});
+    }
+    editFolder(folder, index){
+        //return true;
+        return this.Folder.editFolder(folder).then((res)=>{
+            this.folders[index].editing=false;
+        });
     }
     onError(err){
         console.log('!!!!',err);
@@ -119,10 +146,26 @@ class MainController{
         });
     }
     addFolder(){
-        var newname=prompt('Name of the folder: ');
-        var newfromLang=prompt('fromLang: ');
-        var newtoLang=prompt('toLang: ');
-        this.Folder.addFolder(newname, newfromLang, newtoLang);
+        this.Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then((res)=>{
+            console.log(res);
+            this.folders.push(res.data)
+            this.folders = this.folders.sort(function(a,b){
+                return new Date(a.createdAt) < new Date(b.createdAt);
+            });
+            this.newnameF = '';
+            this.newfromLangF = '';
+            this.newtoLangF = '';
+        });
+    }
+    deleteFolder(folder){
+        this.Folder.deleteFolder(folder._id).then((res)=>{
+            console.log(res);
+            if (res.data=='OK'){
+                _.remove(this.folders, function(n){
+                    return n==folder;
+                })
+            }
+        });
     }
     getWords(folderId){
         console.log('Loading words in folder');
@@ -377,6 +420,9 @@ class MainController{
         }
         return true;
     }
+    //folderMouseOver(e){
+    //    $(e.target).css('background-color','gray');
+    //}
 
 }
 var app = angular.module('controllers');

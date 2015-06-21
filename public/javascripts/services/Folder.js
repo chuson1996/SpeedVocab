@@ -11,6 +11,10 @@
                 self.folders = res.data.sort(function(a,b){
                     return new Date(a.createdAt) < new Date(b.createdAt);
                 });
+                self.folders = _.map(self.folders, function(o){
+                    o.editing = false;
+                    return o;
+                })
                 return self.folders;
             });
         };
@@ -20,13 +24,43 @@
             })
         };
         self.addFolder=function(newname, newfromLang, newtoLang){
-            $.post('/speedvocab/post/addfolder',{
+            return $http.post('/speedvocab/post/addfolder',{
                 folderName: newname,
                 fromLang: newfromLang,
                 toLang: newtoLang
-            }, function(res){
-                console.log(res);
-            });
+            }).then(function(res){
+                //console.log(res);
+                return res;
+            }).catch(console.error);
+        };
+        self.deleteFolder = function(folderId){
+            return $http.delete('/speedvocab/api/deletefolder/'+folderId).then(function(res){
+                return res;
+            })
+        }
+        var lang = 'english finnish russian vietnamese'.split(' ');
+        var code = 'en fi ru vi'.split(' ');
+        self.decodeLang = function(langCode){
+            if(_.indexOf(code, langCode)!==-1){
+                // code --> lang
+                return _.capitalize(lang[_.indexOf(code, langCode)]);
+            }else{
+                return ;
+            }
+        }
+        self.encodeLang = function(langF){
+            if (_.indexOf(lang, langF)!==-1){
+                // lang --> code
+                return code[_.indexOf(lang, langF)];
+            }else{
+                return ;
+            }
+        }
+        self.editFolder = function(folder){
+            return $http.put('/speedvocab/api/editfolder',folder).then(function(res){
+                //console.log(res);
+                return res;
+            }).catch(console.error);
         }
     }])
 //}());

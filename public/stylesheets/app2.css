@@ -270,6 +270,111 @@
 .app2 .assistToolDiv .translate:hover{
     color: rgb(40, 97, 145);
 }
+/*-----------------------------Folder Selection-----------------------------*/
+.app2 .folder-selection .search-barDiv{
+    text-align: right;
+}
+.app2 .folder-selection>.col-md-8{
+    border-radius: 4px;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.31),1px 1px 4px rgba(0, 0, 0, 0.21);
+}
+.app2 .folder-selection .folderList{
+    padding:10px 22px 15px 22px;
+}
+.app2 .folder-selection .fromLangDiv,.toLangDiv{
+    text-align:left;
+}
+.app2 .folder-selection .createdAtDiv{
+    text-align: right;
+}
+.app2 .folder-selection .header p{
+    font-weight: 600;
+    color: #8a8a8a;
+}
+.app2 .folder-selection #editToLang{
+    width: calc(100% - 24px);
+    display: inline-block;
+}
+.app2 .folder-selection .fa-check{
+    cursor: pointer;
+    font-size:20px;
+    color: green;
+    margin-left:4px;
+    -webkit-transition: color 0.5s;
+    -moz-transition: color 0.5s;
+    -ms-transition: color 0.5s;
+    -o-transition: color 0.5s;
+    transition: color 0.5s;
+}
+.app2 .folder-selection .fa-check:hover{
+    color: rgba(0, 128, 0, 0.37);
+}
+.app2 .folder-selection .nameDiv p{
+    color: black;
+    font-weight: 600;
+}
+.app2 .folder-selection .folderList .bd{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.21);
+    min-height: 35px;
+    padding-top: 5px;
+}
+.app2 .folder-selection .folderList .bd>div{
+    /*vertical-align: middle;*/
+}
+.app2 .folder-selection .folderList .bd p{
+    margin-top:auto;
+    margin-bottom:auto;
+}
+.app2 .folder-selection .folderList .bd:hover{
+    background-color: rgba(0, 8, 30, 0.05);
+}
+.app2 .folder-selection .titleDiv{
+    text-align:center;
+}
+.app2 .folder-selection .titleDiv h2{
+    display: inline-block;
+}
+.app2 .folder-selection{
+    margin-top:40px;
+}
+.app2 .folder-selection .footer #AddNewFolderBtn{
+    background-color: rgb(70, 150, 99);
+    color: white;
+    font-size: 16px;
+    width: 81px;
+    display: inline-block;
+}
+.app2 .folder-selection .delete-folder{
+    color: rgb(123, 53, 53);
+    font-size: 19px;
+    margin-left: 17px;
+    background-color: transparent;
+    height: 28px;
+    padding: 0;
+}
+.app2 .folder-selection .footer {
+    background-color: white;
+    border: 1px solid rgb(188, 188, 188);
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 6px;
+}
+.app2 .folder-selection .body{
+    height:268px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.app2 .folder-selection .footer .col-xs-3 {
+    text-align:center;
+}
+/*.app2 .folder-selection*/
+/*.app2 .folder-selection*/
+/*.app2 .folder-selection*/
+/*.app2*/
+/*.app2*/
+/*.app2*/
+/*.app2*/
+/*.app2*/
 /*.app2*/
 /*.app2*/
 /*.app2*/
@@ -320,6 +425,20 @@
         margin-left: 4px;
         color: white;
     }
-
+    .app2 .folder-selection{
+        margin-top:0px;
+    }
+    .app2 .folder-selection .body{
+        height:calc(100vh - 63px - 35px - 74px);
+        overflow-y: auto;
+    }
+    .app2 .folder-selection .footer div.col-xs-3{
+        padding:0;
+    }
+    .app2 .folder-selection .footer #AddNewFolderBtn{
+        width:95%;
+    }
+    /*.app2 .folder-selection*/
+    /*.app2 .folder-selection*/
 
 }

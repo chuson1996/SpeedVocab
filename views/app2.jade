@@ -1,23 +1,57 @@
 div.container.app2(ng-controller="MainController as ctrl")
     div.row.folder-selection(ng-show="!ctrl.currentOpeningFolder")
         div.col-md-2
-        div.col-md-8
+        div.col-md-8(style='background-color:rgba(255, 255, 255, 0.75);')
             div.row
-                div.col-md-12
+                div.devider-color
+                div.col-md-12.titleDiv
                     if name
-                        h2 #{name}'s Folder
+                        h2 #{name}'s Folders
             div.row
                 div.col-md-12.search-barDiv
-                    input(type="text", placeholder="Search")
-            div.row
-                div.row(ng-repeat="folder in ctrl.folders")
-                    div.col-md-3.folder-nameDiv
-                        a(ng-click="ctrl.openFolder(folder._id)")
-                            | {{folder.name}}
-                    div.col-md-6.folder-langDiv
-                        p {{folder.fromLang}} -> {{folder.toLang}}
-                    div.col-md-3.folder-createdAtDiv
-                        p {{folder.createdAt}}
+                    input(type="text", placeholder="Search", ng-model="ctrl.searchFolder")
+            div.row.folderList
+                div.row.header
+                    div.col-xs-3
+                        p Name
+                    div.col-xs-3
+                        p Terms
+                    div.col-xs-3
+                        p Definitions
+                    div.col-xs-3(style="text-align:right;")
+                        p(style="margin-right:34px;") Date
+                div.body
+                    div.bd.row(ng-repeat="folder in ctrl.folders | filter:ctrl.searchFolder track by $index ")
+                        div.col-xs-3.nameDiv
+                            a(ng-click="ctrl.openFolder(folder._id)")
+                                p {{folder.name}}
+                        div.col-xs-6.langDiv
+                            div.row
+                                div.col-xs-6.fromLangDiv(ng-dblclick="folder.editing=true")
+                                    p(ng-show="!folder.editing") {{ctrl.Folder.decodeLang(folder.fromLang)}}
+                                    input.form-control#editFromLang(type="text", ng-show="folder.editing", ng-model="folder.fromLang")
+                                div.col-xs-6.toLangDiv(ng-dblclick="folder.editing=true")
+                                    p(ng-show="!folder.editing") {{ctrl.Folder.decodeLang(folder.toLang)}}
+                                    input.form-control#editToLang(type="text", ng-show="folder.editing", ng-model="folder.toLang")
+                                    i.fa.fa-check(ng-click="ctrl.editFolder(folder, $index)", ng-show="folder.editing")
+                        div.col-xs-3.createdAtDiv
+                            p(style="display:inline-block;") {{ctrl.formatDate(folder.createdAt)}}
+                            div(style="display:inline-block")
+                                button.btn.delete-folder(ng-click="ctrl.deleteFolder(folder)")
+                                    i.fa.fa-trash(style="")
+                div.row.footer
+                    form(ng-submit="ctrl.addFolder()")
+                        div.col-xs-12
+                            p New Folder:
+                        div.col-xs-3
+                            input.form-control(type="text", placeholder="Folder's name", ng-model="ctrl.newnameF", required)
+                        div.col-xs-3
+                            input.form-control(type="text", placeholder="Source language", ng-model="ctrl.newfromLangF", required)
+                        div.col-xs-3
+                            input.form-control(type="text", placeholder="Target language", ng-model="ctrl.newtoLangF", required)
+                        div.col-xs-3
+                            button.btn#AddNewFolderBtn(type="submit")
+                                i.fa.fa-plus()
         div.col-md-2
     div.row.main(ng-show="ctrl.currentOpeningFolder")
         div.col-md-1.left-st

@@ -26,6 +26,21 @@ var helper;
         return filtered;
     }
     helper.orderByScoreFilter = orderByScoreFilter;
+    function formatDate(createdAt) {
+        var date = new Date(createdAt).getDate();
+        var month = new Date(createdAt).getMonth() + 1;
+        var year = new Date(createdAt).getFullYear();
+        //console.log(new Date(createdAt).getDate());
+        //console.log(new Date(createdAt).getMonth()+1);
+        //console.log(new Date(createdAt).getFullYear());
+        var str = '';
+        var monthList = 'Jan Feb Mar April May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
+        str += date + ' ' + monthList[month - 1];
+        if (year !== new Date().getFullYear())
+            str += ' ' + year;
+        return str;
+    }
+    helper.formatDate = formatDate;
 })(helper || (helper = {}));
 var MainController = (function () {
     function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout) {
@@ -62,8 +77,18 @@ var MainController = (function () {
         this.toTestWords = Word.wordCart;
         //console.log('$stateParams', $stateParams);
     }
+    MainController.prototype.formatDate = function (date) {
+        return helper.formatDate(date);
+    };
     MainController.prototype.openFolder = function (folderId) {
         this.$state.transitionTo('index', { folder: folderId }, { notify: true });
+    };
+    MainController.prototype.editFolder = function (folder, index) {
+        var _this = this;
+        //return true;
+        return this.Folder.editFolder(folder).then(function (res) {
+            _this.folders[index].editing = false;
+        });
     };
     MainController.prototype.onError = function (err) {
         console.log('!!!!', err);
@@ -113,10 +138,28 @@ var MainController = (function () {
         });
     };
     MainController.prototype.addFolder = function () {
-        var newname = prompt('Name of the folder: ');
-        var newfromLang = prompt('fromLang: ');
-        var newtoLang = prompt('toLang: ');
-        this.Folder.addFolder(newname, newfromLang, newtoLang);
+        var _this = this;
+        this.Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then(function (res) {
+            console.log(res);
+            _this.folders.push(res.data);
+            _this.folders = _this.folders.sort(function (a, b) {
+                return new Date(a.createdAt) < new Date(b.createdAt);
+            });
+            _this.newnameF = '';
+            _this.newfromLangF = '';
+            _this.newtoLangF = '';
+        });
+    };
+    MainController.prototype.deleteFolder = function (folder) {
+        var _this = this;
+        this.Folder.deleteFolder(folder._id).then(function (res) {
+            console.log(res);
+            if (res.data == 'OK') {
+                _.remove(_this.folders, function (n) {
+                    return n == folder;
+                });
+            }
+        });
     };
     MainController.prototype.getWords = function (folderId) {
         var _this = this;
