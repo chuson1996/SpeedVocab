@@ -4,7 +4,8 @@ var userSchema = mongoose.Schema({
     name: String,
     email: String,
     role: String,
-    created: Date
+    avatar: String,
+    createdAt: Date
 });
 var User = mongoose.model('User',userSchema);
 module.exports = User;

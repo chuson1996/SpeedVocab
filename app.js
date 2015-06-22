@@ -123,7 +123,7 @@ app.get('/account',function(req,res){
     if (!req.session.passport.user)
         return res.redirect(303,'/unauthorized');
     //res.type('text/plain').send(req.session.passport.user);
-    var User = require('../models/user.js');
+    var User = require('./models/user.js');
     User.findOne({_id: req.session.passport.user},function(err,user){
         if (err) throw err;
         //console.log(user);
