@@ -63,8 +63,8 @@ var MainController = (function () {
         this.loadingDefinition = Word.loadingDefinition;
         console.log('Let\' begin our journey');
         // Get folders
-        if ($stateParams.folder) {
-            this.currentOpeningFolder = $stateParams.folder;
+        if ($stateParams.fid) {
+            this.currentOpeningFolder = $stateParams.fid;
             this.getWords(this.currentOpeningFolder);
         }
         else {
@@ -81,7 +81,7 @@ var MainController = (function () {
         return helper.formatDate(date);
     };
     MainController.prototype.openFolder = function (folderId) {
-        this.$state.transitionTo('index', { folder: folderId }, { notify: true });
+        this.$state.transitionTo('index', { fid: folderId }, { notify: true });
     };
     MainController.prototype.editFolder = function (folder, index) {
         var _this = this;

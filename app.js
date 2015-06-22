@@ -116,31 +116,28 @@ app.use('/speedvocab', function(req,res,next){
 });
 
 
+app.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
+app.get('/account',function(req,res){
+    if (!req.session.passport.user)
+        return res.redirect(303,'/unauthorized');
+    //res.type('text/plain').send(req.session.passport.user);
+    var User = require('../models/user.js');
+    User.findOne({_id: req.session.passport.user},function(err,user){
+        if (err) throw err;
+        //console.log(user);
+        req.session.detail = {
+            name: user.name,
+            email: user.email
+        };
+        res.redirect('/speedvocab');
+    });
 
-var routes = require('./routes/routes.js');
-routes(app);
-
-//var Flickr = require("flickrapi"),
-//    flickrOptions = {
-//      api_key: credentials.flickrapi.api_key,
-//      secret: credentials.flickrapi.secret
-//    };
-//
-//app.get("/speedvocab/api/flickr/:text", function(req,res){
-//  Flickr.tokenOnly(flickrOptions, function(error, flickr) {
-//    // we can now use "flickr" as our API object
-//    flickr.photos.search({
-//      text: req.params.text,
-//      per_page: 10
-//    }, function(err, result) {
-//      if(err) { throw new Error(err); }
-//      //console.log(result);
-//      res.json(result.photos.photo);
-//    });
-//
-//  });
-//
-//});
+});
+var speedvocabRoutes = require('./routes/routes.js');
+app.use('/speedvocab', speedvocabRoutes);
+//routes(app);
 
 var soundcloudRoutes = require('./routes/soundcloud.js');
 app.use('/soundcloud', soundcloudRoutes);

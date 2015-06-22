@@ -5,7 +5,7 @@
             .otherwise("/");
         $stateProvider
             .state('index', {
-                url: "/?folder",
+                url: "/?fid",
                 views: {
                     "viewA": {templateUrl: "/speedvocab/template/app"}
                 }

@@ -71,8 +71,8 @@ class MainController{
         console.log('Let\' begin our journey');
         // Get folders
 
-        if ($stateParams.folder){
-            this.currentOpeningFolder = $stateParams.folder;
+        if ($stateParams.fid){
+            this.currentOpeningFolder = $stateParams.fid;
             this.getWords(this.currentOpeningFolder);
 
         }else{
@@ -92,7 +92,7 @@ class MainController{
         return helper.formatDate(date);
     }
     openFolder(folderId){
-        this.$state.transitionTo('index',{folder: folderId},{notify:true});
+        this.$state.transitionTo('index',{fid: folderId},{notify:true});
     }
     editFolder(folder, index){
         //return true;
