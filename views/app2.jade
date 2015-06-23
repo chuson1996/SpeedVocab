@@ -85,9 +85,9 @@ div.container.app2(ng-controller="MainController as ctrl")
                         form(ng-submit="ctrl.submit()")
                             div.row.row1
                                 div.col-md-2.newwordDiv
-                                    input.form-control(type="text", ng-model="ctrl.newword", placeholder="Word")
+                                    input.form-control(type="text", ng-model="ctrl.newword", placeholder="Word", required)
                                 div.col-md-7.newmeaningDiv
-                                    input.form-control(type="text", ng-model="ctrl.newmeaning", placeholder="Definition")
+                                    input.form-control(type="text", ng-model="ctrl.newmeaning", placeholder="Definition", required)
                                 div.col-md-3.assistToolDiv
                                     a(ng-click="ctrl.defineWord(ctrl.newword)")
                                         i.translate.fa.fa-language.fa-2x
