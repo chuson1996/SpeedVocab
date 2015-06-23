@@ -15,7 +15,14 @@
                 views: {
                     "viewA": {templateUrl: "/speedvocab/template/learn"}
                 }
+            })
+            .state('feedback',{
+                url:"/feedback",
+                views:{
+                    "viewA": {templateUrl: "/speedvocab/template/feedback"}
+                }
             });
+
 
 
     });

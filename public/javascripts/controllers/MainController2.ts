@@ -3,45 +3,6 @@
  */
 /// <reference path="../typings/angular.d.ts" />
 declare var _;
-module helper{
-    export function getSuggestedImages($http,text){
-        console.log('get suggested images');
-        return $http.get('/speedvocab/api/getSuggestedImages/'+encodeURIComponent(text)).then(function(res){
-            //console.log(res.data);
-            //$scope.suggestedImages= res.data;
-            return res.data;
-        });
-    }
-    export function orderByScoreFilter(items){
-        var filtered=[];
-        if (items === undefined) return items;
-        items.forEach(function(item){
-            filtered.push(item);
-        });
-        filtered.sort(function(a,b){
-            if ((a.NoCorrectAns- a.NoWrongAns) == (b.NoCorrectAns- b.NoWrongAns)){
-                return (new Date(a.createdAt) < new Date(b.createdAt))? 1: -1;
-            }
-
-            return ((a.NoCorrectAns- a.NoWrongAns) >(b.NoCorrectAns- b.NoWrongAns) ? 1: -1);
-
-        });
-        return filtered;
-    }
-    export function formatDate(createdAt){
-        var date = new Date(createdAt).getDate();
-        var month = new Date(createdAt).getMonth()+1;
-        var year = new Date(createdAt).getFullYear();
-        //console.log(new Date(createdAt).getDate());
-        //console.log(new Date(createdAt).getMonth()+1);
-        //console.log(new Date(createdAt).getFullYear());
-        var str = '';
-        var monthList='Jan Feb Mar April May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
-        str += date+' '+monthList[month-1];
-        if (year!==new Date().getFullYear()) str += ' '+year;
-        return str;
-    }
-}
 class MainController{
     newword: string;
     newmeaning: string;
@@ -64,8 +25,8 @@ class MainController{
     $data = [];
     toTestWords;
     folders;
-    $inject=['$scope','$http','Word','Folder','AppLearnBridge','$state','$q','$stateParams','$timeout'];
-    constructor(public $scope, public $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout){
+    $inject=['$scope','$http','Word','Folder','AppLearnBridge','$state','$q','$stateParams','$timeout','helper'];
+    constructor(public $scope, public $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout, public helper){
 
         this.loadingDefinition = Word.loadingDefinition;
         console.log('Let\' begin our journey');
@@ -89,7 +50,7 @@ class MainController{
 
     }
     formatDate(date){
-        return helper.formatDate(date);
+        return this.helper.formatDate(date);
     }
     openFolder(folderId){
         this.$state.transitionTo('index',{fid: folderId},{notify:true});
@@ -133,7 +94,7 @@ class MainController{
             //$scope.currentWordlist.push(res);
             this.Word.words.push(res);
             //$scope.currentWordlist= orderByScoreFilter($scope.currentWordlist);
-            this.Word.words= helper.orderByScoreFilter(this.Word.words);
+            this.Word.words= this.helper.orderByScoreFilter(this.Word.words);
             this.currentWordlist = this.Word.words;
             this.refreshPage();
             //
@@ -170,12 +131,12 @@ class MainController{
     getWords(folderId){
         console.log('Loading words in folder');
         this.currentOpeningFolder=folderId;
-        $('img.loading').show(300);
+        //$('img.loading').show(300);
         $('.viewA').css('opacity','0.3');
         var defer = this.$q.defer();
 
         defer.promise.then((data)=>{
-            $('img.loading').hide(300);
+            //$('img.loading').hide(300);
             $('.viewA').css('opacity','1');
             data.map((item)=>{
                 var i = item;
@@ -184,7 +145,7 @@ class MainController{
                 return item;
             });
             //console.log(data);
-            this.currentWordlist= helper.orderByScoreFilter(data);
+            this.currentWordlist= this.helper.orderByScoreFilter(data);
             this.toTestWords = this.Word.wordCart;
 
             this.refreshPage();
@@ -205,7 +166,7 @@ class MainController{
     getSuggestedImages(text: string){
         this.suggestImagesOnLoading = true;
         this.newimage='';
-        helper.getSuggestedImages(this.$http,text).then((res)=>{
+        this.helper.getSuggestedImages(this.$http,text).then((res)=>{
             this.suggestedImages=res;
             this.suggestImagesOnLoading = false;
         });
@@ -460,5 +421,5 @@ app.directive( 'elemReady', function( $parse, $timeout ) {
 });
 app.controller('MainController', MainController);
 app.filter('orderByScore', function(){
-    return helper.orderByScoreFilter;
+    return this.helper.orderByScoreFilter;
 });

@@ -17,6 +17,7 @@
     "flickrapi": "^0.3.28",
     "formidable": "^1.0.17",
     "jade": "~1.9.2",
+    "lodash": "^3.9.3",
     "mongoose": "^4.0.0",
     "morgan": "~1.5.2",
     "passport": "^0.2.1",

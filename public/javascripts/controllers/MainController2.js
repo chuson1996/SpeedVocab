@@ -1,49 +1,6 @@
 /// <reference path="../typings/angular.d.ts" />
-var helper;
-(function (helper) {
-    function getSuggestedImages($http, text) {
-        console.log('get suggested images');
-        return $http.get('/speedvocab/api/getSuggestedImages/' + encodeURIComponent(text)).then(function (res) {
-            //console.log(res.data);
-            //$scope.suggestedImages= res.data;
-            return res.data;
-        });
-    }
-    helper.getSuggestedImages = getSuggestedImages;
-    function orderByScoreFilter(items) {
-        var filtered = [];
-        if (items === undefined)
-            return items;
-        items.forEach(function (item) {
-            filtered.push(item);
-        });
-        filtered.sort(function (a, b) {
-            if ((a.NoCorrectAns - a.NoWrongAns) == (b.NoCorrectAns - b.NoWrongAns)) {
-                return (new Date(a.createdAt) < new Date(b.createdAt)) ? 1 : -1;
-            }
-            return ((a.NoCorrectAns - a.NoWrongAns) > (b.NoCorrectAns - b.NoWrongAns) ? 1 : -1);
-        });
-        return filtered;
-    }
-    helper.orderByScoreFilter = orderByScoreFilter;
-    function formatDate(createdAt) {
-        var date = new Date(createdAt).getDate();
-        var month = new Date(createdAt).getMonth() + 1;
-        var year = new Date(createdAt).getFullYear();
-        //console.log(new Date(createdAt).getDate());
-        //console.log(new Date(createdAt).getMonth()+1);
-        //console.log(new Date(createdAt).getFullYear());
-        var str = '';
-        var monthList = 'Jan Feb Mar April May Jun Jul Aug Sep Oct Nov Dec'.split(' ');
-        str += date + ' ' + monthList[month - 1];
-        if (year !== new Date().getFullYear())
-            str += ' ' + year;
-        return str;
-    }
-    helper.formatDate = formatDate;
-})(helper || (helper = {}));
 var MainController = (function () {
-    function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout) {
+    function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout, helper) {
         var _this = this;
         this.$scope = $scope;
         this.$http = $http;
@@ -54,12 +11,13 @@ var MainController = (function () {
         this.$q = $q;
         this.$stateParams = $stateParams;
         this.$timeout = $timeout;
+        this.helper = helper;
         this.currentOpeningFolder = '';
         this.totalPages = 0;
         this.currentWordlist = [];
         this.suggestImagesOnLoading = false;
         this.$data = [];
-        this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout'];
+        this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout', 'helper'];
         this.loadingDefinition = Word.loadingDefinition;
         console.log('Let\' begin our journey');
         // Get folders
@@ -78,7 +36,7 @@ var MainController = (function () {
         //console.log('$stateParams', $stateParams);
     }
     MainController.prototype.formatDate = function (date) {
-        return helper.formatDate(date);
+        return this.helper.formatDate(date);
     };
     MainController.prototype.openFolder = function (folderId) {
         this.$state.transitionTo('index', { fid: folderId }, { notify: true });
@@ -125,7 +83,7 @@ var MainController = (function () {
             //$scope.currentWordlist.push(res);
             _this.Word.words.push(res);
             //$scope.currentWordlist= orderByScoreFilter($scope.currentWordlist);
-            _this.Word.words = helper.orderByScoreFilter(_this.Word.words);
+            _this.Word.words = _this.helper.orderByScoreFilter(_this.Word.words);
             _this.currentWordlist = _this.Word.words;
             _this.refreshPage();
             //
@@ -165,11 +123,11 @@ var MainController = (function () {
         var _this = this;
         console.log('Loading words in folder');
         this.currentOpeningFolder = folderId;
-        $('img.loading').show(300);
+        //$('img.loading').show(300);
         $('.viewA').css('opacity', '0.3');
         var defer = this.$q.defer();
         defer.promise.then(function (data) {
-            $('img.loading').hide(300);
+            //$('img.loading').hide(300);
             $('.viewA').css('opacity', '1');
             data.map(function (item) {
                 var i = item;
@@ -178,7 +136,7 @@ var MainController = (function () {
                 return item;
             });
             //console.log(data);
-            _this.currentWordlist = helper.orderByScoreFilter(data);
+            _this.currentWordlist = _this.helper.orderByScoreFilter(data);
             _this.toTestWords = _this.Word.wordCart;
             _this.refreshPage();
             $(window).resize();
@@ -199,7 +157,7 @@ var MainController = (function () {
         var _this = this;
         this.suggestImagesOnLoading = true;
         this.newimage = '';
-        helper.getSuggestedImages(this.$http, text).then(function (res) {
+        this.helper.getSuggestedImages(this.$http, text).then(function (res) {
             _this.suggestedImages = res;
             _this.suggestImagesOnLoading = false;
         });
@@ -438,6 +396,6 @@ app.directive('elemReady', function ($parse, $timeout) {
 });
 app.controller('MainController', MainController);
 app.filter('orderByScore', function () {
-    return helper.orderByScoreFilter;
+    return this.helper.orderByScoreFilter;
 });
 //# sourceMappingURL=MainController2.js.map

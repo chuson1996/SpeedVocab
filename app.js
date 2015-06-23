@@ -129,13 +129,14 @@ app.get('/account',function(req,res){
         //console.log(user);
         req.session.detail = {
             name: user.name,
-            email: user.email
+            email: user.email,
+            avatar: user.avatar
         };
         res.redirect('/speedvocab');
     });
 
 });
-var speedvocabRoutes = require('./routes/routes.js');
+var speedvocabRoutes = require('./routes/speedvocab.js');
 app.use('/speedvocab', speedvocabRoutes);
 //routes(app);
 

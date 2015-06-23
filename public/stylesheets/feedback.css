@@ -1,0 +1,53 @@
+.feedback .avatarDiv{
+    width:70px;
+    display: inline-block;
+    margin-right: 15px;
+    text-align: center;
+}
+.feedback .avatarDiv img{
+    width: 70px;
+    height: 70px;
+    border-radius: 35px;
+    display: inline-block;
+}
+.feedback .feedbackTextDiv{
+    width: calc(100% - 85px);
+    display: inline-block;
+    vertical-align: middle;
+}
+.feedback #SubmitFBBtn{
+    float:right;
+    margin-right: 10px;
+}
+.feedback .feedbackDiv{
+    display: inline-block;
+    width: calc(100% - 85px);
+    vertical-algin:middle;
+}
+.feedback .feedbackRow .avatarDiv img{
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+}
+.feedback .feedbackRow{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
+/*.feedback{}*/
