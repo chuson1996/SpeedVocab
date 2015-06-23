@@ -126,7 +126,7 @@ div.container.app2(ng-controller="MainController as ctrl")
 
                     div.col-sm-12.wordlist-st
 
-                        div(ng-repeat="item in ctrl.$data track by $index", elem-ready="ctrl.example()")
+                        div(ng-repeat="item in ctrl.$data track by $index", elem-ready)
                             div(style="margin-left: -15px;padding-left: 15px;margin-right: -15px;padding-right: 15px;", ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)} ")
                                 div.row(style="border-top: 1px solid rgba(150, 145, 145, 0.36); padding-top: 10px;")
                                     div.col-sm-2.col-md-2.scoreDiv

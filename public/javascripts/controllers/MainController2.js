@@ -358,8 +358,10 @@ var MainController = (function () {
         //console.log('exampleDiv: ', exampleDiv);
         //console.log('exampleHeight of child('+index+'): ', exampleHeight);
         if (exampleHeight < 160) {
+            console.log(false);
             return false;
         }
+        console.log(true);
         return true;
     };
     return MainController;
@@ -383,12 +385,13 @@ app.directive('elemReady', function ($parse, $timeout) {
         link: function ($scope, elem, attrs) {
             elem.ready(function () {
                 $timeout(function () {
-                    //console.log('elem: ', elem);
-                    //console.log('exampleDiv height: ', $(elem[0]).find('.exampleDiv')[0].offsetHeight);
+                    console.log('elem: ', elem);
+                    console.log('exampleDiv height: ', $(elem[0]).find('.exampleDiv')[0].offsetHeight);
                     var exampleHeight = $(elem[0]).find('.exampleDiv')[0].offsetHeight;
-                    if (exampleHeight < 160) {
-                        $(elem[0]).find('.toggleExampleBar').hide();
-                    }
+                    //if (exampleHeight<160)
+                    //{
+                    //    $(elem[0]).find('.toggleExampleBar').hide();
+                    //}
                 });
             });
         }
