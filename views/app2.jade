@@ -144,9 +144,9 @@ div.container.app2(ng-controller="MainController as ctrl")
                                     div.col-xs-4.col-md-2.optionsDiv
                                         a.star-btn(ng-click="ctrl.toggleToTestWords(item, $event)")
                                             //img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
-                                            span.glyphicon.glyphicon-star-empty(ng-show="!item.selectedToCart", style="")
+                                            span.glyphicon(ng-class="{'glyphicon-star-empty':!item.selectedToCart,'glyphicon-star':item.selectedToCart}")
                                             //img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
-                                            span.glyphicon.glyphicon-star(ng-show="item.selectedToCart", style="color:rgb(211, 211, 0);")
+                                            //span.glyphicon.glyphicon-star(ng-show="item.selectedToCart", style="transform: rotate(144deg);color:rgb(211, 211, 0);")
                                         a.edit-btn(ng-click="ctrl.editItem(item)", ng-show="!item.editing")
                                             i.fa.fa-pencil-square-o
                                             //img(src="../icons/pencil124.png", style="")

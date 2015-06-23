@@ -171,12 +171,21 @@
     vertical-align: top;
 }
 .app2 .star-btn span{
-    animation-name: item-enter;
-    animation-duration: 0.5s;
+    /*animation-name: item-enter;*/
+    /*animation-duration: 0.5s;*/
     font-size: 25px;
     vertical-align: bottom;
     height: 21px;
     color:rgb(27, 21, 82);
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.app2 .star-btn span.glyphicon-star{
+    transform: rotate(144deg) translate(3px,-1px);
+    color:rgb(211, 211, 0);
 }
 .app2 .optionsDiv i:hover{
     color: rgb(40, 97, 145);
