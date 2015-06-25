@@ -1,8 +1,8 @@
 doctype html
 html(lang="en")
     head
-        title For the Finnish Test!
-        //base(href="/")
+        title SpeedVocab
+        base(href="/speedvocab/")
         meta(name="viewport", content="width=device-width, initial-scale=1")
         script(data-require="jquery@2.1.3", data-semver="2.1.3", src="../javascripts/lib/jquery-2.1.3.min.js")
         link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="../bower_components/bootstrap/dist/css/bootstrap.min.css")
@@ -33,7 +33,7 @@ html(lang="en")
         script(src="../javascripts/services/voiceList.js")
         script(src="../javascripts/services/helper.js")
         script(src="../javascripts/filters/orderByScoreFilter.js")
-        script(src = "../javascripts/controllers/LearnController.js")
+        script(src = "../javascripts/controllers/LearnController2.js")
         script(src="../javascripts/controllers/MainController2.js")
         script(src="../javascripts/controllers/FeedbackController.js")
         //script(src="../javascripts/controllers/LearnController.js")
@@ -42,9 +42,11 @@ html(lang="en")
         link(rel="stylesheet", href="../stylesheets/app2.css")
         link(rel="stylesheet", href="../stylesheets/feedback.css")
     body(ng-app="SpeedVocab")
-        header
+        div.row
+            div.col-md-9
+                div.viewA(ui-view="viewA")
+            div.col-md-3
+                div.feedbackView(ui-view="feedbackView")
 
-        div.viewA(ui-view="viewA")
-        div
-            //img.loading(src="../icons/ajax-loader.gif")
+
 

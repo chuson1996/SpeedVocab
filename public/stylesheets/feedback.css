@@ -3,6 +3,7 @@
     display: inline-block;
     margin-right: 15px;
     text-align: center;
+    vertical-align: top;
 }
 .feedback .avatarDiv img{
     width: 70px;
@@ -25,14 +26,19 @@
     vertical-algin:middle;
 }
 .feedback .feedbackRow .avatarDiv img{
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
 }
 .feedback .feedbackRow{
     margin-top:10px;
     margin-bottom:10px;
 }
+.feedback .feedbackListDiv{
+    padding-left:10px;
+    max-height:50vh;
+    overflow-y: auto;
+}
 /*.feedback{}*/
 /*.feedback{}*/
 /*.feedback{}*/
@@ -50,4 +56,8 @@
 /*.feedback{}*/
 /*.feedback{}*/
 /*.feedback{}*/
-/*.feedback{}*/
+@media(max-width: 620px){
+    .feedback{
+        display: none;
+    }
+}

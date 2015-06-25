@@ -25,7 +25,7 @@ router.get('/template/app', function(req,res){
     return res.send('Out of session!');
 });
 router.get('/template/learn', function(req,res){
-    res.render('learn');
+    res.render('learn2');
 });
 router.get('/template/feedback', function(req,res){
     res.render('speedvocab_feedback', req.session.detail);
@@ -151,10 +151,10 @@ router.put('/api/editword/:wordid', function(req,res){
 });
 router.put('/api/updateNoCorrectAns/:wordid', function(req,res){
     var wordid= req.params.wordid;
-    console.log(wordid);
+    //console.log(wordid);
 
     Words.findOne({_id: wordid}).select('NoCorrectAns NoWrongAns').then(function(doc){
-        console.log(doc);
+        //console.log(doc);
         var updateCor=doc.NoCorrectAns+1;
         var updateWor=(doc.NoWrongAns||0)-1;
         if (updateCor>9) updateCor=9;
@@ -180,10 +180,10 @@ router.put('/api/updateNoCorrectAns/:wordid', function(req,res){
 });
 router.put('/api/updateNoWrongAns/:wordid', function(req,res){
     var wordid= req.params.wordid;
-    console.log(wordid);
+    //console.log(wordid);
 
     Words.findOne({_id: wordid}).select('NoCorrectAns NoWrongAns').then(function(doc){
-        console.log(doc);
+        //console.log(doc);
         var updateCor=doc.NoCorrectAns-1;
         var updateWor=(doc.NoWrongAns||0)+1;
         if (updateCor>7) updateCor=7;

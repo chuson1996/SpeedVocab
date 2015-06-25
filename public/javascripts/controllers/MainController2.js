@@ -15,8 +15,13 @@ var MainController = (function () {
         this.currentOpeningFolder = '';
         this.totalPages = 0;
         this.currentWordlist = [];
-        this.suggestImagesOnLoading = false;
+        this.openingPage = 0;
         this.$data = [];
+        this.loading = {
+            definition: false,
+            imageSuggestion: false,
+            wordCollection: false
+        };
         this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout', 'helper'];
         this.loadingDefinition = Word.loadingDefinition;
         console.log('Let\' begin our journey');
@@ -31,7 +36,7 @@ var MainController = (function () {
                 console.log(data);
             });
         }
-        this.openingPage = 1;
+        //this.openingPage= 1;
         this.toTestWords = Word.wordCart;
         //console.log('$stateParams', $stateParams);
     }
@@ -127,6 +132,8 @@ var MainController = (function () {
         $('.viewA').css('opacity', '0.3');
         var defer = this.$q.defer();
         defer.promise.then(function (data) {
+            if (data)
+                _this.openingPage = 1;
             //$('img.loading').hide(300);
             $('.viewA').css('opacity', '1');
             data.map(function (item) {
@@ -155,11 +162,11 @@ var MainController = (function () {
     };
     MainController.prototype.getSuggestedImages = function (text) {
         var _this = this;
-        this.suggestImagesOnLoading = true;
+        this.loading.imageSuggestion = true;
         this.newimage = '';
         this.helper.getSuggestedImages(this.$http, text).then(function (res) {
             _this.suggestedImages = res;
-            _this.suggestImagesOnLoading = false;
+            _this.loading.imageSuggestion = false;
         });
     };
     MainController.prototype.selectSuggestedImage = function (image) {
@@ -283,17 +290,17 @@ var MainController = (function () {
     // ------------- Get word's definition
     MainController.prototype.defineWord = function (word) {
         var _this = this;
-        this.loadingDefinition = true;
+        this.loading.definition = true;
         this.Folder.getFolderById(this.currentOpeningFolder).then(function (res) {
             //console.log(res);
             return _this.Word.defineWord(word, res.fromLang, res.toLang);
         }).then(function (res) {
             //console.log(res);
-            _this.loadingDefinition = false;
+            _this.loading.definition = false;
             _this.newexample = res;
         }).catch(function (err) {
             _this.onError(err);
-            _this.loadingDefinition = false;
+            _this.loading.definition = false;
         });
         //this.Word.defineWord(word, currentFolder.fromLang, currentFolder.toLang)
     };
@@ -358,10 +365,10 @@ var MainController = (function () {
         //console.log('exampleDiv: ', exampleDiv);
         //console.log('exampleHeight of child('+index+'): ', exampleHeight);
         if (exampleHeight < 160) {
-            console.log(false);
+            //console.log(false);
             return false;
         }
-        console.log(true);
+        //console.log(true);
         return true;
     };
     return MainController;

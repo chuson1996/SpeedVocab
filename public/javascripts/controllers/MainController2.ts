@@ -3,6 +3,11 @@
  */
 /// <reference path="../typings/angular.d.ts" />
 declare var _;
+interface ILoading{
+    definition: boolean;
+    imageSuggestion: boolean;
+    wordCollection: boolean;
+}
 class MainController{
     newword: string;
     newmeaning: string;
@@ -20,11 +25,18 @@ class MainController{
     totalPages: number = 0;
     currentWordlist: string[] = [];
     loadingDefinition: boolean;
-    openingPage :number;
-    suggestImagesOnLoading: boolean = false;
+    openingPage :number=0;
+
     $data = [];
     toTestWords;
     folders;
+
+    loading:ILoading = {
+        definition :false,
+        imageSuggestion : false,
+        wordCollection: false
+    };
+
     $inject=['$scope','$http','Word','Folder','AppLearnBridge','$state','$q','$stateParams','$timeout','helper'];
     constructor(public $scope, public $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout, public helper){
 
@@ -43,7 +55,7 @@ class MainController{
                 console.log(data);
             });
         }
-        this.openingPage= 1;
+        //this.openingPage= 1;
         this.toTestWords = Word.wordCart;
         //console.log('$stateParams', $stateParams);
 
@@ -136,6 +148,7 @@ class MainController{
         var defer = this.$q.defer();
 
         defer.promise.then((data)=>{
+            if (data) this.openingPage= 1;
             //$('img.loading').hide(300);
             $('.viewA').css('opacity','1');
             data.map((item)=>{
@@ -164,11 +177,11 @@ class MainController{
         this.$data = (this.currentWordlist).slice((this.openingPage - 1) * 7, this.openingPage * 7);
     }
     getSuggestedImages(text: string){
-        this.suggestImagesOnLoading = true;
+        this.loading.imageSuggestion = true;
         this.newimage='';
         this.helper.getSuggestedImages(this.$http,text).then((res)=>{
             this.suggestedImages=res;
-            this.suggestImagesOnLoading = false;
+            this.loading.imageSuggestion = false;
         });
     }
     selectSuggestedImage(image){
@@ -289,17 +302,17 @@ class MainController{
     }
     // ------------- Get word's definition
     defineWord(word){
-        this.loadingDefinition=true;
+        this.loading.definition = true;
         this.Folder.getFolderById(this.currentOpeningFolder).then((res)=>{
             //console.log(res);
             return this.Word.defineWord(word, res.fromLang, res.toLang);
         }).then((res)=>{
             //console.log(res);
-            this.loadingDefinition=false;
+            this.loading.definition=false;
             this.newexample=res;
         }).catch((err)=>{
             this.onError(err);
-            this.loadingDefinition=false;
+            this.loading.definition=false;
         });
 
         //this.Word.defineWord(word, currentFolder.fromLang, currentFolder.toLang)
@@ -377,10 +390,10 @@ class MainController{
         //console.log('exampleHeight of child('+index+'): ', exampleHeight);
         if (exampleHeight<160)
         {
-            console.log(false);
+            //console.log(false);
             return false;
         }
-        console.log(true);
+        //console.log(true);
         return true;
     }
     //folderMouseOver(e){

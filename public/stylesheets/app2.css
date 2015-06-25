@@ -6,6 +6,34 @@
     from {opacity: 0;}
     to {opacity: 1;}
 }
+@keyframes spinning {
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(90deg);
+    }
+    50%{
+        transform: rotate(180deg);
+    }
+    75%{
+        transform: rotate(270deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+.spinning{
+    -webkit-animation-name: spinning;
+    animation-name: spinning;
+    -webkit-animation-duration: 0.5s;
+    animation-duration: 0.5s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+.app2 .addnew-wordlist-st{
+    padding-left:15px;
+}
 .app2 .learn-opt{
     height: 75px;
     width: 164px;
@@ -263,7 +291,7 @@
     color: rgb(50, 40, 145);
 }
 .app2 .assistToolDiv .imageSuggestion{
-    font-size: 20px;
+    font-size: 22px;
     color: rgb(50, 40, 145);
 }
 .app2 .assistToolDiv .translate{
@@ -278,6 +306,9 @@
 }
 .app2 .assistToolDiv .translate:hover{
     color: rgb(40, 97, 145);
+}
+.app2 .main-st{
+    padding-left: 23px;
 }
 /*-----------------------------Folder Selection-----------------------------*/
 .app2 .folder-selection .search-barDiv{
@@ -345,6 +376,7 @@
 }
 .app2 .folder-selection{
     margin-top:40px;
+    padding-left:15px;
 }
 .app2 .folder-selection .footer #AddNewFolderBtn{
     background-color: rgb(70, 150, 99);
@@ -376,7 +408,6 @@
 .app2 .folder-selection .footer .col-xs-3 {
     text-align:center;
 }
-/*.app2 .folder-selection*/
 /*.app2 .folder-selection*/
 /*.app2 .folder-selection*/
 /*.app2*/

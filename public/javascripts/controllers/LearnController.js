@@ -1,23 +1,24 @@
 (function(app){
-    app.controller('LearnController', function($scope, $http, LearnRound, Word, orderByScoreService, $state){
+    app.controller('LearnController', function($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout){
         $scope.remaining=0;
         $scope.incorrect=0;
         $scope.correct=0;
         $scope.rounds=[];
         $scope.ongoingRoundNo=0;
         $scope.ongoingWordNo=0;
-        $scope.question='';
+        $scope.questionT='';
         $scope.questionVoice='';
         $scope.reverse=false;
         $scope.missedTerms=[];
         $scope.correctTerms=[];
         $scope.speakText=true;
         $scope.finished=false;
+        $scope.onAnswering=true;
         LearnRound.initialize().then(function(da){
             $scope.rounds=LearnRound.rounds;
             //console.log($scope.rounds);
-            $scope.question=question($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo]);
-            $scope.questionVoice=questionVoice($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo]);
+            $scope.questionT=question($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo]);
+            $scope.questionVoiceT=questionVoice($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo]);
             $scope.remaining=LearnRound.total;
             //$scope.remaining=$scope.rounds[$scope.ongoingRoundNo].length;
             $scope.rounds.map(function(round){
@@ -43,7 +44,7 @@
 
         $scope.playAudio=function(){
             //var audio = document.createElement('audio');
-            //audio.src=$scope.questionVoice;
+            //audio.src=$scope.questionVoiceT;
             //if (!$scope.finished) audio.play();
             if (!$scope.finished){
                 if (!$scope.reverse) $scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo].wordAudio.play();
@@ -53,9 +54,32 @@
         };
         $scope.submit=function(){
             check($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo],$scope.answer, $scope.reverse);
+            //next();
+            //refresh();
+            $scope.onAnswering = false;
             $scope.answer='';
-        };
+            //$('#moveOn-btn').focus();
+            $timeout(function(){
+                $('#moveOnField').focus();
+            }, 100)
 
+
+        };
+        $scope.moveOnTextfield = function(e,sthelse){
+            //e.preventDefault();
+            console.log(e);
+            if (e.keyCode == 13){
+                $scope.moveOn();
+            }
+        };
+        $scope.moveOn = function(){
+            next();
+            refresh();
+            $scope.onAnswering = true;
+            $timeout(function(){
+                $('input.answer').focus();
+            },100);
+        }
         function check(term, answer, reverse){
             var final=false;
             //console.log('term: ',term);
@@ -117,8 +141,8 @@
                 $scope.incorrect++;
             }
 
-            next();
-            refresh();
+            //next();
+            //refresh();
         }
         function next(){
             if ($scope.ongoingWordNo!==$scope.rounds[$scope.ongoingRoundNo].length-1){
@@ -165,7 +189,7 @@
             refresh();
         };
         $scope.back = function(){
-            $state.transitionTo('index',{folder:$scope.rounds[0][0].folderId})
+            $state.transitionTo('index',{fid:$scope.rounds[0][0].folderId})
         }
         function allCorrect(){
             return $scope.rounds[$scope.ongoingRoundNo].every(function(elem, index, array){
@@ -173,8 +197,8 @@
             });
         }
         function refresh(){
-            $scope.question=question($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo], $scope.reverse);
-            $scope.questionVoice=questionVoice($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo], $scope.reverse);
+            $scope.questionT=question($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo], $scope.reverse);
+            $scope.questionVoiceT=questionVoice($scope.rounds[$scope.ongoingRoundNo][$scope.ongoingWordNo], $scope.reverse);
             $scope.remaining=function(){
                 return _.flatten($scope.rounds, true).reduce(function(final, cur, index, arr){
                     if (cur.status==false) return final+1;
@@ -189,8 +213,8 @@
             $scope.correct=0;
             $scope.ongoingRoundNo=0;
             $scope.ongoingWordNo=0;
-            $scope.question='';
-            $scope.questionVoice='';
+            $scope.questionT='';
+            $scope.questionVoiceT='';
             $scope.missedTerms=[];
             $scope.correctTerms=[];
             $scope.finished=false;

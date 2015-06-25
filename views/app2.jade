@@ -1,7 +1,7 @@
-div.container.app2(ng-controller="MainController as ctrl")
+div.app2(ng-controller="MainController as ctrl")
     div.row.folder-selection(ng-show="!ctrl.currentOpeningFolder")
-        div.col-md-2
-        div.col-md-8(style='background-color:rgba(255, 255, 255, 0.75);')
+
+        div.col-md-12(style='background-color:rgba(255, 255, 255, 0.75);')
             div.row
                 div.devider-color
                 div.col-md-12.titleDiv
@@ -54,8 +54,8 @@ div.container.app2(ng-controller="MainController as ctrl")
                                 i.fa.fa-plus()
         div.col-md-2
     div.row.main(ng-show="ctrl.currentOpeningFolder")
-        div.col-md-1.left-st
-        div.col-md-10.main-st
+
+        div.col-md-12.main-st
             div.row.learning-options-st
                 div.col-xs-5.col-sm-4
                     div.back-to-folder(style="cursor:pointer;", ng-click="ctrl.backToFolerSelection()")
@@ -90,9 +90,11 @@ div.container.app2(ng-controller="MainController as ctrl")
                                     input.form-control(type="text", ng-model="ctrl.newmeaning", placeholder="Definition", required)
                                 div.col-md-3.assistToolDiv
                                     a(ng-click="ctrl.defineWord(ctrl.newword)")
-                                        i.translate.fa.fa-language.fa-2x
+                                        i.fa.translate(ng-class="{'fa-language fa-2x':!ctrl.loading.definition,'fa-spinner spinning animated infinite':ctrl.loading.definition}")
+                                        //i.fa.fa-spinner.spinning.infinite.animated
                                     a(ng-click="ctrl.getSuggestedImages(ctrl.newword)")
-                                        span.imageSuggestion.glyphicon.glyphicon-picture
+                                        span.imageSuggestion(ng-class="{'glyphicon glyphicon-picture':!ctrl.loading.imageSuggestion,'fa fa-spinner spinning animated infinite':ctrl.loading.imageSuggestion}")
+                                        //span.imageSuggestion.fa.fa-spinner.spinning.infinite.animated
                                     a(ng-click="ctrl.resetForm()")
                                         span.resetForm.glyphicon.glyphicon-repeat
                             div.row.row2.suggestedImagesDiv(ng-show="ctrl.suggestedImages.length>0 && !ctrl.newimage")
@@ -164,6 +166,7 @@ div.container.app2(ng-controller="MainController as ctrl")
                                         div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
                                     div.toggleExampleBar(ng-show="(item.example && !item.editing) && ctrl.hideToggleExampleBool($index)", style="")
                                         div(ng-click="ctrl.expandExample($event)", style="background-image: url('../icons/down01.png'); background-size: 30px 20px;background-repeat: no-repeat;background-position: center bottom; height:23px")
+
 script.
     $(document).ready(function(){
 
