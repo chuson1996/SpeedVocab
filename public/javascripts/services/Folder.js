@@ -5,7 +5,20 @@
     var app= angular.module('services',[]);
     app.service('Folder', ['$http',function($http){
         var self=this;
-        self.getFolders=function(){
+
+        self.getFolders=getFolders;
+        self.getFolderById = getFolderById;
+        self.addFolder=addFolder;
+        self.deleteFolder = deleteFolder;
+        var lang = 'english finnish russian vietnamese'.split(' ');
+        var code = 'en fi ru vi'.split(' ');
+        self.decodeLang = decodeLang;
+        self.encodeLang = encodeLang;
+        self.editFolder = editFolder;
+
+        /////
+
+        function getFolders(){
             return $http.get('/speedvocab/api/getfolders').then(function (res) {
                 console.log('Getting folders...');
                 self.folders = res.data.sort(function(a,b){
@@ -17,13 +30,13 @@
                 })
                 return self.folders;
             });
-        };
-        self.getFolderById = function(folderId){
+        }
+        function getFolderById(folderId){
             return $http.get('/speedvocab/api/getfolderById/'+folderId).then(function(res){
                 return res.data;
             })
-        };
-        self.addFolder=function(newname, newfromLang, newtoLang){
+        }
+        function addFolder(newname, newfromLang, newtoLang){
             return $http.post('/speedvocab/post/addfolder',{
                 folderName: newname,
                 fromLang: newfromLang,
@@ -32,15 +45,13 @@
                 //console.log(res);
                 return res;
             }).catch(console.error);
-        };
-        self.deleteFolder = function(folderId){
+        }
+        function deleteFolder(folderId){
             return $http.delete('/speedvocab/api/deletefolder/'+folderId).then(function(res){
                 return res;
             })
         }
-        var lang = 'english finnish russian vietnamese'.split(' ');
-        var code = 'en fi ru vi'.split(' ');
-        self.decodeLang = function(langCode){
+        function decodeLang(langCode){
             if(_.indexOf(code, langCode)!==-1){
                 // code --> lang
                 return _.capitalize(lang[_.indexOf(code, langCode)]);
@@ -48,7 +59,7 @@
                 return ;
             }
         }
-        self.encodeLang = function(langF){
+        function encodeLang(langF){
             if (_.indexOf(lang, langF)!==-1){
                 // lang --> code
                 return code[_.indexOf(lang, langF)];
@@ -56,7 +67,7 @@
                 return ;
             }
         }
-        self.editFolder = function(folder){
+        function editFolder(folder){
             return $http.put('/speedvocab/api/editfolder',folder).then(function(res){
                 //console.log(res);
                 return res;

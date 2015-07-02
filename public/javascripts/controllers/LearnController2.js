@@ -1,5 +1,5 @@
 var LearnController = (function () {
-    function LearnController($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout) {
+    function LearnController($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout, ArrRandNum) {
         var _this = this;
         this.$http = $http;
         this.LearnRound = LearnRound;
@@ -7,8 +7,9 @@ var LearnController = (function () {
         this.orderByScoreService = orderByScoreService;
         this.$state = $state;
         this.$timeout = $timeout;
+        this.ArrRandNum = ArrRandNum;
         //function($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout){
-        this.$inject = ['$scope', '$http', 'LearnRound', 'Word', 'orderByScoreService', '$state', '$timeout'];
+        this.$inject = ['$scope', '$http', 'LearnRound', 'Word', 'orderByScoreService', '$state', '$timeout', 'ArrRandNum'];
         this.remaining = 0;
         this.incorrect = 0;
         this.correct = 0;
@@ -75,8 +76,9 @@ var LearnController = (function () {
     };
     LearnController.prototype.moveOnTextfield = function (e, sthelse) {
         //e.preventDefault();
-        console.log(e);
+        //console.log(e.target);
         if (e.keyCode == 13) {
+            $(e.target).val('');
             this.moveOn();
         }
     };
@@ -209,12 +211,15 @@ var LearnController = (function () {
         this.questionT = this.question(this.rounds[this.ongoingRoundNo][this.ongoingWordNo], this.reverse);
         this.questionVoiceT = this.questionVoice(this.rounds[this.ongoingRoundNo][this.ongoingWordNo], this.reverse);
         this.remaining = function () {
-            return _.flatten(this.rounds, true).reduce(function (final, cur, index, arr) {
+            var val;
+            val = _.flattenDeep(this.rounds).reduce(function (final, cur, index, arr) {
                 if (cur.status == false)
                     return final + 1;
                 return final;
             }, 0);
-        }();
+            //console.log(_.flattenDeep(this.rounds));
+            return val;
+        }.call(this);
         if (this.speakText)
             this.playAudio();
     };

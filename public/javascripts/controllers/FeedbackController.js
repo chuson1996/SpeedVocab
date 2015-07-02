@@ -35,5 +35,5 @@ var FeedbackController = (function () {
     };
     return FeedbackController;
 })();
-app.controller('FeedbackCtrl', FeedbackController);
+angular.module('controllers').controller('FeedbackCtrl', FeedbackController);
 //# sourceMappingURL=FeedbackController.js.map

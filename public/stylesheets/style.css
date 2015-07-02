@@ -353,7 +353,7 @@ div.wordlist>div>div{
     transition: padding-left 0.5s;
 }
 
-.folder-btn:first{
+.folder-btn:nth-child(1){
     border-top: 0;
 }
 .folder-list .folder-btn:hover{
@@ -428,17 +428,17 @@ div.resultDiv-wrong{
     vertical-align: middle;
     width: 70%;
 }
-.button{
-    background: #1f6fd9;
-    border: 1px solid #1d66c8;
-    border-radius: 2px;
-    color: #fff;
-    cursor: pointer;
-    display: inline-block;
-    font: 500 12px/24px "lucida grande","lucida sans unicode",arial,sans-serif;
-    padding: 0 10px;
-    text-shadow: 0 -1px 0 rgba(0,0,0,0.3);
-}
+/*.button{*/
+    /*background: #1f6fd9;*/
+    /*border: 1px solid #1d66c8;*/
+    /*border-radius: 2px;*/
+    /*color: #fff;*/
+    /*cursor: pointer;*/
+    /*display: inline-block;*/
+    /*font: 500 12px/24px "lucida grande","lucida sans unicode",arial,sans-serif;*/
+    /*padding: 0 10px;*/
+    /*text-shadow: 0 -1px 0 rgba(0,0,0,0.3);*/
+/*}*/
 #answer-button{
     padding: 3px 9px;
     vertical-align: middle;
@@ -449,9 +449,9 @@ div.resultDiv-wrong{
     padding: 3px 9px;
     vertical-align: middle;
 }
-.button:hover, .button:active {
-    background-color: #2379ea;
-}
+/*.button:hover, .button:active {*/
+    /*background-color: #2379ea;*/
+/*}*/
 .wronganswer{
     text-decoration: line-through;
 }

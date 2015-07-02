@@ -31,6 +31,18 @@
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+.app2 .viewA{
+    -webkit-transition: all 2s;
+    -moz-transition: all 2s;
+    -ms-transition: all 2s;
+    -o-transition: all 2s;
+    transition: all 2s;
+}
+.app2 .viewA.on-load{
+    opacity: 0.3;
+}
+
+
 .app2 .addnew-wordlist-st{
     padding-left:15px;
 }
@@ -309,6 +321,14 @@
 }
 .app2 .main-st{
     padding-left: 23px;
+}
+.app2 .wordText,.meaningText{
+    cursor:pointer;
+}
+/*--------------------Learning------------------------------*/
+#moveOnField{
+    margin-left: 7px;
+    width: 70%;
 }
 /*-----------------------------Folder Selection-----------------------------*/
 .app2 .folder-selection .search-barDiv{

@@ -1,7 +1,6 @@
 /// <reference path="../typings/angular.d.ts" />
 var MainController = (function () {
-    function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout, helper) {
-        var _this = this;
+    function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout, helper, $anchorScroll, $location) {
         this.$scope = $scope;
         this.$http = $http;
         this.Word = Word;
@@ -12,6 +11,8 @@ var MainController = (function () {
         this.$stateParams = $stateParams;
         this.$timeout = $timeout;
         this.helper = helper;
+        this.$anchorScroll = $anchorScroll;
+        this.$location = $location;
         this.currentOpeningFolder = '';
         this.totalPages = 0;
         this.currentWordlist = [];
@@ -22,24 +23,41 @@ var MainController = (function () {
             imageSuggestion: false,
             wordCollection: false
         };
-        this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout', 'helper'];
+        this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout', 'helper', '$anchorScroll', '$location'];
+        var vm = this;
         this.loadingDefinition = Word.loadingDefinition;
-        console.log('Let\' begin our journey');
-        // Get folders
-        if ($stateParams.fid) {
-            this.currentOpeningFolder = $stateParams.fid;
-            this.getWords(this.currentOpeningFolder);
-        }
-        else {
-            Folder.getFolders().then(function (data) {
-                _this.folders = data;
-                console.log(data);
-            });
-        }
         //this.openingPage= 1;
         this.toTestWords = Word.wordCart;
         //console.log('$stateParams', $stateParams);
+        activate();
+        ////
+        function activate() {
+            console.log('Let\' begin our journey');
+            // Get folders
+            if ($stateParams.fid) {
+                vm.currentOpeningFolder = $stateParams.fid;
+                vm.getWords(vm.currentOpeningFolder);
+            }
+            else {
+                Folder.getFolders().then(function (data) {
+                    vm.folders = data;
+                    //console.log(data);
+                });
+            }
+        }
     }
+    MainController.prototype.playAudio = function (term, type) {
+        // If type = true --> play the DEFINITION audio
+        // If type = false --> play the WORD audio
+        //var audio = document.createElement('audio');
+        //if (type==false){
+        //    audio.src=term.wordVoice;
+        //}else if (type==true){
+        //    audio.src=term.meaningVoice;
+        //}
+        //audio.play();
+        term.wordAudio.play();
+    };
     MainController.prototype.formatDate = function (date) {
         return this.helper.formatDate(date);
     };
@@ -74,9 +92,13 @@ var MainController = (function () {
     // Navigation between pages
     MainController.prototype.goToFirstPage = function () {
         this.refreshPage(1);
+        this.$location.hash('twl');
+        this.$anchorScroll();
     };
     MainController.prototype.goToLastPage = function () {
         this.refreshPage(this.totalPages);
+        this.$location.hash('twl');
+        this.$anchorScroll();
     };
     // ------------------------
     MainController.prototype.submit = function () {
@@ -129,13 +151,17 @@ var MainController = (function () {
         console.log('Loading words in folder');
         this.currentOpeningFolder = folderId;
         //$('img.loading').show(300);
-        $('.viewA').css('opacity', '0.3');
+        $('.viewA').animate({
+            opacity: 0.3
+        }, 1000);
         var defer = this.$q.defer();
         defer.promise.then(function (data) {
             if (data)
                 _this.openingPage = 1;
             //$('img.loading').hide(300);
-            $('.viewA').css('opacity', '1');
+            $('.viewA').stop().animate({
+                opacity: 1
+            }, 1000);
             data.map(function (item) {
                 var i = item;
                 item.editing = false;
@@ -155,10 +181,14 @@ var MainController = (function () {
     MainController.prototype.nextPage = function () {
         this.openingPage++;
         this.$data = (this.currentWordlist).slice((this.openingPage - 1) * 7, this.openingPage * 7);
+        this.$location.hash('twl');
+        this.$anchorScroll();
     };
     MainController.prototype.previousPage = function () {
         this.openingPage--;
         this.$data = (this.currentWordlist).slice((this.openingPage - 1) * 7, this.openingPage * 7);
+        this.$location.hash('twl');
+        this.$anchorScroll();
     };
     MainController.prototype.getSuggestedImages = function (text) {
         var _this = this;
@@ -392,8 +422,8 @@ app.directive('elemReady', function ($parse, $timeout) {
         link: function ($scope, elem, attrs) {
             elem.ready(function () {
                 $timeout(function () {
-                    console.log('elem: ', elem);
-                    console.log('exampleDiv height: ', $(elem[0]).find('.exampleDiv')[0].offsetHeight);
+                    //console.log('elem: ', elem);
+                    //console.log('exampleDiv height: ', $(elem[0]).find('.exampleDiv')[0].offsetHeight);
                     var exampleHeight = $(elem[0]).find('.exampleDiv')[0].offsetHeight;
                     //if (exampleHeight<160)
                     //{

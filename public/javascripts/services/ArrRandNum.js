@@ -2,9 +2,9 @@
  * Created by chuso_000 on 1/5/2015.
  */
 (function(){
-    var services = angular.module('services',[]);
-    services.service('ArrRandNum',function(){
-        this.ArrRandNum = function (lengthNum){
+    var services = angular.module('services');
+    services.factory('ArrRandNum',function(){
+        var ArrRandNum = function (lengthNum){
             var arr = [];
             for (var i=0; i<lengthNum;i++){
                 var RandNum = Math.round(Math.random()*(lengthNum-1));
@@ -23,6 +23,14 @@
 
             }
             return arr;
+        }
+        return function(oriArr){
+            var tarArr=[];
+            var ARN = ArrRandNum(oriArr.length);
+            for(var i=0; i<oriArr.length; i++){
+                tarArr.push(oriArr[ARN[i]]);
+            }
+            return tarArr;
         }
 
 

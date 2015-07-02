@@ -13,17 +13,32 @@
         var self=this;
         self.wordCart=[];
         self.words=[];
-        self.getWords=function(folderId){
-            return $http.get('/speedvocab/api/getwords?openningFolder='+folderId).then(function(res){
+        self.getWords=getWords;
+        self.addWord=addWord;
+        self.addToCart=addToCart;
+        self.editWord=editWord;
+        self.deleteWord=deleteWord;
+        self.updateNoCorrectAns=updateNoCorrectAns;
+        self.updateNoWrongAns=updateNoWrongAns;
+        self.defineWord=defineWord ;
+        self.paraphaseToExampleElse =paraphaseToExampleElse;
+        self.paraphaseToExampleEN2EN=paraphaseToExampleEN2EN;
+        self.loadingDefinition=false;
+
+        ///////
+
+        function getWords(folderId){
+            return $http.get('/speedvocab/api/getwords/'+folderId).then(function(res){
                 self.words = res.data;
                 self.wordCart=[];
                 self.wordCart.splice(0, self.wordCart.length);
+                
                 return self.words;
 
 
             });
-        };
-        self.addWord=function(folderId, newword, newmeaning, newexample, newimage){
+        }
+        function addWord(folderId, newword, newmeaning, newexample, newimage){
             return $.post('/speedvocab/post/addword',{
                 folderId: folderId,
                 addword: newword,
@@ -33,9 +48,8 @@
             }).then(function(res){
                 return res;
             })
-        };
-
-        self.addToCart=function(wordId){
+        }
+        function addToCart(wordId){
             if (wordCart.indexOf(wordId)==-1){
                 wordCart.push(wordId);
                 return true;
@@ -43,9 +57,8 @@
                 wordCart.splice(wordCart.indexOf(wordId), 1);
                 return false;
             }
-        };
-
-        self.editWord=function(wordid,folderId, newword, newmeaning, newexample, newimage){
+        }
+        function editWord(wordid,folderId, newword, newmeaning, newexample, newimage){
             return $http.put('/speedvocab/api/editword/'+wordid, {
                 folderId: folderId,
                 editword: newword,
@@ -55,25 +68,23 @@
             }).then(function(res){
                 return res;
             });
-        };
-
-        self.deleteWord=function(wordid){
+        }
+        function deleteWord(wordid){
             return $http.delete('/speedvocab/api/deleteword/'+wordid).then(function(res){
                 return res;
             });
-        };
-
-        self.updateNoCorrectAns=function(wordid){
+        }
+        function updateNoCorrectAns(wordid){
             return $http.put('/speedvocab/api/updateNoCorrectAns/'+wordid,{}).then(function(res){
                 return res.data;
             });
-        };
-        self.updateNoWrongAns=function(wordid){
+        }
+        function updateNoWrongAns(wordid){
             return $http.put('/speedvocab/api/updateNoWrongAns/'+wordid,{}).then(function(res){
                 return res.data;
             });
-        };
-        self.defineWord=function(word, from, to){
+        }
+        function defineWord(word, from, to){
             if (word==='' || word===undefined) return new Promise(function(resolve, reject){
                 reject('Word is undefined');
             });
@@ -105,15 +116,15 @@
                 }, onError);
             }
 
-        };
-        self.paraphaseToExampleElse =function(para) {
+        }
+        function paraphaseToExampleElse(para) {
             var str = _.reduce(para,function(pre, cur, index, arr){
                 return pre+'<p>('+index+') '+cur.join(', ')+'</p>';
             },'');
             //console.log(str);
             return str;
         }
-        self.paraphaseToExampleEN2EN=function(para){
+        function paraphaseToExampleEN2EN(para){
             var str ='';
             para.results.forEach(function(result){
                 str +='<p><b>Def: ('+result.partOfSpeech+') '+result.definition+'</b></p>';
@@ -122,8 +133,8 @@
             });
 
             return str;
-        };
-        self.loadingDefinition=false;
+        }
+
     });
 
 //}());

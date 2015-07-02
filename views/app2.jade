@@ -1,5 +1,5 @@
 div.app2(ng-controller="MainController as ctrl")
-    div.row.folder-selection(ng-show="!ctrl.currentOpeningFolder")
+    div.row.folder-selection(ng-if="!ctrl.currentOpeningFolder")
 
         div.col-md-12(style='background-color:rgba(255, 255, 255, 0.75);')
             div.row
@@ -53,7 +53,7 @@ div.app2(ng-controller="MainController as ctrl")
                             button.btn#AddNewFolderBtn(type="submit")
                                 i.fa.fa-plus()
         div.col-md-2
-    div.row.main(ng-show="ctrl.currentOpeningFolder")
+    div.row.main(ng-if="ctrl.currentOpeningFolder")
 
         div.col-md-12.main-st
             div.row.learning-options-st
@@ -127,8 +127,8 @@ div.app2(ng-controller="MainController as ctrl")
                                     i.fa.fa-angle-double-right
 
                     div.col-sm-12.wordlist-st
-
-                        div(ng-repeat="item in ctrl.$data track by $index", elem-ready)
+                        div#twl
+                        div.TheItem(ng-repeat="item in ctrl.$data track by $index", elem-ready)
                             div(style="margin-left: -15px;padding-left: 15px;margin-right: -15px;padding-right: 15px;", ng-class="{'border-left-red': ((item.NoCorrectAns-item.NoWrongAns)<3), 'border-left-orange': ((item.NoCorrectAns-item.NoWrongAns)>=3 && (item.NoCorrectAns-item.NoWrongAns)<=5), 'border-left-green': ((item.NoCorrectAns-item.NoWrongAns)>5)} ")
                                 div.row(style="border-top: 1px solid rgba(150, 145, 145, 0.36); padding-top: 10px;")
                                     div.col-sm-2.col-md-2.scoreDiv
@@ -138,10 +138,10 @@ div.app2(ng-controller="MainController as ctrl")
                                     div.col-xs-8.termDiv
                                         div.row
                                             div.col-sm-4.wordDiv
-                                                p(style="font-size: 18px;font-weight: 600;",ng-show="!item.editing") {{item.word}}
+                                                p.wordText(style="font-size: 18px;font-weight: 600;",ng-show="!item.editing", ng-click="ctrl.playAudio(item,false)") {{item.word}}
                                                 input.form-control(type="text", ng-model="item.word", ng-show="item.editing")
                                             div.col-sm-8.meaningDiv
-                                                p(style="font-size: 18px;", ng-show="!item.editing") {{item.meaning}}
+                                                p.meaningText(style="font-size: 18px;", ng-show="!item.editing", ng-click="ctrl.playAudio(item,true)") {{item.meaning}}
                                                 input.form-control(type="text", ng-model="item.meaning", ng-show="item.editing")
                                     div.col-xs-4.col-md-2.optionsDiv
                                         a.star-btn(ng-click="ctrl.toggleToTestWords(item, $event)")
@@ -163,6 +163,7 @@ div.app2(ng-controller="MainController as ctrl")
                                         img.img-thumbnail(ng-src="{{item.image}}", ng-show="item.image", style="max-width: 100%;")
                                     div.exampleDiv(ng-class="{'col-md-10':!!item.image, 'col-md-12':!item.image}")
                                         div(ta-bind, ng-model="item.example", ng-show="item.example && !item.editing" )
+                                        //div(ng-bind-html="item.example", ng-show="item.example && !item.editing" )
                                         div(text-angular, ng-show="item.editing", ng-model="item.example", style="width:100%; max-height: 200px")
                                     div.toggleExampleBar(ng-show="(item.example && !item.editing) && ctrl.hideToggleExampleBool($index)", style="")
                                         div(ng-click="ctrl.expandExample($event)", style="background-image: url('../icons/down01.png'); background-size: 30px 20px;background-repeat: no-repeat;background-position: center bottom; height:23px")

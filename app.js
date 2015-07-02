@@ -164,11 +164,15 @@ var authGoogle = require('./lib/authGoogle.js')(app,{
 authGoogle.init();
 authGoogle.registerRoutes();
 
+app.get('/unauthorized', function(req,res){
+    res.redirect(303,'/');
+})
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  res.render('404');
 });
 
 // error handlers

@@ -8,7 +8,7 @@ var rp = require('request-promise');
 var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
-
+var async = require('async');
 
 
 
@@ -302,10 +302,34 @@ router.get('/api/getfolderById/:folderId', function(req,res){
         res.status(500).send('Folder doesn\'t exist or you are not authorized to access it.')
     })
 })
-router.get('/api/getwords', function(req,res){
-    console.log(req.session.passport.user, req.query.openningFolder);
+router.get('/api/getwords/:folderId', function(req,res){
+    //console.log(req.session.passport.user, req.query.openingFolder);
     var toSend=[];
-    Words.find({userId: req.session.passport.user, folderId: req.query.openningFolder}).then(function(words){
+    //console.log('Yo yo here here here............',req.query.openingFolder);
+    async.parallel({
+        folderInfo:function(cb){
+            Folder.find({
+                userId: req.session.passport.user,
+                _id: req.params.folderId
+            }).then(function(r){
+                    //console.log('Folder....', r);
+                    cb(null, r);
+            })
+        },
+        words: function(cb){
+            Words.find({userId: req.session.passport.user, folderId: req.params.folderId}).then(function(r){
+                cb(null, r)
+            })
+        }
+    }, function(err, results){
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Something goes wrong!');
+        }
+        var folderInfo = results.folderInfo[0];
+        console.log('folderInfo: ', folderInfo);
+        var words = results.words;
+
         words.forEach(function(term){
             var o={};
             o._id=term._id;
@@ -316,49 +340,50 @@ router.get('/api/getwords', function(req,res){
             o.image=term.image;
             o.NoCorrectAns=term.NoCorrectAns;
             o.NoWrongAns=term.NoWrongAns;
-            o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-            o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+            o.wordVoice="http://www.translate.google.com/translate_tts?tl="+folderInfo.fromLang+"&q="+encodeURI(term.word);
+            //o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+            o.meaningVoice="http://www.translate.google.com/translate_tts?tl="+folderInfo.toLang+"&q="+encodeURI(term.meaning);
+            //o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
             o.createdAt = term.createdAt;
             //console.log('after: ',o);
             toSend.push(o);
         });
-        //console.log(toSend);
-        //words.forEach(function(word){
-        //    console.log('wordVoice', word.wordVoice);
-        //})
         res.json(toSend);
     });
+    //Words.find({userId: req.session.passport.user, folderId: req.query.openingFolder}).then(function(words){
+    //
+    //});
 });
-var voiceList = require('../data/acapela-vaas/voice-list.js');
-router.get('/api/toLearnWords', function(req,res){
-    var toSend=[];
-    Words.find({ userId:req.session.passport.user, _id:{$in: req.session.toTestWords}}).exec().then(function(docs){
-        var folderInfo;
-        Folder.findOne({userId:req.session.passport.user, _id: docs[0].folderId}).then(function(folder){
-            //console.log(folder);
-            //console.log(voiceList);
-            folderInfo=folder;
-            docs.forEach(function(term){
-                var o={};
-                o._id=term._id;
-                o.folderId=term.folderId;
-                o.word=term.word;
-                o.meaning=term.meaning;
-                o.example=term.example;
-                o.image=term.image;
-                o.NoCorrectAns=term.NoCorrectAns;
-                o.NoWrongAns=term.NoWrongAns;
-                o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.fromLang]+"&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-                o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.toLang]+"&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-                //console.log('after: ',o);
-                toSend.push(o);
-            });
-            res.json(toSend);
-        });
-
-    });
-    //res.json(req.session.toTestWords);
-});
+//var voiceList = require('../data/acapela-vaas/voice-list.js');
+//router.get('/api/toLearnWords', function(req,res){
+//    var toSend=[];
+//    Words.find({ userId:req.session.passport.user, _id:{$in: req.session.toTestWords}}).exec().then(function(docs){
+//        var folderInfo;
+//        Folder.findOne({userId:req.session.passport.user, _id: docs[0].folderId}).then(function(folder){
+//            //console.log(folder);
+//            //console.log(voiceList);
+//            folderInfo=folder;
+//            docs.forEach(function(term){
+//                var o={};
+//                o._id=term._id;
+//                o.folderId=term.folderId;
+//                o.word=term.word;
+//                o.meaning=term.meaning;
+//                o.example=term.example;
+//                o.image=term.image;
+//                o.NoCorrectAns=term.NoCorrectAns;
+//                o.NoWrongAns=term.NoWrongAns;
+//                o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.fromLang]+"&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+//                o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.toLang]+"&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+//                //console.log('after: ',o);
+//                toSend.push(o);
+//            });
+//            res.json(toSend);
+//        });
+//
+//    });
+//    //res.json(req.session.toTestWords);
+//});
 router.get('/api/word/:id', function(req,res){
     Words.findOne({ userId:req.session.passport.user, _id:req.params.id}).exec().then(function(word){
         Folder.findOne({userId:req.session.passport.user, _id: word.folderId}).then(function(folder){

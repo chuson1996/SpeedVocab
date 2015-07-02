@@ -1,7 +1,7 @@
 /**
  * Created by chuso_000 on 22/6/2015.
  */
-declare var app;
+declare var angular;
 declare var _;
 interface IFeedback{
     avatar : String;
@@ -43,4 +43,4 @@ class FeedbackController{
         }).catch(console.error);
     }
 }
-app.controller('FeedbackCtrl', FeedbackController);
+angular.module('controllers').controller('FeedbackCtrl', FeedbackController);

@@ -6,7 +6,14 @@ declare var _;
 declare var $;
 class LearnController{
     //function($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout){
-    $inject=['$scope','$http','LearnRound','Word','orderByScoreService','$state','$timeout'];
+    $inject=['$scope',
+        '$http',
+        'LearnRound',
+        'Word',
+        'orderByScoreService',
+        '$state',
+        '$timeout',
+        'ArrRandNum'];
     remaining=0;
     incorrect=0;
     correct=0;
@@ -24,7 +31,7 @@ class LearnController{
     finished=false;
     answer = '';
     onAnswering=true;
-    constructor($scope, public $http, public LearnRound, public Word, public orderByScoreService, public $state, public $timeout){
+    constructor($scope, public $http, public LearnRound, public Word, public orderByScoreService, public $state, public $timeout, public ArrRandNum){
         LearnRound.initialize().then((da)=>{
             this.rounds=LearnRound.rounds;
             //console.log($scope.rounds);
@@ -79,8 +86,9 @@ class LearnController{
     }
     moveOnTextfield(e,sthelse){
         //e.preventDefault();
-        console.log(e);
+        //console.log(e.target);
         if (e.keyCode == 13){
+            $(e.target).val('');
             this.moveOn();
         }
     }
@@ -212,12 +220,15 @@ class LearnController{
         this.questionT=this.question(this.rounds[this.ongoingRoundNo][this.ongoingWordNo], this.reverse);
         this.questionVoiceT=this.questionVoice(this.rounds[this.ongoingRoundNo][this.ongoingWordNo], this.reverse);
         this.remaining=function(){
-            return _.flatten(this.rounds, true).reduce(function(final, cur, index, arr){
+            var val;
+            val =  _.flattenDeep(this.rounds).reduce(function(final, cur, index, arr){
                 if (cur.status==false) return final+1;
                 return final;
             },0);
+            //console.log(_.flattenDeep(this.rounds));
+            return val;
 
-        }();
+        }.call(this);
         if (this.speakText) this.playAudio();
     }
     reset(){
@@ -241,6 +252,7 @@ class LearnController{
         });
         this.currentWordlist = this.orderByScoreService(this.currentWordlist);
         this.refresh();
+
     }
     question(term, reverse?){
         if (reverse) return term.meaning;
