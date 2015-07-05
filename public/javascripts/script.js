@@ -8,9 +8,9 @@
                 url: "/?fid",
                 views: {
                     "viewA": {templateUrl: "/speedvocab/template/app"},
-                    "feedbackView":{
-                        templateUrl: "/speedvocab/template/feedback"
-                    }
+                    //"feedbackView":{
+                    //    templateUrl: "/speedvocab/template/feedback"
+                    //}
                 }
             })
             .state('learn', {
@@ -19,9 +19,9 @@
                     "viewA": {
                         templateUrl: "/speedvocab/template/learn",
                     },
-                    "feedbackView":{
-                        templateUrl: "/speedvocab/template/feedback"
-                    }
+                    //"feedbackView":{
+                    //    templateUrl: "/speedvocab/template/feedback"
+                    //}
                 }
             })
             .state('feedback',{

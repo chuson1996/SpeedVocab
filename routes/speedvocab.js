@@ -340,10 +340,12 @@ router.get('/api/getwords/:folderId', function(req,res){
             o.image=term.image;
             o.NoCorrectAns=term.NoCorrectAns;
             o.NoWrongAns=term.NoWrongAns;
-            o.wordVoice="http://www.translate.google.com/translate_tts?tl="+folderInfo.fromLang+"&q="+encodeURI(term.word);
-            //o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-            o.meaningVoice="http://www.translate.google.com/translate_tts?tl="+folderInfo.toLang+"&q="+encodeURI(term.meaning);
-            //o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice=sharon22k&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+            //o.wordVoice="http://www.translate.google.com/translate_tts?tl="+folderInfo.fromLang+"&q="+encodeURI(term.word);
+            //o.meaningVoice="http://www.translate.google.com/translate_tts?tl="+folderInfo.toLang+"&q="+encodeURI(term.meaning);
+            var voiceList = require('../data/acapela-vaas/voice-list.js');
+            o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.fromLang]+"&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+            o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.toLang]+"&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+
             o.createdAt = term.createdAt;
             //console.log('after: ',o);
             toSend.push(o);
@@ -354,7 +356,7 @@ router.get('/api/getwords/:folderId', function(req,res){
     //
     //});
 });
-//var voiceList = require('../data/acapela-vaas/voice-list.js');
+
 //router.get('/api/toLearnWords', function(req,res){
 //    var toSend=[];
 //    Words.find({ userId:req.session.passport.user, _id:{$in: req.session.toTestWords}}).exec().then(function(docs){

@@ -11,16 +11,17 @@
 
         self.initialize=function(){
             //self.toLearnWords = toLearnWords;
-            //console.log(AppLearnBridge.sharedTerms[0]._id);
-            return $http.get('/speedvocab/api/word/'+AppLearnBridge.sharedTerms[0]._id).then(function(res){
+            //console.log(AppLearnBridge.sharedTerms);
+            //return $http.get('/speedvocab/api/word/'+AppLearnBridge.sharedTerms[0]._id).then(function(res){
                 //console.log(res.data);
-                var folderInfo = res.data.folder;
 
-                self.toLearnWords=AppLearnBridge.sharedTerms.map(function(o){
-                    o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.fromLang]+"&req_text="+ o.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-                    o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.toLang]+"&req_text="+o.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-                    return o;
-                });
+                self.toLearnWords=AppLearnBridge.sharedTerms;
+                //var folderInfo = res.data.folder;
+                //self.toLearnWords=AppLearnBridge.sharedTerms.map(function(o){
+                //    o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.fromLang]+"&req_text="+ o.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+                //    o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.toLang]+"&req_text="+o.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
+                //    return o;
+                //});
 
 
                 self.toLearnWords.map(function(o){
@@ -36,7 +37,7 @@
                 //console.log('total: ',self.total);
                 self.divideToRounds();
                 return new Promise(function(resolve, reject){resolve('Doesnt matter');});
-            });
+            //});
 
         };
         self.divideToRounds = function(){

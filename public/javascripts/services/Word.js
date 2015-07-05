@@ -30,9 +30,30 @@
         function getWords(folderId){
             return $http.get('/speedvocab/api/getwords/'+folderId).then(function(res){
                 self.words = res.data;
+                //console.log(res.data);
                 self.wordCart=[];
                 self.wordCart.splice(0, self.wordCart.length);
-                
+                //self.words.map(function(term){
+                //    try{
+                //        //var audio1 = document.createElement('audio');
+                //        //audio1.src=term.wordVoice;
+                //        //term.wordAudio = audio1;
+                //        term.wordAudio=new Audio(term.wordVoice);
+                //        //var audio2 = document.createElement('audio');
+                //        //audio2.src=term.meaningVoice;
+                //        //term.meaningAudio = audio2;
+                //        term.meaningAudio=new Audio(term.meaningVoice);
+                //
+                //
+                //        return term;
+                //    }catch(e){
+                //
+                //    }
+                //
+                //
+                //
+                //
+                //});
                 return self.words;
 
 

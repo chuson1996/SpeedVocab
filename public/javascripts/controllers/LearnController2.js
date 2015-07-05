@@ -34,16 +34,11 @@ var LearnController = (function () {
             //$scope.remaining=$scope.rounds[$scope.ongoingRoundNo].length;
             _this.rounds.map(function (round) {
                 round.map(function (term) {
-                    try {
-                        var audio1 = document.createElement('audio');
-                        audio1.src = term.wordVoice;
-                        term.wordAudio = audio1;
-                        var audio2 = document.createElement('audio');
-                        audio2.src = term.meaningVoice;
-                        term.meaningAudio = audio2;
-                    }
-                    catch (e) {
-                    }
+                    //console.log(term);
+                    if (!term.wordAudio)
+                        term.wordAudio = new Audio(term.wordVoice);
+                    if (!term.meaningAudio)
+                        term.meaningAudio = new Audio(term.meaningVoice);
                     return term;
                 });
                 return round;
@@ -200,7 +195,7 @@ var LearnController = (function () {
         this.refresh();
     };
     LearnController.prototype.back = function () {
-        this.$state.transitionTo('index', { fid: this.rounds[0][0].folderId });
+        this.$state.transitionTo('index', { fid: this.rounds[0][0].folderId }, { notify: true });
     };
     LearnController.prototype.allCorrect = function () {
         return this.rounds[this.ongoingRoundNo].every(function (elem, index, array) {

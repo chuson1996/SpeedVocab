@@ -47,16 +47,27 @@ var MainController = (function () {
         }
     }
     MainController.prototype.playAudio = function (term, type) {
-        // If type = true --> play the DEFINITION audio
-        // If type = false --> play the WORD audio
-        //var audio = document.createElement('audio');
-        //if (type==false){
-        //    audio.src=term.wordVoice;
-        //}else if (type==true){
-        //    audio.src=term.meaningVoice;
-        //}
-        //audio.play();
-        term.wordAudio.play();
+        if (type == false) {
+            if (!term.wordAudio)
+                term.wordAudio = new Audio(term.wordVoice);
+            term.wordAudio.play();
+        }
+        else if (type == true) {
+            if (!term.meaningAudio)
+                term.meaningAudio = new Audio(term.meaningVoice);
+            term.meaningAudio.play();
+        }
+        //this.$http({
+        //    method:'GET',
+        //    url: term.wordVoice,
+        //    headers:{
+        //        'responseType':'audio/mpeg',
+        //        referrer:null
+        //    }
+        //}).then(function(rRes){
+        //    console.log(rRes);
+        //})
+        //console.log(term.wordVoice);
     };
     MainController.prototype.formatDate = function (date) {
         return this.helper.formatDate(date);

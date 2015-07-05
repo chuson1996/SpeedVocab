@@ -139,6 +139,7 @@ div.app2(ng-controller="MainController as ctrl")
                                         div.row
                                             div.col-sm-4.wordDiv
                                                 p.wordText(style="font-size: 18px;font-weight: 600;",ng-show="!item.editing", ng-click="ctrl.playAudio(item,false)") {{item.word}}
+                                                //audio(ng-attr-src="{{item.wordVoice}}", hidden)
                                                 input.form-control(type="text", ng-model="item.word", ng-show="item.editing")
                                             div.col-sm-8.meaningDiv
                                                 p.meaningText(style="font-size: 18px;", ng-show="!item.editing", ng-click="ctrl.playAudio(item,true)") {{item.meaning}}
