@@ -492,7 +492,8 @@ router.get('/api/defineWordFI2EN/:word', function(req,res){
 });
 var googleImageCrawler = require('../data/googleImageCrawler.js');
 router.get("/api/getSuggestedImages/:q", function(req,res){
-    googleImageCrawler(req.params.q).then(function(data){
+    var q = encodeURI(req.params.q);
+    googleImageCrawler(q).then(function(data){
         //console.log('data(images url): ', data);
         res.json(data);
     });
