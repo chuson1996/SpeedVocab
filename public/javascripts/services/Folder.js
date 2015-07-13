@@ -10,8 +10,8 @@
         self.getFolderById = getFolderById;
         self.addFolder=addFolder;
         self.deleteFolder = deleteFolder;
-        var lang = 'english finnish russian vietnamese'.split(' ');
-        var code = 'en fi ru vi'.split(' ');
+        var lang = 'english finnish russian vietnamese chinese'.split(' ');
+        var code = 'en fi ru vi zh'.split(' ');
         self.decodeLang = decodeLang;
         self.encodeLang = encodeLang;
         self.editFolder = editFolder;
@@ -56,7 +56,7 @@
                 // code --> lang
                 return _.capitalize(lang[_.indexOf(code, langCode)]);
             }else{
-                return ;
+                return langCode;
             }
         }
         function encodeLang(langF){
@@ -64,7 +64,7 @@
                 // lang --> code
                 return code[_.indexOf(lang, langF)];
             }else{
-                return ;
+                return langF;
             }
         }
         function editFolder(folder){

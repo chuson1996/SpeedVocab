@@ -9,7 +9,7 @@
         });
     }
     var app= angular.module('services');
-    app.service('Word', function($http){
+    app.service('Word', function($http, yandexSupportedLangs){
         var self=this;
         self.wordCart=[];
         self.words=[];
@@ -109,8 +109,8 @@
             if (word==='' || word===undefined) return new Promise(function(resolve, reject){
                 reject('Word is undefined');
             });
-            if (from=='en' && to=='en'){
-                return $http.get('/speedvocab/api/defineWord/'+word+'/'+from+'/'+to).then(function(res){
+            return $http.get('/speedvocab/api/defineWord/'+word+'/'+from+'/'+to).then(function(res){
+                if (from=='en' && to=='en'){
                     // Error Handling................
                     console.log(res);
                     // ------------------------------
@@ -127,15 +127,18 @@
                         toSend.results.push(item);
                     });
                     return self.paraphaseToExampleEN2EN(toSend);
-                }, onError);
-            }else{
-                return $http.get('/speedvocab/api/defineWord/'+word+'/'+from+'/'+to).then(function(res){
+                }else if (yandexSupportedLangs.indexOf(from, to)){
                     // Error Handling................
                     //console.log(res);
 
                     return self.paraphaseToExampleElse(res.data);
-                }, onError);
-            }
+                }else{
+                    console.log(res.data);
+                    return res.data.translations[0].translatedText;
+                }
+            }, function(err){
+                alert(JSON.parse(err.data.error).message);
+            });
 
         }
         function paraphaseToExampleElse(para) {

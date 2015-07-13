@@ -37,12 +37,25 @@ class MainController{
         wordCollection: false
     };
 
-    $inject=['$scope','$http','Word','Folder','AppLearnBridge','$state','$q','$stateParams','$timeout','helper','$anchorScroll','$location'];
-    constructor(public $scope, public $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout, public helper, public $anchorScroll, public $location){
+    $inject=['$scope',
+        '$http',
+        'Word',
+        'Folder',
+        'AppLearnBridge',
+        '$state',
+        '$q',
+        '$stateParams',
+        '$timeout',
+        'helper',
+        '$anchorScroll',
+        '$location',
+        'yandexSupportedLangs'
+    ];
+    constructor(public $scope, public $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout, public helper, public $anchorScroll, public $location, public yandexSupportedLangs){
         var vm = this;
         this.loadingDefinition = Word.loadingDefinition;
 
-        //this.openingPage= 1;
+        //this.openingPage= 0;
         this.toTestWords = Word.wordCart;
         //console.log('$stateParams', $stateParams);
 
@@ -115,6 +128,7 @@ class MainController{
     refreshPage(num?: number){
         if (num) this.openingPage = num;
         else this.openingPage=1;
+
         this.totalPages = Math.ceil(this.currentWordlist.length/7);
         this.$data = (this.currentWordlist).slice((this.openingPage - 1) * 7, this.openingPage * 7);
     }
@@ -344,13 +358,20 @@ class MainController{
     // ------------- Get word's definition
     defineWord(word){
         this.loading.definition = true;
+        var from,to;
+
         this.Folder.getFolderById(this.currentOpeningFolder).then((res)=>{
             //console.log(res);
+            from = res.fromLang;
+            to = res.toLang;
             return this.Word.defineWord(word, res.fromLang, res.toLang);
         }).then((res)=>{
             //console.log(res);
             this.loading.definition=false;
-            this.newexample=res;
+            if (this.yandexSupportedLangs.indexOf(from, to))
+                this.newexample=res;
+            else
+                this.newmeaning = res;
         }).catch((err)=>{
             this.onError(err);
             this.loading.definition=false;

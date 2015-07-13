@@ -46,9 +46,23 @@ div.app2(ng-controller="MainController as ctrl")
                         div.col-xs-3
                             input.form-control(type="text", placeholder="Folder's name", ng-model="ctrl.newnameF", required)
                         div.col-xs-3
-                            input.form-control(type="text", placeholder="Source language", ng-model="ctrl.newfromLangF", required)
+                            //input.form-control(type="text", placeholder="Source language", ng-model="ctrl.newfromLangF", required)
+                            select.form-control(placeholder="Source language", ng-model="ctrl.newfromLangF", required)
+                                option(value="", disabled, selected) Source language
+                                option(value="zh") Chinese
+                                option(value="en") English
+                                option(value="fi") Finnish
+                                option(value="ru") Russian
+                                option(value="vi") Vietnamese
                         div.col-xs-3
-                            input.form-control(type="text", placeholder="Target language", ng-model="ctrl.newtoLangF", required)
+                            //input.form-control(type="text", placeholder="Target language", ng-model="ctrl.newtoLangF", required)
+                            select.form-control(placeholder="Target language", ng-model="ctrl.newtoLangF", required)
+                                option(value="", disabled, selected) Target language
+                                option(value="zh") Chinese
+                                option(value="en") English
+                                option(value="fi") Finnish
+                                option(value="ru") Russian
+                                option(value="vi") Vietnamese
                         div.col-xs-3
                             button.btn#AddNewFolderBtn(type="submit")
                                 i.fa.fa-plus()

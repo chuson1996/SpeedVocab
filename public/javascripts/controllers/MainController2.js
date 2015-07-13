@@ -1,6 +1,6 @@
 /// <reference path="../typings/angular.d.ts" />
 var MainController = (function () {
-    function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout, helper, $anchorScroll, $location) {
+    function MainController($scope, $http, Word, Folder, AppLearnBridge, $state, $q, $stateParams, $timeout, helper, $anchorScroll, $location, yandexSupportedLangs) {
         this.$scope = $scope;
         this.$http = $http;
         this.Word = Word;
@@ -13,6 +13,7 @@ var MainController = (function () {
         this.helper = helper;
         this.$anchorScroll = $anchorScroll;
         this.$location = $location;
+        this.yandexSupportedLangs = yandexSupportedLangs;
         this.currentOpeningFolder = '';
         this.totalPages = 0;
         this.currentWordlist = [];
@@ -23,10 +24,10 @@ var MainController = (function () {
             imageSuggestion: false,
             wordCollection: false
         };
-        this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout', 'helper', '$anchorScroll', '$location'];
+        this.$inject = ['$scope', '$http', 'Word', 'Folder', 'AppLearnBridge', '$state', '$q', '$stateParams', '$timeout', 'helper', '$anchorScroll', '$location', 'yandexSupportedLangs'];
         var vm = this;
         this.loadingDefinition = Word.loadingDefinition;
-        //this.openingPage= 1;
+        //this.openingPage= 0;
         this.toTestWords = Word.wordCart;
         //console.log('$stateParams', $stateParams);
         activate();
@@ -332,13 +333,19 @@ var MainController = (function () {
     MainController.prototype.defineWord = function (word) {
         var _this = this;
         this.loading.definition = true;
+        var from, to;
         this.Folder.getFolderById(this.currentOpeningFolder).then(function (res) {
             //console.log(res);
+            from = res.fromLang;
+            to = res.toLang;
             return _this.Word.defineWord(word, res.fromLang, res.toLang);
         }).then(function (res) {
             //console.log(res);
             _this.loading.definition = false;
-            _this.newexample = res;
+            if (_this.yandexSupportedLangs.indexOf(from, to))
+                _this.newexample = res;
+            else
+                _this.newmeaning = res;
         }).catch(function (err) {
             _this.onError(err);
             _this.loading.definition = false;

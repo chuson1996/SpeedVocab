@@ -9,7 +9,7 @@ var express = require('express');
 var router = express.Router();
 var _ = require('lodash');
 var async = require('async');
-
+var yandexSupportedLangs = require('../data/yandex-supportedLangs');
 
 
 
@@ -411,7 +411,7 @@ router.get('/api/defineWord/:word/:from/:to', function(req,res){
                 if (result.status !== 200) return res.status(500).send('Not found');
                 return res.json(result.body);
             });
-    }else{
+    }else if (yandexSupportedLangs.indexOf(from,to)){
         rp('https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20150209T212534Z.94adfd8a495e3628.73c2afbdd079b4a53fdbcc4b4c9578b1905112bf&lang='+from+'-'+to+'&text='+req.params.word+'')
             .then(function(response){
                 response = JSON.parse(response);
@@ -434,8 +434,20 @@ router.get('/api/defineWord/:word/:from/:to', function(req,res){
             })
             .then(null, function(err){
                 console.log('Error: ',err);
-                return res.status(500).send(err);
+                return res.status(501).send(err);
             })
+    }else{
+        rp('https://www.googleapis.com/language/translate/v2?key=AIzaSyA27gOVCQo0RMuPDTsVlBnZQYTNPNS3TD4&source='+from+'&target='+to+'&q='+req.params.word)
+            .then(function (response) {
+                //console.log(response);
+                var toSend = response.replace(/\n/g,'').replace(/\"/g,'"');
+                toSend = JSON.parse(toSend);
+                return res.json(toSend.data);
+            }, function(err){
+                console.log(err.message);
+                res.status(501).send(err.message);
+            })
+
     }
 
 });
