@@ -437,9 +437,17 @@ router.get('/api/defineWord/:word/:from/:to', function(req,res){
                 return res.status(501).send(err);
             })
     }else{
-        rp('https://www.googleapis.com/language/translate/v2?key=AIzaSyA27gOVCQo0RMuPDTsVlBnZQYTNPNS3TD4&source='+from+'&target='+to+'&q='+req.params.word)
+        var q = encodeURI(req.params.word);
+        var reqUrl ='https://www.googleapis.com/language/translate/v2?key=AIzaSyA27gOVCQo0RMuPDTsVlBnZQYTNPNS3TD4&source='+from+'&target='+to+'&q='+q;
+        console.log(reqUrl);
+        rp(reqUrl)
             .then(function (response) {
-                //console.log(response);
+                console.log({
+                    from: from,
+                    to: to,
+                    q: req.params.word,
+                    response: response
+                });
                 var toSend = response.replace(/\n/g,'').replace(/\"/g,'"');
                 toSend = JSON.parse(toSend);
                 return res.json(toSend.data);
