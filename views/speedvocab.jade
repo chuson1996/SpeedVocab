@@ -49,11 +49,11 @@ html(lang="en")
         link(rel="stylesheet", href="../stylesheets/feedback.css")
     body(ng-app="SpeedVocab")
         div.row
-            div.col-md-1
+            //div.col-md-1
             div.col-md-10
                 div.viewA(ui-view="viewA")
-            //div.col-md-3
-            //    div.feedbackView(ui-view="feedbackView")
+            div.col-md-2
+                include ./navbar.jade
 
 
 

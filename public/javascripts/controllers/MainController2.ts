@@ -264,8 +264,13 @@ class MainController{
         this.toTestWords = this.Word.wordCart;
     }
     goToTest(){
-        this.AppLearnBridge.sharedTerms = this.toTestWords;
-        this.$state.go('learn');
+        if (this.toTestWords.length>0){
+            this.AppLearnBridge.sharedTerms = this.toTestWords;
+            this.$state.go('learn');
+        }else{
+            alert('You must select more than 1 term to learn!')
+        }
+
 
     }
     backToFolerSelection(){

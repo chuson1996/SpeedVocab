@@ -235,8 +235,13 @@ var MainController = (function () {
         this.toTestWords = this.Word.wordCart;
     };
     MainController.prototype.goToTest = function () {
-        this.AppLearnBridge.sharedTerms = this.toTestWords;
-        this.$state.go('learn');
+        if (this.toTestWords.length > 0) {
+            this.AppLearnBridge.sharedTerms = this.toTestWords;
+            this.$state.go('learn');
+        }
+        else {
+            alert('You must select more than 1 term to learn!');
+        }
     };
     MainController.prototype.backToFolerSelection = function () {
         this.$state.transitionTo('index', { folder: undefined }, { notify: true });
