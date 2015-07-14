@@ -1,6 +1,7 @@
 console.log()
 module.exports ={
     cookieSecret: 'chuhoangson',
+    jwtSecret: 'chuhoangson',
     mongo:{
         development:{
             connectionString: 'mongodb://admin:admin@ds031932.mongolab.com:31932/speedvocab'
