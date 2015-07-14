@@ -401,8 +401,9 @@ router.get('/api/defineWord/:word/:from/:to', function(req,res){
     // These code snippets use an open-source library. http://unirest.io/nodejs
     var from = req.params.from;
     var to = req.params.to;
+    var q = encodeURI(req.params.word);
     if (from=='en' && to=='en'){
-        unirest.get("https://wordsapiv1.p.mashape.com/words/"+req.params.word)
+        unirest.get("https://wordsapiv1.p.mashape.com/words/"+q)
             .header("X-Mashape-Key", "1XzINqg3Rfmshizwhfrgi54LAaX5p1Aj9Y5jsn6roqcGczBBD4")
             .header("Accept", "application/json")
             .end(function (result) {
@@ -412,7 +413,7 @@ router.get('/api/defineWord/:word/:from/:to', function(req,res){
                 return res.json(result.body);
             });
     }else if (yandexSupportedLangs.indexOf(from,to)){
-        rp('https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20150209T212534Z.94adfd8a495e3628.73c2afbdd079b4a53fdbcc4b4c9578b1905112bf&lang='+from+'-'+to+'&text='+req.params.word+'')
+        rp('https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20150209T212534Z.94adfd8a495e3628.73c2afbdd079b4a53fdbcc4b4c9578b1905112bf&lang='+from+'-'+to+'&text='+q)
             .then(function(response){
                 response = JSON.parse(response);
                 var toSend = response.def.reduce(function(pre,cur,index,arr){
@@ -437,7 +438,7 @@ router.get('/api/defineWord/:word/:from/:to', function(req,res){
                 return res.status(501).send(err);
             })
     }else{
-        var q = encodeURI(req.params.word);
+
         var reqUrl ='https://www.googleapis.com/language/translate/v2?key=AIzaSyA27gOVCQo0RMuPDTsVlBnZQYTNPNS3TD4&source='+from+'&target='+to+'&q='+q;
         console.log(reqUrl);
         rp(reqUrl)
