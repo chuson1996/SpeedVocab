@@ -17,4 +17,4 @@
     app.factory('orderByScoreService', function(){
         return orderByScoreFilter;
     });
-}(angular.module('customFilter',[])))
+}(angular.module('filters')))

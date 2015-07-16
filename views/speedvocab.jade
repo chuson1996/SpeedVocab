@@ -25,35 +25,39 @@ html(lang="en")
         script(src='/javascripts/lib/textAngular-rangy.min.js')
         script(src='/javascripts/lib/textAngular-sanitize.min.js')
         script(src='/javascripts/lib/textAngular.min.js')
-        //link(rel='stylesheet prefetch', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css')
-        //link(rel='stylesheet prefetch', href='http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css')
         link(href="../bower_components/font-awesome-4.3.0/css/font-awesome.min.css", rel="stylesheet")
         //---------------------------------------------------------------------------
-        script(src="../javascripts/script.js")
+
+        script(src="../javascripts/app.module.js")
+        script(src="../javascripts/app.config.js")
         script(src="../javascripts/services/Folder.js")
         script(src="../javascripts/services/Word.js")
         script(src="../javascripts/services/LearnRound.js")
         script(src="../javascripts/services/AppLearnBridge.js")
-        script(src="../javascripts/services/ArrRandNum.js")
         script(src="../javascripts/services/yandex-supportedLangs.js")
         script(src="../javascripts/services/voiceList.js")
         script(src="../javascripts/services/helper.js")
         script(src="../javascripts/filters/orderByScoreFilter.js")
-        script(src = "../javascripts/controllers/LearnController2.js")
+        script(src="../javascripts/controllers/LearnController2.js")
         script(src="../javascripts/controllers/MainController2.js")
         script(src="../javascripts/controllers/FeedbackController.js")
         //script(src="../javascripts/controllers/LearnController.js")
+        script(src="../javascripts/notification/notificationController.js")
+        script(src="../javascripts/notification/notificationFactory.js")
         link(rel="stylesheet", href="../stylesheets/lib/animate.css")
         link(rel="stylesheet", href="../stylesheets/style.css")
         link(rel="stylesheet", href="../stylesheets/app2.css")
-        link(rel="stylesheet", href="../stylesheets/feedback.css")
-    body(ng-app="SpeedVocab")
+        //link(rel="stylesheet", href="../stylesheets/feedback.css")
+        link(rel="stylesheet", href="../stylesheets/feedback2.css")
+        link(rel="stylesheet", href="../stylesheets/navbar.css")
+    body.container(ng-app="SpeedVocab")
+        include ./navbar.jade
         div.row
-            //div.col-md-1
-            div.col-md-10
+            div.col-md-1
+            div.col-md-9
                 div.viewA(ui-view="viewA")
             div.col-md-2
-                include ./navbar.jade
+                include ./feedback.jade
 
 
 

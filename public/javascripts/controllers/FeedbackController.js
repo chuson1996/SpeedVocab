@@ -26,11 +26,12 @@ var FeedbackController = (function () {
             createdAt: new Date()
         });
         this.fbList = this.helper.orderByDate(this.fbList);
+        angular.element('#thank-youNote').fadeIn().fadeOut(4000);
         this.content = null;
         this.$http.post('/speedvocab/post/addfeedback', {
             content: content
         }).then(function (res) {
-            console.log(res);
+            //console.log(res);
         }).catch(console.error);
     };
     return FeedbackController;

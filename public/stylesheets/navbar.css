@@ -1,0 +1,57 @@
+nav{
+    background-color: #FFFFFF;
+    border-color: #e7e7e7;
+    box-shadow: 2px 2px 7px -1px rgba(0, 0, 0, 0.42);
+}
+#myNavBar>ul>li{
+    width:56px;
+}
+#brand{
+    font-family: Prociono;
+    font-size: 30px;
+    color: rgb(80, 72, 161);
+}
+#dashboardBtn{
+    border-left: 1px solid rgb(215, 215, 215);
+}
+#dashboardBtn, #notificationBtn, #avatarBtn{
+    font-size: 25px;
+    color: rgb(80, 72, 161);
+    border-right: 1px solid rgb(215, 215, 215);
+    margin: 3px 0 3px 0;
+}
+#notificationBtn.active{
+    color:rgb(211, 211, 0);
+}
+#avatarImg{
+    width:30px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+#avatarBtn{
+    padding: 10px;
+}
+#noti-dropdownMenu{
+    min-width:320px;
+    padding: 10px;
+}
+.notiLogo{
+    font-size:30px;
+    color:rgb(80, 127, 229);
+}
+.notiLogo .row{
+    text-align: center;
+}
+.notiLi{
+    background-color: rgba(128, 128, 128, 0.1);
+    padding-bottom: 9px;
+    padding-top: 9px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.notiLi:hover{
+    background-color: rgba(128, 128, 128, 0.03);
+}
+.notiLi.unread{
+    background-color: rgba(255, 255, 255, 1);
+}

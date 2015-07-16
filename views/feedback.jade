@@ -1,0 +1,18 @@
+
+div.row.feedback-bar(ng-controller="FeedbackCtrl as ctrl", ng-init="ctrl.avatar='#{avatar}'")
+    div.col-sm-12
+        div#thank-youNote
+            i.fa.fa-heart
+            <br>
+            | Thank you for your feedback. Happy using SpeedVocab!
+        form#addFeedbackForm(ng-submit="ctrl.submitFeedback(ctrl.content)")
+            //i.fa.fa-times(style="color: rgb(236, 88, 88);position: absolute;top: -4px;right: 1px;font-size: 22px;")
+            label(style="font-size:20px;") Feedback
+            <br>
+            div.row
+                div.col-sm-12
+                    textarea.form-control(ng-model="ctrl.content", placeholder="Leave a feedback or a friendly message.", required, style="width: 100%;height: 160px;")
+            div.row
+                div.col-sm-12(style="text-align:center")
+                    button.btn(type="submit", style="background-color: rgba(0,0,0,0);")
+                        i.fa.fa-paper-plane-o(style="font-size: 32px;color: green;margin-top: calc(50% - 16px);")

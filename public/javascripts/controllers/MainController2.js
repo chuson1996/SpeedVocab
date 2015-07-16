@@ -34,6 +34,8 @@ var MainController = (function () {
         ////
         function activate() {
             console.log('Let\' begin our journey');
+            // Retrieve unread notification
+            getUnreadNotification();
             // Get folders
             if ($stateParams.fid) {
                 vm.currentOpeningFolder = $stateParams.fid;
@@ -45,6 +47,8 @@ var MainController = (function () {
                     //console.log(data);
                 });
             }
+        }
+        function getUnreadNotification() {
         }
     }
     MainController.prototype.playAudio = function (term, type) {

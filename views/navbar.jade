@@ -1,14 +1,32 @@
-link(rel="stylesheet", href="../stylesheets/feedback2.css")
-div.row.feedback-bar(ng-controller="FeedbackCtrl as ctrl", ng-init="ctrl.avatar='#{avatar}'")
-    div.col-sm-12
-        form#addFeedbackForm(ng-submit="ctrl.submitFeedback(ctrl.content)")
-            //i.fa.fa-times(style="color: rgb(236, 88, 88);position: absolute;top: -4px;right: 1px;font-size: 22px;")
-            label(style="font-size:20px;") Feedback
-            <br>
-            div.row
-                div.col-sm-12
-                    textarea.form-control(ng-model="ctrl.content", placeholder="Leave a feedback or a friendly message.", required, style="width: 100%;height: 160px;")
-            div.row
-                div.col-sm-12(style="text-align:center")
-                    button.btn(type="submit", style="background-color: rgba(0,0,0,0);")
-                        i.fa.fa-paper-plane-o(style="font-size: 32px;color: green;margin-top: calc(50% - 16px);")
+nav.navbar.navbar-default
+    div.container-fluid
+        div.navbar-header
+            button.navbar-toggle(data-toggle="collapse", data-target="#myNavBar")
+                i.fa.fa-bars
+            a.navbar-brand
+                label#brand SpeedVocab
+        div.collapse.navbar-collapse#myNavBar
+            ul.nav.navbar-nav.navbar-right(style="text-align:right")
+                li
+                    a.fa.fa-tachometer#dashboardBtn
+                li(ng-controller="NotificationController as vm")
+                    a.dropdown-toggle.fa.fa-bell#notificationBtn(ng-class="{'active': vm.hasUnreadNotification}", data-toggle="dropdown", ng-click="vm.markAsRead()")
+                        sub(style="font-size:14px; color: rgb(160, 0, 0); margin-left:-9px; font-weight: 600;", ng-show="vm.notiSet.unread.length>0") {{vm.notiSet.unread.length}}
+                    ul.dropdown-menu#noti-dropdownMenu
+                        b(style="margin-down:10px;") Notifications
+                        <br><br>
+                        li.notiLi(ng-repeat="noti in vm.notiSet.ori track by $index | orderBy:'-createdAt'", ng-class="{'unread': !noti.status}")
+                            //hr(style="margin:6px 0 6px 0;")
+                            div.row(style="margin-right: 0;margin-left: 0;")
+                                div.notiLogoDiv.col-xs-2
+                                    i.fa.fa-child.notiLogo
+                                div.notiMessage.col-xs-10 {{noti.message}}
+
+                li.dropdown
+                    a#avatarBtn.dropdown-toggle(data-toggle="dropdown")
+                        img#avatarImg(src='#{avatar}')
+                    ul.dropdown-menu
+                        li
+                            a Setting
+                        li
+                            a Logout

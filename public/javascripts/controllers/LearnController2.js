@@ -1,5 +1,5 @@
 var LearnController = (function () {
-    function LearnController($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout, ArrRandNum) {
+    function LearnController($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout) {
         var _this = this;
         this.$http = $http;
         this.LearnRound = LearnRound;
@@ -7,9 +7,8 @@ var LearnController = (function () {
         this.orderByScoreService = orderByScoreService;
         this.$state = $state;
         this.$timeout = $timeout;
-        this.ArrRandNum = ArrRandNum;
         //function($scope, $http, LearnRound, Word, orderByScoreService, $state, $timeout){
-        this.$inject = ['$scope', '$http', 'LearnRound', 'Word', 'orderByScoreService', '$state', '$timeout', 'ArrRandNum'];
+        this.$inject = ['$scope', '$http', 'LearnRound', 'Word', 'orderByScoreService', '$state', '$timeout',];
         this.remaining = 0;
         this.incorrect = 0;
         this.correct = 0;
@@ -291,5 +290,5 @@ var LearnController = (function () {
     };
     return LearnController;
 })();
-angular.module('controllers', ['services', 'textAngular', 'customFilter', 'ui.router']).controller('LearnController', LearnController);
+angular.module('controllers').controller('LearnController', LearnController);
 //# sourceMappingURL=LearnController2.js.map

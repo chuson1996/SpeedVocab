@@ -13,7 +13,7 @@ class LearnController{
         'orderByScoreService',
         '$state',
         '$timeout',
-        'ArrRandNum'];
+    ];
     remaining=0;
     incorrect=0;
     correct=0;
@@ -31,7 +31,7 @@ class LearnController{
     finished=false;
     answer = '';
     onAnswering=true;
-    constructor($scope, public $http, public LearnRound, public Word, public orderByScoreService, public $state, public $timeout, public ArrRandNum){
+    constructor($scope, public $http, public LearnRound, public Word, public orderByScoreService, public $state, public $timeout){
         LearnRound.initialize().then((da)=>{
             this.rounds=LearnRound.rounds;
             //console.log($scope.rounds);
@@ -299,4 +299,4 @@ class LearnController{
         return valid;
     }
 }
-angular.module('controllers',['services','textAngular','customFilter','ui.router']).controller('LearnController', LearnController)
+angular.module('controllers').controller('LearnController', LearnController)

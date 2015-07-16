@@ -3,6 +3,8 @@ var Folder = require('../models/folder.js');
 var Words = require('../models/word.js');
 var User = require('../models/user.js');
 var Feedback = require('../models/feedback.js');
+var Notification = require('../models/notification.js');
+
 var unirest = require('unirest');
 var rp = require('request-promise');
 var express = require('express');
@@ -16,7 +18,7 @@ var yandexSupportedLangs = require('../data/yandex-supportedLangs');
 
 router.get('', function(req,res){
     //console.log(req.session.detail);
-    res.render('speedvocab');
+    res.render('speedvocab', req.session.detail);
 });
 router.get('/template/app', function(req,res){
     console.log(req.session.detail);
@@ -28,10 +30,10 @@ router.get('/template/learn', function(req,res){
     res.render('learn2');
 });
 router.get('/template/feedback', function(req,res){
-    res.render('speedvocab_feedback', req.session.detail);
+    res.render('feedback', req.session.detail);
 });
 
-// ------------ Handle POST request -------------
+
 // Feedback
 router.post('/post/addfeedback', function(req,res){
 
@@ -42,9 +44,40 @@ router.post('/post/addfeedback', function(req,res){
     }).save(function(err, doc){
             if (err) return res.status(500).send('Something wrong!');
             return res.json(doc);
-
         })
-})
+});
+router.get('/api/getfeedbacks', function(req,res){
+    Feedback.find().then(function(docs){
+        var useridArr = _.pluck(docs,'userId');
+        //console.log('useridArr: ', useridArr);
+        User.find({
+            _id: {
+                $in: useridArr
+            }
+        },'avatar', function(err, usersWithAva){
+            //console.log('usersWithAva: ', usersWithAva);
+            if (err) return res.status(500).send('Something wrong!');
+            var toSend = _.map(docs, function(o){
+                var avatar = _.find(usersWithAva, function(n){ return n._id == o.userId}).avatar;
+                var userId = o.userId;
+                var content = o.content;
+                var createdAt = o.createdAt;
+                return {
+                    userId: userId,
+                    avatar: avatar,
+                    content: content,
+                    createdAt: createdAt
+                }
+            });
+            //console.log('toSend: ', toSend);
+            res.json(toSend);
+        })
+    }).catch(function(err){
+        console.error(err);
+        res.status(500).send('Something wrong!');
+    });
+});
+
 // Folder
 router.post('/post/addfolder', function(req,res){
     console.log(req.body);
@@ -60,54 +93,6 @@ router.post('/post/addfolder', function(req,res){
     });
     //res.send('OK');
 });
-router.post('/post/addword', function(req,res){
-    //console.log(req.body);
-    //Words.update({
-    //    userId: req.session.passport.user,
-    //    folderId: req.body.folderId,
-    //    word:req.body.addword
-    //}, {
-    //    $set:{
-    //        userId: req.session.passport.user,
-    //        folderId: req.body.folderId,
-    //        word:req.body.addword,
-    //        meaning: req.body.addmeaning,
-    //        example: req.body.addexample,
-    //        image: req.body.addimage,
-    //        NoCorrectAns: 0,
-    //        NoWrongAns: 0,
-    //        createdAt: Date()
-    //    }
-    //
-    //},{
-    //    upsert: true
-    //}, function(err, doc){
-    //    if (err) throw err;
-    //    console.log('The doc: ',doc);
-    //});
-    var newWord = new Words({
-        userId: req.session.passport.user,
-        folderId: req.body.folderId,
-        word:req.body.addword,
-        meaning: req.body.addmeaning,
-        example: req.body.addexample,
-        image: req.body.addimage,
-        NoCorrectAns: 0,
-        NoWrongAns: 0,
-        createdAt: Date()
-    });
-    //console.log('The new word: ',newWord);
-    newWord.save(function(err){
-        if (err) throw err;
-        delete newWord.userId;
-        res.json(newWord);
-    });
-
-
-});
-
-
-// ------------- Handle PUT Request ----------------------------
 router.put('/api/editfolder', function(req,res){
     console.log(req.body);
     Folder.update({
@@ -125,6 +110,72 @@ router.put('/api/editfolder', function(req,res){
     });
     //res.send('Working on it!')
 })
+router.get('/api/getfolders', function(req,res){
+    Folder.find({userId: req.session.passport.user}).then(function(folders){
+        var toSend=[];
+        if (folders.length===0) {
+            var newDefaultFolder = new Folder({
+                userId: req.session.passport.user,
+                name: 'NO NAME',
+                fromLang: 'English',
+                toLang: 'English',
+                created: Date()
+            });
+            newDefaultFolder.save();
+            //console.log(newDefaultFolder);
+            toSend.push(newDefaultFolder);
+            //res.send('Testing! Be cool!');
+        }
+        else{
+            //console.log(folders);
+            folders.forEach(function(o){
+                toSend.push(o);
+            });
+            //res.send('Testing! Be cool!2');
+        }
+        res.json(toSend);
+    }).catch(console.error);
+});
+router.get('/api/getfolderById/:folderId', function(req,res){
+    Folder.findOne({
+        userId: req.session.passport.user,
+        _id: req.params.folderId
+    }).then(function(folder){
+        res.json(folder);
+    }).catch(function(){
+        res.status(500).send('Folder doesn\'t exist or you are not authorized to access it.')
+    })
+})
+router.delete('/api/deletefolder/:folderid', function(req,res){
+    Folder.remove({
+        userId: req.session.passport.user,
+        _id: req.params.folderid
+    }, function(err){
+        if(err) return res.status(500).send('Something wrong');
+        return res.send('OK');
+    })
+})
+
+// Words or Terms
+router.post('/post/addword', function(req,res){
+    var newWord = new Words({
+        userId: req.session.passport.user,
+        folderId: req.body.folderId,
+        word:req.body.addword,
+        meaning: req.body.addmeaning,
+        example: req.body.addexample,
+        image: req.body.addimage,
+        NoCorrectAns: 0,
+        NoWrongAns: 0,
+        createdAt: Date()
+    });
+    //console.log('The new word: ',newWord);
+    newWord.save(function(err){
+        if (err) throw err;
+        delete newWord.userId;
+        res.json(newWord);
+    });
+});
 router.put('/api/editword/:wordid', function(req,res){
     var wordid= req.params.wordid;
     //console.log(req.body);
@@ -142,7 +193,6 @@ router.put('/api/editword/:wordid', function(req,res){
             example: req.body.editexample,
             image: req.body.editimage
         }
-
     },function(err, doc){
         if (err) console.log(err);
         //console.log(doc);
@@ -207,8 +257,6 @@ router.put('/api/updateNoWrongAns/:wordid', function(req,res){
     });
 
 });
-
-// ------------------ Handle DELETE Request --------------------------
 router.delete('/api/deleteword/:wordid', function(req,res){
     var wordid= req.params.wordid;
     console.log(wordid);
@@ -223,85 +271,6 @@ router.delete('/api/deleteword/:wordid', function(req,res){
     });
     res.send('OK');
 });
-router.delete('/api/deletefolder/:folderid', function(req,res){
-    Folder.remove({
-        userId: req.session.passport.user,
-        _id: req.params.folderid
-    }, function(err){
-        if(err) return res.status(500).send('Something wrong');
-        return res.send('OK');
-    })
-})
-// ------------ Local API -----------------------
-// Feedback
-router.get('/api/getfeedbacks', function(req,res){
-    Feedback.find().then(function(docs){
-        var useridArr = _.pluck(docs,'userId');
-        //console.log('useridArr: ', useridArr);
-        User.find({
-            _id: {
-                $in: useridArr
-            }
-        },'avatar', function(err, usersWithAva){
-            //console.log('usersWithAva: ', usersWithAva);
-            if (err) return res.status(500).send('Something wrong!');
-            var toSend = _.map(docs, function(o){
-                var avatar = _.find(usersWithAva, function(n){ return n._id == o.userId}).avatar;
-                var userId = o.userId;
-                var content = o.content;
-                var createdAt = o.createdAt;
-                return {
-                    userId: userId,
-                    avatar: avatar,
-                    content: content,
-                    createdAt: createdAt
-                }
-            });
-            //console.log('toSend: ', toSend);
-            res.json(toSend);
-        })
-    }).catch(function(err){
-        console.error(err);
-        res.status(500).send('Something wrong!');
-    });
-});
-// Folder
-router.get('/api/getfolders', function(req,res){
-    Folder.find({userId: req.session.passport.user}).then(function(folders){
-        var toSend=[];
-        if (folders.length===0) {
-            var newDefaultFolder = new Folder({
-                userId: req.session.passport.user,
-                name: 'NO NAME',
-                fromLang: 'English',
-                toLang: 'English',
-                created: Date()
-            });
-            newDefaultFolder.save();
-            //console.log(newDefaultFolder);
-            toSend.push(newDefaultFolder);
-            //res.send('Testing! Be cool!');
-        }
-        else{
-            //console.log(folders);
-            folders.forEach(function(o){
-                toSend.push(o);
-            });
-            //res.send('Testing! Be cool!2');
-        }
-        res.json(toSend);
-    }).catch(console.error);
-});
-router.get('/api/getfolderById/:folderId', function(req,res){
-    Folder.findOne({
-        userId: req.session.passport.user,
-        _id: req.params.folderId
-    }).then(function(folder){
-        res.json(folder);
-    }).catch(function(){
-        res.status(500).send('Folder doesn\'t exist or you are not authorized to access it.')
-    })
-})
 router.get('/api/getwords/:folderId', function(req,res){
     //console.log(req.session.passport.user, req.query.openingFolder);
     var toSend=[];
@@ -327,7 +296,7 @@ router.get('/api/getwords/:folderId', function(req,res){
             return res.status(500).send('Something goes wrong!');
         }
         var folderInfo = results.folderInfo[0];
-        console.log('folderInfo: ', folderInfo);
+        //console.log('folderInfo: ', folderInfo);
         var words = results.words;
 
         words.forEach(function(term){
@@ -352,40 +321,8 @@ router.get('/api/getwords/:folderId', function(req,res){
         });
         res.json(toSend);
     });
-    //Words.find({userId: req.session.passport.user, folderId: req.query.openingFolder}).then(function(words){
-    //
-    //});
 });
-
-//router.get('/api/toLearnWords', function(req,res){
-//    var toSend=[];
-//    Words.find({ userId:req.session.passport.user, _id:{$in: req.session.toTestWords}}).exec().then(function(docs){
-//        var folderInfo;
-//        Folder.findOne({userId:req.session.passport.user, _id: docs[0].folderId}).then(function(folder){
-//            //console.log(folder);
-//            //console.log(voiceList);
-//            folderInfo=folder;
-//            docs.forEach(function(term){
-//                var o={};
-//                o._id=term._id;
-//                o.folderId=term.folderId;
-//                o.word=term.word;
-//                o.meaning=term.meaning;
-//                o.example=term.example;
-//                o.image=term.image;
-//                o.NoCorrectAns=term.NoCorrectAns;
-//                o.NoWrongAns=term.NoWrongAns;
-//                o.wordVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.fromLang]+"&req_text="+term.word.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-//                o.meaningVoice="http://vaas.acapela-group.com/Services/Streamer.ogg?req_voice="+voiceList[folderInfo.toLang]+"&req_text="+term.meaning.replace(/ /g, '+')+"&cl_login=EVAL_VAAS&cl_app=EVAL_1187628&cl_pwd=2anoa8wk";
-//                //console.log('after: ',o);
-//                toSend.push(o);
-//            });
-//            res.json(toSend);
-//        });
-//
-//    });
-//    //res.json(req.session.toTestWords);
-//});
+// Get a single word
 router.get('/api/word/:id', function(req,res){
     Words.findOne({ userId:req.session.passport.user, _id:req.params.id}).exec().then(function(word){
         Folder.findOne({userId:req.session.passport.user, _id: word.folderId}).then(function(folder){
@@ -500,4 +437,67 @@ router.get("/api/getSuggestedImages/:q", function(req,res){
     });
 });
 
+// Notification
+router.get("/api/notification", function(req,res,next){
+   Notification.find({
+       userId: req.session.passport.user,
+   }).sort('-createdAt').limit(10).exec(function (err,data) {
+       if (err) return next(err);
+       if (data.length<2){
+           async.parallel(
+               [
+                   function (cb) {
+                       new Notification({
+                           userId: req.session.passport.user,
+                           status: true,
+                           message: 'Have fun with SpeedVocab!'
+                       }).save(function (err, doc) {
+                               if (err) return cb(err);
+                               //console.log(doc);
+                               return cb(null, doc);
+                           });
+                   },
+                   function (cb) {
+                       new Notification({
+                           userId: req.session.passport.user,
+                           message: 'Welcome to SpeedVocab!'
+                       }).save(function (err, doc) {
+                               if (err) return cb(err);
+                               //console.log(doc);
+                               return cb(null, doc);
+                           });
+                   },
+
+               ],
+               // callback
+               function (err, docs) {
+                   if (err) {
+                       console.error(err);
+                       return next(err);
+                   }
+                   //console.log('docs',docs);
+                   return res.json(docs);
+               });
+
+       }
+       else return res.json(data);
+   })
+});
+router.put("/api/notification", function(req,res){
+    Notification.update({
+        userId: req.session.passport.user,
+        status: false
+    },{
+        $set:{
+            status: true
+        }
+    }).exec(function (err, doc) {
+        if (err) return res.status(501).send(err);
+        console.log(doc);
+        return res.send('OK');
+    })
+
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
 module.exports = router;

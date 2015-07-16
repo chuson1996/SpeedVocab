@@ -3,7 +3,7 @@
  */
 (function(){
     var app = angular.module('services');
-    app.service('LearnRound',['$http','AppLearnBridge','voiceList','ArrRandNum',function($http,AppLearnBridge,voiceList,ArrRandNum){
+    app.service('LearnRound',['$http','AppLearnBridge','voiceList',function($http,AppLearnBridge,voiceList){
         var self = this;
         self.rounds=[];
         //console.log(AppLearnBridge.sharedTerms);
@@ -45,7 +45,7 @@
             var toLearnWords = self.toLearnWords;
             self.rounds = _.chunk(toLearnWords,10);
             self.rounds = _.map(self.rounds, function(o){
-                return ArrRandNum(o);
+                return _.shuffle(o);
             });
             //console.log(self.rounds);
 
