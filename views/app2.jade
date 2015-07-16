@@ -20,7 +20,7 @@ div.app2(ng-controller="MainController as ctrl")
                     div.col-xs-3
                         p Definitions
                     div.col-xs-3(style="text-align:right;")
-                        p(style="margin-right:34px;") Date
+                        p(style="margin-right:61px;") Date
                 div.body
                     div.bd.row(ng-repeat="folder in ctrl.folders | filter:ctrl.searchFolder track by $index ")
                         div.col-xs-3.nameDiv
@@ -30,14 +30,18 @@ div.app2(ng-controller="MainController as ctrl")
                             div.row
                                 div.col-xs-6.fromLangDiv(ng-dblclick="folder.editing=true")
                                     p(ng-show="!folder.editing") {{ctrl.Folder.decodeLang(folder.fromLang)}}
-                                    input.form-control#editFromLang(type="text", ng-show="folder.editing", ng-model="folder.fromLang")
+                                    //input.form-control#editFromLang(type="text", ng-show="folder.editing", ng-model="folder.fromLang")
+                                    language-selection.language-selection(bbind="folder.fromLang", ng-if="folder.editing", pplaceholder="Source language")
                                 div.col-xs-6.toLangDiv(ng-dblclick="folder.editing=true")
                                     p(ng-show="!folder.editing") {{ctrl.Folder.decodeLang(folder.toLang)}}
-                                    input.form-control#editToLang(type="text", ng-show="folder.editing", ng-model="folder.toLang")
+                                    //input.form-control#editToLang(type="text", ng-show="folder.editing", ng-model="folder.toLang")
+                                    language-selection.language-selection(bbind="folder.toLang", ng-if="folder.editing", pplaceholder="Target language")
                                     i.fa.fa-check(ng-click="ctrl.editFolder(folder, $index)", ng-show="folder.editing")
                         div.col-xs-3.createdAtDiv
                             p(style="display:inline-block;") {{ctrl.formatDate(folder.createdAt)}}
                             div(style="display:inline-block")
+                                button.btn.edit-folder
+                                    i.fa.fa-pencil-square-o(ng-click="folder.editing=true")
                                 button.btn.delete-folder(ng-click="ctrl.deleteFolder(folder)")
                                     i.fa.fa-trash(style="")
                 div.row.footer
@@ -48,22 +52,10 @@ div.app2(ng-controller="MainController as ctrl")
                             input.form-control(type="text", placeholder="Folder's name", ng-model="ctrl.newnameF", required)
                         div.col-xs-3
                             //input.form-control(type="text", placeholder="Source language", ng-model="ctrl.newfromLangF", required)
-                            select.form-control(placeholder="Source language", ng-model="ctrl.newfromLangF", required)
-                                option(value="", disabled, selected) Source language
-                                option(value="zh") Chinese
-                                option(value="en") English
-                                option(value="fi") Finnish
-                                option(value="ru") Russian
-                                option(value="vi") Vietnamese
+                            language-selection(pplaceholder="Source language", bbind="ctrl.newfromLangF", required)
                         div.col-xs-3
                             //input.form-control(type="text", placeholder="Target language", ng-model="ctrl.newtoLangF", required)
-                            select.form-control(placeholder="Target language", ng-model="ctrl.newtoLangF", required)
-                                option(value="", disabled, selected) Target language
-                                option(value="zh") Chinese
-                                option(value="en") English
-                                option(value="fi") Finnish
-                                option(value="ru") Russian
-                                option(value="vi") Vietnamese
+                            language-selection(pplaceholder="Target language", bbind="ctrl.newtoLangF", required)
                         div.col-xs-3
                             button.btn#AddNewFolderBtn(type="submit")
                                 i.fa.fa-plus()

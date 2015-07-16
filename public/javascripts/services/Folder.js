@@ -68,6 +68,7 @@
             }
         }
         function editFolder(folder){
+            console.log('folder to edit: ', folder);
             return $http.put('/speedvocab/api/editfolder',folder).then(function(res){
                 //console.log(res);
                 return res;

@@ -7,7 +7,7 @@ nav.navbar.navbar-default
                 label#brand SpeedVocab
         div.collapse.navbar-collapse#myNavBar
             ul.nav.navbar-nav.navbar-right(style="text-align:right")
-                li
+                //li
                     a.fa.fa-tachometer#dashboardBtn
                 li(ng-controller="NotificationController as vm")
                     a.dropdown-toggle.fa.fa-bell#notificationBtn(ng-class="{'active': vm.hasUnreadNotification}", data-toggle="dropdown", ng-click="vm.markAsRead()")

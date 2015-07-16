@@ -1,5 +1,5 @@
 (function(){
-    angular.module('SpeedVocab', ['controllers','ui.router','notification']);
+    angular.module('SpeedVocab', ['controllers','ui.router','notification','directives']);
 
     // controllers
     angular.module('controllers',['services','textAngular','filters','ui.router']);
@@ -9,6 +9,9 @@
 
     // filters
     angular.module('filters',[]);
+
+    // directives
+    angular.module('directives',[]);
 
     // --- Application Feature
     // Dashboard
