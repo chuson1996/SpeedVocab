@@ -8,7 +8,7 @@
         .constant('PRO_API_URL','http://chuson.herokuapp.com')
         .constant('DEV_API_URL','http://localhost:3000');
 
-    function notificationFactory($http, NOTI_URL, DEV_API_URL){
+    function notificationFactory($http, NOTI_URL, PRO_API_URL){
         return {
             getUnreadNotification: getUnreadNotification,
             markAsRead: markAsRead
@@ -16,12 +16,12 @@
 
         //
         function getUnreadNotification(){
-            return $http.get(DEV_API_URL+NOTI_URL).then(function (res) {
+            return $http.get(PRO_API_URL+NOTI_URL).then(function (res) {
                 return res.data;
             })
         }
         function markAsRead(){
-            return $http.put(DEV_API_URL+NOTI_URL).then(function (res) {
+            return $http.put(PRO_API_URL+NOTI_URL).then(function (res) {
                 return res.data;
             })
         }
