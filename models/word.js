@@ -1,7 +1,13 @@
 var mongoose = require('mongoose');
 var wordSchema = mongoose.Schema({
-    userId: String,
-    folderId: String,
+    userId: {
+        type: String,
+        required: true,
+    },
+    folderId: {
+        type: String,
+        required: true,
+    },
     word: {
         type: String,
         lowercase: true,
@@ -15,7 +21,6 @@ var wordSchema = mongoose.Schema({
     },
     example: {
         type: String,
-        required: true
     },
     image: String,
     NoCorrectAns: Number,
@@ -23,7 +28,6 @@ var wordSchema = mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        required: true
     }
 });
 var Word = mongoose.model('Word',wordSchema);
