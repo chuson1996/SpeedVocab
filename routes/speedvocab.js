@@ -20,6 +20,12 @@ router.get('', function(req,res){
     //console.log(req.session.detail);
     res.render('speedvocab', req.session.detail);
 });
+router.get('/logout', function (req, res, next) {
+    req.logout();
+    req.session.destroy(function (err) {
+        res.redirect('/'); //Inside a callback… bulletproof!
+    });
+})
 router.get('/template/app', function(req,res){
     //console.log(req.session.detail);
     if (req.session.detail)
