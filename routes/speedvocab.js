@@ -21,7 +21,7 @@ router.get('', function(req,res){
     res.render('speedvocab', req.session.detail);
 });
 router.get('/template/app', function(req,res){
-    console.log(req.session.detail);
+    //console.log(req.session.detail);
     if (req.session.detail)
         return res.render('app2', req.session.detail);
     return res.send('Out of session!');

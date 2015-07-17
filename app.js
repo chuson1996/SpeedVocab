@@ -114,6 +114,11 @@ app.use('/speedvocab', function(req,res,next){
     return res.redirect(303,'/unauthorized');
   next();
 });
+app.get('/speedvocab/logout', function (req, res, next) {
+  req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
+})
 
 
 app.get('/', function(req, res, next) {
