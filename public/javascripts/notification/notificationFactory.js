@@ -16,12 +16,12 @@
 
         //
         function getUnreadNotification(){
-            return $http.get(PRO_API_URL+NOTI_URL).then(function (res) {
+            return $http.get(NOTI_URL).then(function (res) {
                 return res.data;
             })
         }
         function markAsRead(){
-            return $http.put(PRO_API_URL+NOTI_URL).then(function (res) {
+            return $http.put(NOTI_URL).then(function (res) {
                 return res.data;
             })
         }

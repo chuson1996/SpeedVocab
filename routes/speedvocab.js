@@ -177,7 +177,7 @@ router.post('/post/addword', function(req,res){
     });
     //console.log('The new word: ',newWord);
     newWord.save(function(err){
-        if (err) throw err;
+        if (err) return res.status(501).json(err);
         delete newWord.userId;
         res.json(newWord);
     });
