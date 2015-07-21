@@ -60,14 +60,14 @@
             });
         }
         function addWord(folderId, newword, newmeaning, newexample, newimage){
-            return $.post('/speedvocab/post/addword',{
+            return $http.post('/speedvocab/post/addword',{
                 folderId: folderId,
                 addword: newword,
                 addmeaning: newmeaning,
                 addexample: newexample,
                 addimage: newimage
             }).then(function(res){
-                return res;
+                return res.data;
             })
         }
         function addToCart(wordId){

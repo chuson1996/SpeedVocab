@@ -426,7 +426,7 @@ div.resultDiv-wrong{
     color: #222;
     padding: 4px;
     vertical-align: middle;
-    width: 70%;
+    width: calc(90% - 70px);
 }
 /*.button{*/
     /*background: #1f6fd9;*/

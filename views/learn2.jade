@@ -13,12 +13,12 @@ div(ng-controller="LearnController")
                 <br/>
                 input(type="checkbox", ng-model="ctrl.speakText")
                 p(style="display:inline-block;margin: 2px;") Speak Text
-        div.col-md-5(ng-show="!ctrl.finished && ctrl.onAnswering")
+        div.col-md-10(ng-show="!ctrl.finished && ctrl.onAnswering")
             div.questionDiv
                 //p Round {{ongoingRoundNo+1}}
-                p(ng-bind="ctrl.questionT", style="display: inline-block;")
+                p(ng-bind="ctrl.questionT", style="display: inline-block;font-size: 45px;")
                 a(ng-click="ctrl.playAudio()")
-                    img(style="margin-left:20px; width:17px;", src="../icons/volume24.png")
+                    i.fa.fa-volume-up(style="font-size:31px;margin-left: 15px;color: black;")
                 <hr/>
                 form(ng-submit="ctrl.submit()", style="width:100%; display:inline-block; ")
                     input.answer(type="text", ng-model="ctrl.answer")

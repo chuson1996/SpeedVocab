@@ -1,4 +1,3 @@
-console.log()
 module.exports ={
     cookieSecret: 'chuhoangson',
     jwtSecret: 'chuhoangson',
