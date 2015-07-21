@@ -58,7 +58,7 @@ div(ng-controller="LearnController")
                             div.col-sm-3(ng-show="term.image", style="text-align: center;")
                                 img.inline-block(ng-src="{{term.image}}", style="max-width:120px")
             input#reset-button.button.relative-center.btn-mydefault(type="button", value="Start over", ng-click="ctrl.reset()")
-        div.col-md-5(ng-show="!ctrl.finished && !ctrl.onAnswering")
+        div.col-md-10(ng-show="!ctrl.finished && !ctrl.onAnswering")
             div.resultDiv(style="width:100%; min-height:200px",ng-show="ctrl.result", ng-class="{'resultDiv-correct': ctrl.result.correct, 'resultDiv-wrong': !ctrl.result.correct}")
                 button.button.btn-mydefault#moveOn-btn(ng-click="ctrl.moveOn()") Next
                 input#moveOnField(type="text", ng-model="ctrl.hiddenTextfield", ng-keydown="ctrl.moveOnTextfield($event)", placeholder="Press Enter to move on!")
@@ -67,6 +67,6 @@ div(ng-controller="LearnController")
                 p.wronganswer(ng-show="!ctrl.result.correct") {{ctrl.result.answer}}
                 p.resultText {{ctrl.result.word}} : {{ctrl.result.meaning}}
                 //pre(ng-show="result.example") {{result.example}}
-                div(ta-bind, ng-model="ctrl.result.example", ng-show="ctrl.esult.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
+                div(ta-bind, ng-model="ctrl.result.example", ng-show="ctrl.result.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")
                 div(style="text-align: center;")
                     img.inline-block(ng-src="{{ctrl.result.image}}", ng-show="ctrl.result.image", style="max-width: 100%;")
