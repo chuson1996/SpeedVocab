@@ -1,0 +1,18 @@
+.axis path, .axis line {
+    fill: none;
+    stroke: rgba(0, 0, 0, 0.42);
+    box-shadow: 1px 1px 1px 1px coral;
+    /*stroke-width: 2px;*/
+    shape-rendering: crispEdges;
+}
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+line-chart svg{
+    /*background-color: rgb(255, 255, 255);*/
+}
+line-chart text{
+    font-size:11px;
+}

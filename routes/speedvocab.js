@@ -50,7 +50,8 @@ var feedbackRouter = require('./speedvocab.feedback.js');
 feedbackRouter(router);
 var notificationRouter = require('./speedvocab.notification.js');
 notificationRouter(router);
-
+var productivityRouter = require('./speedvocab.productivity.js');
+productivityRouter(router);
 
 // ---------------------------------------------------------------------------------------------------------------------
 module.exports = router;

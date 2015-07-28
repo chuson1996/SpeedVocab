@@ -27,6 +27,8 @@ html(lang="en")
         script(src='/javascripts/lib/textAngular.min.js')
         link(href="../bower_components/font-awesome-4.3.0/css/font-awesome.min.css", rel="stylesheet")
         //---------------------------------------------------------------------------
+        //--------------------------- D3 --------------------------------
+        script(src="../bower_components/d3/d3.min.js")
 
         script(src="../javascripts/app.module.js")
         script(src="../javascripts/app.config.js")
@@ -44,12 +46,19 @@ html(lang="en")
         script(src="../javascripts/directives/languageSelection.js")
         script(src="../javascripts/notification/notificationController.js")
         script(src="../javascripts/notification/notificationFactory.js")
+        script(src="../javascripts/dashboard/productivity/productivityFactory.js")
+        script(src="../javascripts/dashboard/dashboardController.js")
+        script(src="../javascripts/charts/charts.module.js")
+        script(src="../javascripts/charts/factories/charts.scales.factory.js")
+        script(src="../javascripts/charts/factories/charts.axes.factory.js")
+        script(src="../javascripts/charts/directives/charts.lineChart.directive.js")
         link(rel="stylesheet", href="../stylesheets/lib/animate.css")
         link(rel="stylesheet", href="../stylesheets/style.css")
         link(rel="stylesheet", href="../stylesheets/app2.css")
         //link(rel="stylesheet", href="../stylesheets/feedback.css")
         link(rel="stylesheet", href="../stylesheets/feedback2.css")
         link(rel="stylesheet", href="../stylesheets/navbar.css")
+        link(rel="stylesheet", href="../stylesheets/lineChart.css")
     body.container(ng-app="SpeedVocab")
         include ./navbar.jade
         div.row

@@ -32,7 +32,7 @@ nav{
 #avatarBtn{
     padding: 10px;
 }
-#noti-dropdownMenu{
+#noti-dropdownMenu, #dashboard-dropdownMenu{
     min-width:320px;
     padding: 10px;
 }
