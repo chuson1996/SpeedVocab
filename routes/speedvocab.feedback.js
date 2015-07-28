@@ -19,7 +19,8 @@ function feedbackRouter(router){
             })
     });
     router.get('/api/getfeedbacks', function(req,res){
-        Feedback.find().then(function(docs){
+        Feedback.find().then(function(docs, err){
+            if (err) return res.status(501).send(err);
             var useridArr = _.pluck(docs,'userId');
             //console.log('useridArr: ', useridArr);
             User.find({
@@ -44,9 +45,6 @@ function feedbackRouter(router){
                 //console.log('toSend: ', toSend);
                 res.json(toSend);
             })
-        }).catch(function(err){
-            console.error(err);
-            res.status(501).send(err);
         });
     });
 }

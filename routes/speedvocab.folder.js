@@ -40,7 +40,8 @@ function folderRouter(router){
         //res.send('Working on it!')
     })
     router.get('/api/getfolders', function(req,res){
-        Folder.find({userId: req.session.passport.user}).then(function(folders){
+        Folder.find({userId: req.session.passport.user}).then(function(folders, err){
+            if (err) return res.status(501).send(err);
             var toSend=[];
             if (folders.length===0) {
                 //var newDefaultFolder = new Folder({
@@ -63,8 +64,6 @@ function folderRouter(router){
                 //res.send('Testing! Be cool!2');
             }
             res.json(toSend);
-        }).catch(function (err) {
-            res.status(501).send(err);
         });
     });
     router.get('/api/getfolderById/:folderId', function(req,res){
