@@ -43,17 +43,17 @@ function folderRouter(router){
         Folder.find({userId: req.session.passport.user}).then(function(folders){
             var toSend=[];
             if (folders.length===0) {
-                var newDefaultFolder = new Folder({
-                    userId: req.session.passport.user,
-                    name: 'NO NAME',
-                    fromLang: 'English',
-                    toLang: 'English',
-                    created: Date()
-                });
-                newDefaultFolder.save();
-                //console.log(newDefaultFolder);
-                toSend.push(newDefaultFolder);
-                //res.send('Testing! Be cool!');
+                //var newDefaultFolder = new Folder({
+                //    userId: req.session.passport.user,
+                //    name: 'NO NAME',
+                //    fromLang: 'English',
+                //    toLang: 'English',
+                //    created: Date()
+                //});
+                //newDefaultFolder.save(function (err) {
+                //    if (err) res.status(501).send(err);
+                //});
+                //toSend.push(newDefaultFolder);
             }
             else{
                 //console.log(folders);
