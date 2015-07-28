@@ -4,7 +4,7 @@ var FeedbackController = (function () {
         this.helper = helper;
         this.$inject = ['$http', 'helper'];
         this.fbList = [];
-        this.getFeedbacks();
+        //this.getFeedbacks();
     }
     FeedbackController.prototype.getFeedbacks = function () {
         var _this = this;

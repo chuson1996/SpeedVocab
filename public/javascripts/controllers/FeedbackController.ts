@@ -14,7 +14,7 @@ class FeedbackController{
     content: String;
     avatar: String;
     constructor(public $http, public helper){
-        this.getFeedbacks();
+        //this.getFeedbacks();
     }
     getFeedbacks(){
         this.$http.get('/speedvocab/api/getfeedbacks').then((res)=>{

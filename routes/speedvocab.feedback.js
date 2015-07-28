@@ -46,7 +46,7 @@ function feedbackRouter(router){
             })
         }).catch(function(err){
             console.error(err);
-            res.status(500).send('Something wrong!');
+            res.status(501).send(err);
         });
     });
 }

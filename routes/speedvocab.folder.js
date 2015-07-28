@@ -63,7 +63,9 @@ function folderRouter(router){
                 //res.send('Testing! Be cool!2');
             }
             res.json(toSend);
-        }).catch(console.error);
+        }).catch(function (err) {
+            res.status(501).send(err);
+        });
     });
     router.get('/api/getfolderById/:folderId', function(req,res){
         Folder.findOne({
