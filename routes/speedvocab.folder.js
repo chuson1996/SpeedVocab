@@ -70,11 +70,10 @@ function folderRouter(router){
         Folder.findOne({
             userId: req.session.passport.user,
             _id: req.params.folderId
-        }).then(function(folder){
-            res.json(folder);
-        }).catch(function(){
-            res.status(500).send('Folder doesn\'t exist or you are not authorized to access it.')
-        })
+        }).then(function(folder, err){
+            if (err) return res.status(500).send('Folder doesn\'t exist or you are not authorized to access it.')
+            return res.json(folder);
+        });
     })
     router.delete('/api/deletefolder/:folderId', function(req,res){
         async.series({

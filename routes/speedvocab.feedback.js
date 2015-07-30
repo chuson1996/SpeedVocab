@@ -43,7 +43,7 @@ function feedbackRouter(router){
                     }
                 });
                 //console.log('toSend: ', toSend);
-                res.json(toSend);
+                return res.json(toSend);
             })
         });
     });
