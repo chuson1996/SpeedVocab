@@ -49,22 +49,8 @@ angular.module('djds4rce.angular-socialshare', [])
 			},
 			transclude: true,
 			template: '<div class="facebookButton">' +
-				'<div class="pluginButton">' +
-				'<div class="pluginButtonContainer">' +
-				'<div class="pluginButtonImage">' +
-				'<button type="button">' +
-				'<i class="pluginButtonIcon img sp_plugin-button-2x sx_plugin-button-2x_favblue"></i>' +
-				'</button>' +
-				'</div>' +
-				'<span class="pluginButtonLabel">Share</span>' +
-				'</div>' +
-				'</div>' +
-				'</div>' +
-				'<div class="facebookCount">' +
-				'<div class="pluginCountButton pluginCountNum">' +
-				'<span ng-transclude></span>' +
-				'</div>' +
-				'<div class="pluginCountButtonNub"><s></s><i></i></div>' +
+				'<i class="fa fa-facebook-official"></i>' +
+				//'<span ng-transclude></span>' +
 				'</div>',
 			link: function(scope, element, attr) {
 				attr.$observe('url', function() {

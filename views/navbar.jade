@@ -13,7 +13,6 @@ nav.navbar.navbar-default
                         p
                             b Study frequency:
                         line-chart(ng-if="db.productivity.data", interpolate="cardinal", d3data="db.productivity.data", d3keys="db.productivity.keys", width="300", height="150", bar-padding="0.1", ticks-x="4", ticks-y="5", margin="{top:10,right:25,left:25,bottom:30}")
-                        a.facebookShare(facebook, data-url='http://chuson.herokuapp.com', data-shares='shares') {{ shares }}
                 li(ng-controller="NotificationController as vm")
                     a.dropdown-toggle.fa.fa-bell#notificationBtn(ng-class="{'active': vm.hasUnreadNotification}", data-toggle="dropdown", ng-click="vm.markAsRead()")
                         sub(style="font-size:14px; color: rgb(160, 0, 0); margin-left:-9px; font-weight: 600;", ng-show="vm.notiSet.unread.length>0") {{vm.notiSet.unread.length}}

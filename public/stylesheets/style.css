@@ -478,3 +478,19 @@ p.h1{
     width:90%;
     font-size:14px;
 }
+.fa-facebook-official{
+    font-size: 33px;
+    display: inline-block;
+    color: #3B5998;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.fa-facebook-official:hover{
+    color: rgba(59, 89, 152, 0.69);
+}
+.facebookShare{
+    height: 32px;
+}

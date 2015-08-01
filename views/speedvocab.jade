@@ -18,7 +18,7 @@ html(lang="en")
         script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="../bower_components/angular/angular.min.js")
         script(src="../bower_components/angular-animate/angular-animate.min.js")
         //script(src="../bower_components/angular-sanitize/angular-sanitize.min.js")
-        script(src="../bower_components/angular-socialshare/angular-socialshare.min.js")
+        script(src="../bower_components/angular-socialshare/angular-socialshare.js")
         link(rel="stylesheet", href="../bower_components/angular-socialshare/angular-socialshare.min.css")
         script(src="../javascripts/lib/angular-ui-router.js")
         script(src="../javascripts/lib/lodash.min.js")
@@ -75,6 +75,8 @@ html(lang="en")
             div.col-md-10
                 div.viewA(ui-view="viewA")
             div.col-md-2
+                a.facebookShare(facebook, data-url='http://chuson.herokuapp.com', data-shares='shares')
+                hr(style="margin-top: 0px;margin-bottom: 7px;border: 0;border-top: 1px solid #C5C2C2;")
                 include ./feedback.jade
 
 
