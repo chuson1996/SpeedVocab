@@ -1,5 +1,5 @@
 (function(){
-    angular.module('SpeedVocab', ['controllers','ui.router','notification','directives','dashboard']);
+    angular.module('SpeedVocab', ['controllers','ui.router','notification','directives','dashboard','djds4rce.angular-socialshare']);
 
     // controllers
     angular.module('controllers',['services','textAngular','filters','ui.router']);
