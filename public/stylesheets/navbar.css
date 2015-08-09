@@ -35,6 +35,8 @@ nav{
 #noti-dropdownMenu, #dashboard-dropdownMenu{
     min-width:320px;
     padding: 10px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 .notiLogo{
     font-size:30px;

@@ -1,5 +1,5 @@
 (function(){
-    angular.module('SpeedVocab', ['controllers','ui.router','notification','directives','dashboard','djds4rce.angular-socialshare']);
+    angular.module('SpeedVocab', ['controllers','ui.router','notification','directives','dashboard','djds4rce.angular-socialshare','relativitySequence']);
 
     // controllers
     angular.module('controllers',['services','textAngular','filters','ui.router']);
@@ -21,5 +21,8 @@
 
     // Notification
     angular.module('notification',[]);
+
+    // Relativity Sequence
+    angular.module('relativitySequence',['services','ng-sortable','textAngular']);
 
 }())

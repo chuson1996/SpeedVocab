@@ -61,7 +61,7 @@ div.app2(ng-controller="MainController as ctrl")
                                 i.fa.fa-plus()
         div.col-md-2
     div.row.main(ng-if="ctrl.currentOpeningFolder")
-
+        relativity-sequence-board
         div.col-md-12.main-st
             div.row.learning-options-st
                 div.col-xs-5.col-sm-4
@@ -152,6 +152,7 @@ div.app2(ng-controller="MainController as ctrl")
                                                 p.meaningText(style="font-size: 18px;", ng-show="!item.editing", ng-click="ctrl.playAudio(item,true)") {{item.meaning}}
                                                 input.form-control(type="text", ng-model="item.meaning", ng-show="item.editing")
                                     div.col-xs-4.col-md-2.optionsDiv
+                                        relativity-sequence(term-id="item._id", word="item.word", meaning="item.meaning")
                                         a.star-btn(ng-click="ctrl.toggleToTestWords(item, $event)")
                                             //img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
                                             span.glyphicon(ng-class="{'glyphicon-star-empty':!item.selectedToCart,'glyphicon-star':item.selectedToCart}")

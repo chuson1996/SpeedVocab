@@ -52,6 +52,10 @@ var notificationRouter = require('./speedvocab.notification.js');
 notificationRouter(router);
 var productivityRouter = require('./speedvocab.productivity.js');
 productivityRouter(router);
+var relativitySequenceRouter = require('./speedvocab.relativitySequence.js');
+relativitySequenceRouter(router);
+//var pointRouter = require('./speedvocab.point.js');
+//pointRouter(router);
 
 // ---------------------------------------------------------------------------------------------------------------------
 module.exports = router;

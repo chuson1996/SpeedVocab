@@ -29,6 +29,7 @@ a {
 ::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
 }
+
 /* -------------------------------------- Animation -----------------------------------------*/
 tr{
     opacity: 1;
