@@ -56,7 +56,9 @@ function relativitySequenceBoardController($http, $rootScope, helper, relativity
     }
     function post(termId, note, images){
         relativitySequenceFactory.post(termId, note, images).then(function (res) {
-            console.log(res);
+            if (res == 'OK'){
+                alert('Success');
+            }
         })
     }
 }
