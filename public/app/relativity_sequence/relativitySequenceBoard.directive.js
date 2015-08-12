@@ -6,7 +6,7 @@ angular.module('relativitySequence')
         return {
             restrict:'E',
             scope:{},
-            templateUrl: '../javascripts/relativity_sequence/relativitySequenceBoard.template.html',
+            templateUrl: '../app/relativity_sequence/relativitySequenceBoard.template.html',
             controller: 'relativitySequenceBoardController as relSeqBoaCtrl',
             link: link
         }

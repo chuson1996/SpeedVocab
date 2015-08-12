@@ -28,7 +28,11 @@
         ///////
 
         function getWords(folderId){
-            return $http.get('/speedvocab/api/getwords/'+folderId).then(function(res){
+            return $http({
+                method:'GET',
+                url:'/speedvocab/api/getwords/'+folderId,
+                cache: true
+            }).then(function(res){
                 self.words = res.data;
                 //console.log(res.data);
                 self.wordCart=[];
@@ -80,6 +84,10 @@
             }
         }
         function editWord(wordid,folderId, newword, newmeaning, newexample, newimage){
+            //editData = {
+            //  folderId: sth,
+            //  editword: sth,...
+            // };
             return $http.put('/speedvocab/api/editword/'+wordid, {
                 folderId: folderId,
                 editword: newword,

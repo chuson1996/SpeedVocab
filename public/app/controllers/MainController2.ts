@@ -218,7 +218,10 @@ class MainController{
             this.toTestWords = this.Word.wordCart;
 
             this.refreshPage();
-            $(window).resize();
+            this.$timeout(function () {
+                $(window).resize();
+            },0);
+
         })
         this.Word.getWords(folderId).then(function(data){
             defer.resolve(data);

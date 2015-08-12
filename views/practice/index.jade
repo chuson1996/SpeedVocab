@@ -6,12 +6,12 @@ html(lang="en")
         link(data-require="bootstrap@*", data-semver="3.3.2", rel="stylesheet", href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css")
         script(data-require="bootstrap@*", data-semver="3.3.2", src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js")
         script(data-require="angular.js@1.4.0-rc.1", data-semver="1.4.0-rc.1", src="https://code.angularjs.org/1.4.0-rc.1/angular.js")
-        script(src="../javascripts/lib/angular-ui-router.js")
-        script(src="../javascripts/lib/lodash.min.js")
+        script(src="../app/lib/angular-ui-router.js")
+        script(src="../app/lib/lodash.min.js")
 
         link(rel="stylesheet", href="../stylesheets/lib/animate.css")
-        link(rel="stylesheet", href="../javascripts/practices/stylesheet/practice1.css")
-        link(rel="stylesheet", href="../javascripts/practices/stylesheet/practice2.css")
+        link(rel="stylesheet", href="../app/practices/stylesheet/practice1.css")
+        link(rel="stylesheet", href="../app/practices/stylesheet/practice2.css")
         script.
             angular.module('app',['ui.router','services','filters'])
                 .config(function($stateProvider) {
@@ -47,7 +47,7 @@ html(lang="en")
                     | UI-Router practicing<br>
                     ui-view
 
-        script(src="../javascripts/practices/filters/OrderByFilters.js")
-        script(src="../javascripts/practices/controllers/animateController.js")
-        script(src="../javascripts/practices/controllers/FoodBalancerController.js")
-        script(src="../javascripts/practices/services/foodList.js")
+        script(src="../app/practices/filters/OrderByFilters.js")
+        script(src="../app/practices/controllers/animateController.js")
+        script(src="../app/practices/controllers/FoodBalancerController.js")
+        script(src="../app/practices/services/foodList.js")

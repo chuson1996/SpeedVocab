@@ -64,7 +64,12 @@ div(ng-controller="LearnController")
                 input#moveOnField(type="text", ng-model="ctrl.hiddenTextfield", ng-keydown="ctrl.moveOnTextfield($event)", placeholder="Press Enter to move on!")
                 //p {{hiddenTextfield}}
                 <br>
-                p.wronganswer(ng-show="!ctrl.result.correct") {{ctrl.result.answer}}
+                div.row(ng-show="!ctrl.result.correct")
+                    div.col-sm-8
+                        p.wronganswer {{ctrl.result.answer}}
+                    div.col-sm-4
+                        button.button.btn-mydefault(ng-click="ctrl.iMistyped(ctrl.result)") I mistyped!
+                        button.button.btn-mydefault(ng-click="ctrl.itsCorrect(ctrl.result, ctrl.result.answer)") It's correct!
                 p.resultText {{ctrl.result.word}} : {{ctrl.result.meaning}}
                 //pre(ng-show="result.example") {{result.example}}
                 div(ta-bind, ng-model="ctrl.result.example", ng-show="ctrl.result.example", style="overflow-y: auto;background-color: rgba(128, 128, 128, 0.2);padding: 4px 4px 4px 4px;border-radius: 7px;margin-bottom: 5px; margin-left:10px; margin-right: 10px")

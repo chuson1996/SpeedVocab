@@ -10,7 +10,7 @@ angular.module('relativitySequence')
                 word: '=',
                 meaning: '='
             },
-            templateUrl:'../javascripts/relativity_sequence/relativitySequence.template.html',
+            templateUrl:'../app/relativity_sequence/relativitySequence.template.html',
             controller: 'relativitySequenceController as relSeqCtrl',
             link: link,
         }

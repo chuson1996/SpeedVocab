@@ -37,19 +37,19 @@ function wordRouter(router){
         var wordid= req.params.wordid;
         //console.log(req.body);
         //console.log(wordid);
+        var updateData= {};
+        if (req.body.folderId) updateData.folderId = req.body.folderId;
+        if (req.body.editword) updateData.word = req.body.editword;
+        if (req.body.editmeaning) updateData.meaning = req.body.editmeaning;
+        if (req.body.editexample) updateData.example = req.body.editexample;
+        if (req.body.editimage) updateData.image = req.body.editimage;
+
         Words.update({
             userId: req.session.passport.user,
             _id:wordid,
             folderId: req.body.folderId
         }, {
-            $set:{
-                userId: req.session.passport.user,
-                folderId: req.body.folderId,
-                word:req.body.editword,
-                meaning: req.body.editmeaning,
-                example: req.body.editexample,
-                image: req.body.editimage
-            }
+            $set:updateData
         },function(err, doc){
             if (err) console.log(err);
             //console.log(doc);

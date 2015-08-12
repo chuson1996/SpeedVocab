@@ -455,6 +455,7 @@ div.resultDiv-wrong{
 /*}*/
 .wronganswer{
     text-decoration: line-through;
+    margin-top:12px;
 }
 .questionDiv, .summary{
     box-shadow: 2px 2px 12px rgba(0,0,0,0.1),1px 1px 4px rgba(0,0,0,0.12);

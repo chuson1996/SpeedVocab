@@ -78,8 +78,6 @@ class LearnController{
         this.$timeout(function(){
             $('#moveOnField').focus();
         }, 100)
-
-
     }
     moveOnTextfield(e,sthelse){
         //e.preventDefault();
@@ -160,6 +158,41 @@ class LearnController{
 
         //next();
         //refresh();
+    }
+    iMistyped(term){
+        var local_ongoingRoundNo = this.ongoingRoundNo,
+            local_ongoingWordNo = this.ongoingWordNo;
+        this.rounds[this.ongoingRoundNo][this.ongoingWordNo].status=true;
+        this.missedTerms = _.dropRight(this.missedTerms);
+        for (var i=0; i<2; i++){
+            this.Word.updateNoCorrectAns(term._id).then((res)=>{
+                //console.log(res);
+                this.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoCorrectAns = res.NoCorrectAns;
+                this.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoWrongAns = res.NoWrongAns;
+            });
+            this.correct++;
+        }
+
+        this.moveOn();
+    }
+    itsCorrect(term, answer){
+        var local_ongoingRoundNo = this.ongoingRoundNo,
+            local_ongoingWordNo = this.ongoingWordNo;
+        this.rounds[local_ongoingRoundNo][local_ongoingWordNo].meaning = this.rounds[local_ongoingRoundNo][local_ongoingWordNo].meaning + ", "+answer;
+        this.rounds[this.ongoingRoundNo][this.ongoingWordNo].status=true;
+        this.missedTerms = _.dropRight(this.missedTerms);
+        this.Word.editWord(term._id, this.rounds[0][0].folderId, this.rounds[local_ongoingRoundNo][local_ongoingWordNo].word, this.rounds[local_ongoingRoundNo][local_ongoingWordNo].meaning, this.rounds[local_ongoingRoundNo][local_ongoingWordNo].example, this.rounds[local_ongoingRoundNo][local_ongoingWordNo].image).then(function (res) {
+            //console.log(res);
+        });
+        for (var i=0; i<2; i++){
+            this.Word.updateNoCorrectAns(term._id).then((res)=>{
+                //console.log(res);
+                this.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoCorrectAns = res.NoCorrectAns;
+                this.rounds[local_ongoingRoundNo][local_ongoingWordNo].NoWrongAns = res.NoWrongAns;
+            });
+            this.correct++;
+        }
+        this.moveOn();
     }
     next(){
         if (this.ongoingWordNo!==this.rounds[this.ongoingRoundNo].length-1){
@@ -261,6 +294,7 @@ class LearnController{
     }
     showResult(term, answer, correct){
         this.result={
+            _id: term._id,
             word: term.word,
             meaning: term.meaning,
             example: term.example,

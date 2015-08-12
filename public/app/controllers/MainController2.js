@@ -188,7 +188,9 @@ var MainController = (function () {
             _this.currentWordlist = _this.helper.orderByScoreFilter(data);
             _this.toTestWords = _this.Word.wordCart;
             _this.refreshPage();
-            $(window).resize();
+            _this.$timeout(function () {
+                $(window).resize();
+            }, 0);
         });
         this.Word.getWords(folderId).then(function (data) {
             defer.resolve(data);
