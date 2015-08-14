@@ -33,7 +33,7 @@ var MainController = (function () {
         activate();
         ////
         function activate() {
-            console.log('Let\' begin our journey');
+            //console.log('Let\' begin our journey');
             // Retrieve unread notification
             getUnreadNotification();
             // Get folders
@@ -79,13 +79,6 @@ var MainController = (function () {
     };
     MainController.prototype.openFolder = function (folderId) {
         this.$state.transitionTo('index', { fid: folderId }, { notify: true });
-    };
-    MainController.prototype.editFolder = function (folder, index) {
-        var _this = this;
-        //return true;
-        return this.Folder.editFolder(folder).then(function (res) {
-            _this.folders[index].editing = false;
-        });
     };
     MainController.prototype.onError = function (err) {
         console.log('!!!!', err);
@@ -138,6 +131,13 @@ var MainController = (function () {
             defer.resolve(res);
         });
     };
+    MainController.prototype.editFolder = function (folder, index) {
+        var _this = this;
+        //return true;
+        return this.Folder.editFolder(folder).then(function (res) {
+            _this.folders[index].editing = false;
+        });
+    };
     MainController.prototype.addFolder = function () {
         var _this = this;
         this.Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then(function (res) {
@@ -164,7 +164,7 @@ var MainController = (function () {
     };
     MainController.prototype.getWords = function (folderId) {
         var _this = this;
-        console.log('Loading words in folder');
+        //console.log('Loading words in folder');
         this.currentOpeningFolder = folderId;
         //$('img.loading').show(300);
         $('.viewA').animate({
@@ -326,7 +326,7 @@ var MainController = (function () {
             //console.log(res);
         });
     };
-    MainController.prototype.deleteItem = function (item) {
+    MainController.prototype.deleteWord = function (item) {
         this.Word.deleteWord(item._id).then(function (res) {
             console.log('deleted');
         });
@@ -443,25 +443,6 @@ app.config(function ($provide) {
         ];
         return taOptions;
     }]);
-});
-app.directive('elemReady', function ($parse, $timeout) {
-    return {
-        restrict: 'A',
-        priority: -1000,
-        link: function ($scope, elem, attrs) {
-            elem.ready(function () {
-                $timeout(function () {
-                    //console.log('elem: ', elem);
-                    //console.log('exampleDiv height: ', $(elem[0]).find('.exampleDiv')[0].offsetHeight);
-                    var exampleHeight = $(elem[0]).find('.exampleDiv')[0].offsetHeight;
-                    //if (exampleHeight<160)
-                    //{
-                    //    $(elem[0]).find('.toggleExampleBar').hide();
-                    //}
-                });
-            });
-        }
-    };
 });
 app.controller('MainController', MainController);
 app.filter('orderByScore', function () {

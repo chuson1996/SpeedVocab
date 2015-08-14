@@ -116,17 +116,16 @@ function wordRouter(router){
     });
     router.delete('/api/deleteword/:wordid', function(req,res){
         var wordid= req.params.wordid;
-        console.log(wordid);
         Words.remove({
             userId: req.session.passport.user,
             _id: wordid
         }, function (err) {
             if (err) {
-                console.log(err);
-                throw err;
+                return res.status(501).send(err);
             }
+            return res.send('OK');
         });
-        res.send('OK');
+
     });
     router.get('/api/getwords/:folderId', function(req,res){
         //console.log(req.session.passport.user, req.query.openingFolder);

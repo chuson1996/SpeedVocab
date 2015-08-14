@@ -8,6 +8,7 @@ interface ILoading{
     imageSuggestion: boolean;
     wordCollection: boolean;
 }
+
 class MainController{
     newword: string;
     newmeaning: string;
@@ -51,7 +52,7 @@ class MainController{
         '$location',
         'yandexSupportedLangs'
     ];
-    constructor(public $scope, public $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout, public helper, public $anchorScroll, public $location, public yandexSupportedLangs){
+    constructor(private $scope, private $http, public Word, public Folder, public AppLearnBridge, public $state, public $q, public $stateParams, public $timeout, public helper, public $anchorScroll, public $location, public yandexSupportedLangs){
         var vm = this;
         this.loadingDefinition = Word.loadingDefinition;
 
@@ -63,7 +64,7 @@ class MainController{
 
         ////
         function activate(){
-            console.log('Let\' begin our journey');
+            //console.log('Let\' begin our journey');
             // Retrieve unread notification
             getUnreadNotification();
 
@@ -113,12 +114,6 @@ class MainController{
     }
     openFolder(folderId){
         this.$state.transitionTo('index',{fid: folderId},{notify:true});
-    }
-    editFolder(folder, index){
-        //return true;
-        return this.Folder.editFolder(folder).then((res)=>{
-            this.folders[index].editing=false;
-        });
     }
     onError(err){
         console.log('!!!!',err);
@@ -170,6 +165,12 @@ class MainController{
             defer.resolve(res);
         });
     }
+    editFolder(folder, index){
+        //return true;
+        return this.Folder.editFolder(folder).then((res)=>{
+            this.folders[index].editing=false;
+        });
+    }
     addFolder(){
         this.Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then((res)=>{
             console.log(res);
@@ -193,7 +194,7 @@ class MainController{
         });
     }
     getWords(folderId){
-        console.log('Loading words in folder');
+        //console.log('Loading words in folder');
         this.currentOpeningFolder=folderId;
         //$('img.loading').show(300);
         $('.viewA').animate({
@@ -347,14 +348,14 @@ class MainController{
     editItem(item){
         item.editing=true;
     }
-    doneEditing(item){
-        item.editing=false;
+    doneEditing(item) {
+        item.editing = false;
         //console.log(item);
-        this.Word.editWord(item._id,this.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function(res){
+        this.Word.editWord(item._id, this.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
             //console.log(res);
         });
     }
-    deleteItem(item){
+    deleteWord(item){
         this.Word.deleteWord(item._id).then(function(res){
             console.log('deleted');
         });
@@ -487,27 +488,6 @@ app.config(function($provide){
         ];
         return taOptions;
     }]);
-});
-app.directive( 'elemReady', function( $parse, $timeout ) {
-    return {
-        restrict: 'A',
-        priority: -1000,
-        link: function( $scope, elem, attrs ) {
-
-            elem.ready(function(){
-                $timeout(()=>{
-                    //console.log('elem: ', elem);
-                    //console.log('exampleDiv height: ', $(elem[0]).find('.exampleDiv')[0].offsetHeight);
-                    var exampleHeight = $(elem[0]).find('.exampleDiv')[0].offsetHeight;
-                    //if (exampleHeight<160)
-                    //{
-                    //    $(elem[0]).find('.toggleExampleBar').hide();
-                    //}
-
-                });
-            })
-        }
-    }
 });
 app.controller('MainController', MainController);
 app.filter('orderByScore', function(){

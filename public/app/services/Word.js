@@ -9,8 +9,9 @@
         });
     }
     var app= angular.module('services');
-    app.service('Word', function($http, yandexSupportedLangs){
+    app.service('Word', function($http, $q, $cacheFactory,yandexSupportedLangs, beforeMethod){
         var self=this;
+
         self.wordCart=[];
         self.words=[];
         self.getWords=getWords;
@@ -25,45 +26,53 @@
         self.paraphaseToExampleEN2EN=paraphaseToExampleEN2EN;
         self.loadingDefinition=false;
 
+        var currentFolderId = null;
+        /* Every action that might alter the origin of the data will clear itself in the cache. In other word: RESET */
+        beforeMethod(self,['addWord','editWord','deleteWord','updateNoWrongAns','updateNoCorrectAns'], clearCache);
         ///////
-
+        function clearCache(){
+            if ($cacheFactory.get('SpeedVocab') && $cacheFactory.get('SpeedVocab').get('/speedvocab/api/getwords/'+currentFolderId)){
+                console.log('Clear cache');
+                $cacheFactory.get('SpeedVocab').destroy();
+            }
+        }
         function getWords(folderId){
+            currentFolderId = folderId;
+            var defer = $q.defer();
+
+            var cacheObj = $cacheFactory.get('SpeedVocab');
+            if (cacheObj && cacheObj.get('/speedvocab/api/getwords/'+folderId))
+            {
+                console.log('Retrieved from cache');
+                defer.resolve(cacheObj.get('/speedvocab/api/getwords/'+folderId));
+                return defer.promise.then(function (data) {
+                    handleData(data);
+                    return data;
+                });
+            }
+
+            if (!cacheObj){
+                cacheObj = $cacheFactory('SpeedVocab');
+            }
             return $http({
                 method:'GET',
                 url:'/speedvocab/api/getwords/'+folderId,
-                cache: true
+                cache: false
             }).then(function(res){
-                self.words = res.data;
+                cacheObj.put('/speedvocab/api/getwords/'+folderId, res.data);
+                handleData(res.data);
+                return res.data;
+
+            });
+            function handleData(data){
+                self.words = data;
                 //console.log(res.data);
                 self.wordCart=[];
                 self.wordCart.splice(0, self.wordCart.length);
-                //self.words.map(function(term){
-                //    try{
-                //        //var audio1 = document.createElement('audio');
-                //        //audio1.src=term.wordVoice;
-                //        //term.wordAudio = audio1;
-                //        term.wordAudio=new Audio(term.wordVoice);
-                //        //var audio2 = document.createElement('audio');
-                //        //audio2.src=term.meaningVoice;
-                //        //term.meaningAudio = audio2;
-                //        term.meaningAudio=new Audio(term.meaningVoice);
-                //
-                //
-                //        return term;
-                //    }catch(e){
-                //
-                //    }
-                //
-                //
-                //
-                //
-                //});
-                return self.words;
-
-
-            });
+            }
         }
         function addWord(folderId, newword, newmeaning, newexample, newimage){
+            //clearCache('/speedvocab/api/getwords/'+folderId);
             return $http.post('/speedvocab/post/addword',{
                 folderId: folderId,
                 addword: newword,
@@ -88,6 +97,7 @@
             //  folderId: sth,
             //  editword: sth,...
             // };
+            //clearCache('/speedvocab/api/getwords/'+folderId);
             return $http.put('/speedvocab/api/editword/'+wordid, {
                 folderId: folderId,
                 editword: newword,
@@ -99,16 +109,19 @@
             });
         }
         function deleteWord(wordid){
+            //clearCache('/speedvocab/api/getwords/'+folderId);
             return $http.delete('/speedvocab/api/deleteword/'+wordid).then(function(res){
                 return res;
             });
         }
         function updateNoCorrectAns(wordid){
+            //clearCache('/speedvocab/api/getwords/'+folderId);
             return $http.put('/speedvocab/api/updateNoCorrectAns/'+wordid,{}).then(function(res){
                 return res.data;
             });
         }
         function updateNoWrongAns(wordid){
+            //clearCache('/speedvocab/api/getwords/'+folderId);
             return $http.put('/speedvocab/api/updateNoWrongAns/'+wordid,{}).then(function(res){
                 return res.data;
             });

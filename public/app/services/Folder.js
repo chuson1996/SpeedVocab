@@ -20,7 +20,7 @@
 
         function getFolders(){
             return $http.get('/speedvocab/api/getfolders').then(function (res) {
-                console.log('Getting folders...');
+                //console.log('Getting folders...');
                 self.folders = res.data.sort(function(a,b){
                     return new Date(a.createdAt) < new Date(b.createdAt);
                 });

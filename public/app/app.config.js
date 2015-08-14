@@ -1,6 +1,6 @@
 (function(){
     angular.module('SpeedVocab')
-        .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+        .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
             $urlRouterProvider.when("","/")
                 .otherwise("/");
             $stateProvider
@@ -29,11 +29,13 @@
                         "viewA": {templateUrl: "/speedvocab/template/feedback"}
                     }
                 });
-            //if(window.history && window.history.pushState){
-            //    $locationProvider.html5Mode({
-            //        enabled: true,
-            //        requireBase: false
-            //    });
-            //}
+                //if(window.history && window.history.pushState){
+                //    $locationProvider.html5Mode({
+                //        enabled: true,
+                //        requireBase: false
+                //    });
+                //}
+
+            $compileProvider.debugInfoEnabled(false);
         });
 }())
