@@ -110,7 +110,7 @@ var MainController = (function () {
         this.$anchorScroll();
     };
     // ------------------------
-    MainController.prototype.submit = function () {
+    MainController.prototype.addTerm = function () {
         var _this = this;
         var defer = this.$q.defer();
         defer.promise.then(function (res) {
@@ -249,7 +249,7 @@ var MainController = (function () {
             alert('You must select more than 1 term to learn!');
         }
     };
-    MainController.prototype.backToFolerSelection = function () {
+    MainController.prototype.backToFolderSelection = function () {
         this.$state.transitionTo('index', { folder: undefined }, { notify: true });
     };
     //------------------------------ Starring --------------------------------
@@ -316,17 +316,17 @@ var MainController = (function () {
         this.toTestWords = this.Word.wordCart;
     };
     // -------------------- Editing && Deleting Item ---------------------------
-    MainController.prototype.editItem = function (item) {
+    MainController.prototype.enableEditTerm = function (item) {
         item.editing = true;
     };
-    MainController.prototype.doneEditing = function (item) {
+    MainController.prototype.editTerm = function (item) {
         item.editing = false;
         //console.log(item);
         this.Word.editWord(item._id, this.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
             //console.log(res);
         });
     };
-    MainController.prototype.deleteWord = function (item) {
+    MainController.prototype.deleteTerm = function (item) {
         this.Word.deleteWord(item._id).then(function (res) {
             console.log('deleted');
         });

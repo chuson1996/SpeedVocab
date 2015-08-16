@@ -1,7 +1,7 @@
 /**
  * Created by chuso_000 on 6/5/2015.
  */
-//(function(){
+(function(){
     function onError(err){
         console.log(err);
         return new Promise(function(resolve, reject){
@@ -182,4 +182,4 @@
 
     });
 
-//}());
+})();

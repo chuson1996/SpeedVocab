@@ -6,4 +6,4 @@
             ru: 'alyona22k'
         };
     })
-}(angular.module('services')))
+}(angular.module('services')));

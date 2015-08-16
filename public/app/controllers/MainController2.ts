@@ -144,7 +144,7 @@ class MainController{
         this.$anchorScroll();
     }
     // ------------------------
-    submit(){
+    addTerm(){
         var defer = this.$q.defer();
         defer.promise.then((res)=>{
             res.editing = false;
@@ -282,7 +282,7 @@ class MainController{
 
 
     }
-    backToFolerSelection(){
+    backToFolderSelection(){
         this.$state.transitionTo('index',{folder: undefined},{notify:true});
     }
     //------------------------------ Starring --------------------------------
@@ -345,17 +345,17 @@ class MainController{
         this.toTestWords = this.Word.wordCart;
     }
     // -------------------- Editing && Deleting Item ---------------------------
-    editItem(item){
+    enableEditTerm(item){
         item.editing=true;
     }
-    doneEditing(item) {
+    editTerm(item) {
         item.editing = false;
         //console.log(item);
         this.Word.editWord(item._id, this.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
             //console.log(res);
         });
     }
-    deleteWord(item){
+    deleteTerm(item){
         this.Word.deleteWord(item._id).then(function(res){
             console.log('deleted');
         });

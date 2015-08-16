@@ -1,6 +1,6 @@
 (function(){
     angular.module('SpeedVocab')
-        .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider) {
+        .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $provide) {
             $urlRouterProvider.when("","/")
                 .otherwise("/");
             $stateProvider
@@ -36,6 +36,16 @@
                 //    });
                 //}
 
-            $compileProvider.debugInfoEnabled(false);
+            //$compileProvider.debugInfoEnabled(false);
+
+            $provide.decorator('taOptions',['$delegate', function(taOptions){
+                taOptions.toolbar = [
+                    ['h2','p', 'pre', 'quote'],
+                    ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol'],
+                    ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                    ['html']
+                ];
+                return taOptions;
+            }]);
         });
 }())

@@ -29,11 +29,11 @@ div.app2(ng-controller="MainController as ctrl")
                         div.col-xs-6.langDiv
                             div.row
                                 div.col-xs-6.fromLangDiv(ng-dblclick="folder.editing=true")
-                                    p(ng-show="!folder.editing") {{ctrl.Folder.decodeLang(folder.fromLang)}}
+                                    p(ng-show="!folder.editing") {{ctrl.decodeLang(folder.fromLang)}}
                                     //input.form-control#editFromLang(type="text", ng-show="folder.editing", ng-model="folder.fromLang")
                                     language-selection.language-selection(bbind="folder.fromLang", ng-if="folder.editing", pplaceholder="Source language")
                                 div.col-xs-6.toLangDiv(ng-dblclick="folder.editing=true")
-                                    p(ng-show="!folder.editing") {{ctrl.Folder.decodeLang(folder.toLang)}}
+                                    p(ng-show="!folder.editing") {{ctrl.decodeLang(folder.toLang)}}
                                     //input.form-control#editToLang(type="text", ng-show="folder.editing", ng-model="folder.toLang")
                                     language-selection.language-selection(bbind="folder.toLang", ng-if="folder.editing", pplaceholder="Target language")
                                     i.fa.fa-check(ng-click="ctrl.editFolder(folder, $index)", ng-show="folder.editing")
@@ -65,14 +65,14 @@ div.app2(ng-controller="MainController as ctrl")
         div.col-md-12.main-st
             div.row.learning-options-st
                 div.col-xs-5.col-sm-4
-                    div.back-to-folder(style="cursor:pointer;", ng-click="ctrl.backToFolerSelection()")
+                    div.back-to-folder(style="cursor:pointer;", ng-click="ctrl.backToFolderSelection()")
                         i.fa.fa-angle-left
                     div.learn-opt(ng-click="ctrl.goToTest()")
                         i.fa.fa-newspaper-o(style="")
-                        h2(style="") Learn {{ctrl.toTestWords.length}}
+                        h2(style="") Learn {{ctrl.wordCart.length}}
                 div.col-xs-7.col-sm-8.starring
                     div.row
-                        a.unstarAll.btn-mydefault(ng-show="ctrl.toTestWords.length", ng-click="ctrl.unstarAll()", style="width:125px;")
+                        a.unstarAll.btn-mydefault(ng-show="ctrl.wordCart.length", ng-click="ctrl.unstarAll()", style="width:125px;")
                             img(src="../icons/flower135.png", style="width:18px")
                             span(style="margin-left: 10px") Clear all
                         div(style="width:150px; float:right;")
@@ -89,7 +89,7 @@ div.app2(ng-controller="MainController as ctrl")
                     div.addnewToggleBar(ng-click="ctrl.toggleAddNewBar()", style="cursor:pointer;")
                         i.fa.fa-angle-up(style="font-size:31px;")
                     div.addnewDiv
-                        form(ng-submit="ctrl.submit()")
+                        form(ng-submit="ctrl.addTerm()")
                             div.row.row1
                                 div.col-md-2.newwordDiv
                                     input.form-control(type="text", ng-model="ctrl.newword", placeholder="Word", required)
@@ -153,18 +153,18 @@ div.app2(ng-controller="MainController as ctrl")
                                                 input.form-control(type="text", ng-model="item.meaning", ng-show="item.editing")
                                     div.col-xs-4.col-md-2.optionsDiv
                                         relativity-sequence(term-id="item._id", word="item.word", meaning="item.meaning")
-                                        a.star-btn(ng-click="ctrl.toggleToTestWords(item, $event)")
+                                        a.star-btn(ng-click="ctrl.toggleToWordCart(item, $event)")
                                             //img.notselected(src="../icons/star-shape4.png", ng-show="!item.selectedToCart", style="")
                                             span.glyphicon(ng-class="{'glyphicon-star-empty':!item.selectedToCart,'glyphicon-star':item.selectedToCart}")
                                             //img.selected(src="../icons/flower135.png", ng-show="item.selectedToCart")
                                             //span.glyphicon.glyphicon-star(ng-show="item.selectedToCart", style="transform: rotate(144deg);color:rgb(211, 211, 0);")
-                                        a.edit-btn(ng-click="ctrl.editItem(item)", ng-show="!item.editing")
+                                        a.edit-btn(ng-click="ctrl.enableEditTerm(item)", ng-show="!item.editing")
                                             i.fa.fa-pencil-square-o
                                             //img(src="../icons/pencil124.png", style="")
-                                        a.done-editing-btn(ng-show="item.editing", ng-click="ctrl.doneEditing(item)")
+                                        a.done-editing-btn(ng-show="item.editing", ng-click="ctrl.editTerm(item)")
                                             i.fa.fa-check
                                             //img(src="../icons/tick11.png", style="")
-                                        a.del-btn(ng-click="ctrl.deleteWord(item)")
+                                        a.del-btn(ng-click="ctrl.deleteTerm(item)")
                                             i.fa.fa-trash-o
                                             //img(src="../icons/cross105.png", style="")
                                 div.row

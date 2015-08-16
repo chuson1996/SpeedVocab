@@ -1,8 +1,27 @@
 (function(){
-    angular.module('SpeedVocab', ['controllers','ui.router','notification','directives','dashboard','djds4rce.angular-socialshare','relativitySequence']);
+    angular.module('SpeedVocab', [
+        'textAngular',
+        'ui.router',
+        'djds4rce.angular-socialshare',
+
+        'controllers',
+        'notification',
+        'directives',
+        'dashboard',
+        'relativitySequence'
+    ]);
 
     // controllers
-    angular.module('controllers',['services','textAngular','filters','ui.router']);
+    angular.module('controllers',[
+        'ui.router',
+        'services',
+        'filters',
+        'controllers.mainController.folder',
+        'controllers.mainController.toTest',
+        'controllers.mainController.word',
+        'controllers.mainController.wordlist'
+
+    ]);
 
     // services
     angular.module('services',[]);

@@ -4,7 +4,7 @@
 angular.module('dashboard')
     .controller('DashboardController',dashboardController);
 
-function dashboardController($scope, productivityFactory){
+function dashboardController(productivityFactory){
     var db = this;
     db.$inject=['$scope',
         'productivityFactory'];
@@ -24,5 +24,22 @@ function dashboardController($scope, productivityFactory){
             //console.log('db.productivity.data:', db.productivity.data);
             //console.log('db.productivity.keys:', db.productivity.keys);
         })
+    }
+}
+/**
+ * Created by chuso_000 on 28/7/2015.
+ */
+angular.module('productivity')
+    .factory('productivityFactory',productivityFactory);
+
+function productivityFactory($http){
+    this.$inject=["$http"];
+
+    return{
+        getProductivity: getProductivity
+    }
+    //
+    function getProductivity(){
+        return $http.get('/speedvocab/api/productivity');
     }
 }
