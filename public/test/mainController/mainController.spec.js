@@ -2,20 +2,21 @@
  * Created by chuso_000 on 18/8/2015.
  */
 describe('Main Controller', function () {
-    var ctrl, $rootScope, scope, $stateParams, $controller, $httpBackend, $q;
+    var ctrl, $rootScope, scope, $stateParams, $controller, $httpBackend, $q, $http;
     var createController;
     var getFoldersRequestHandler,
         getWordsRequestHandler,
         deleteFolderRequestHandler;
     beforeEach(module('controllers'));
 
-    beforeEach(inject(function (_$rootScope_, _$httpBackend_, _$stateParams_, _$controller_, _$q_) {
+    beforeEach(inject(function (_$rootScope_, _$httpBackend_, _$stateParams_, _$controller_, _$q_, _$http_) {
         scope = _$rootScope_.$new();
         $rootScope = _$rootScope_;
         $httpBackend = _$httpBackend_;
         $stateParams = _$stateParams_;
         $controller = _$controller_;
         $q = _$q_;
+        $http = _$http_;
 
         getFoldersRequestHandler = $httpBackend.when('GET','/speedvocab/api/getfolders')
             .respond([{"_id":"55477a205234dd0c177278d0","userId":"554771ebc27a79641de2a15f","name":"NO NAME","fromLang":"fi","toLang":"ru","__v":0,"createdAt":"2015-05-04T13:54:40.000Z"},{"_id":"55488e267978be7816a88924","userId":"554771ebc27a79641de2a15f","name":"Chapter 7","fromLang":"fi","toLang":"en","__v":0,"createdAt":"2015-05-05T09:32:22.000Z"},{"_id":"55523881f1e7b37e0170419a","userId":"554771ebc27a79641de2a15f","name":"IT phrases","fromLang":"en","toLang":"vi","__v":0,"createdAt":"2015-05-12T17:29:37.000Z"},{"_id":"55588d69e281a87d01d096c3","userId":"554771ebc27a79641de2a15f","name":"TOTAL RECALL","fromLang":"en","toLang":"en","__v":0,"createdAt":"2015-05-17T12:45:29.000Z"},{"_id":"55c330a7507e3a03005942ee","userId":"554771ebc27a79641de2a15f","name":"Finnish Summer","fromLang":"fi","toLang":"en","__v":0,"createdAt":"2015-08-06T10:02:15.000Z"}]
@@ -62,19 +63,39 @@ describe('Main Controller', function () {
                 it('should delete a folder', function () {
                     expect(ctrl.folders.length).toEqual(5);
                     var folderToDelete = {"_id":"55477a205234dd0c177278d0","userId":"554771ebc27a79641de2a15f","name":"NO NAME","fromLang":"fi","toLang":"ru","__v":0,"createdAt":"2015-05-04T13:54:40.000Z"};
-                    var deleteFolderHandler = function (res) {
+                    var deleteFolderHandler = function (res, err) {
+                        if (err) return console.log(err);
                         //$rootScope.$digest();
-                        console.log('ákdfhakhdfkajhdsfkjah');
-                        $httpBackend.expectDELETE('/speedvocab/api/deletefolder/55477a205234dd0c177278d0');
-                        $httpBackend.flush();
-                        expect(ctrl.folders.length).toEqual(6);
+                        //console.log('ákdfhakhdfkajhdsfkjah');  // --> Not printed
+                        //$httpBackend.expectDELETE('/speedvocab/api/deletefolder/55477a205234dd0c177278d0');
+                        //$httpBackend.flush();
+                        //expect(ctrl.folders.length).toEqual(6);
                     };
-                    var deleteFolderSpy = jasmine.createSpy('deleteFolderHandler');
+                    // ---------
+                    var Folder = {
+                        deleteFolder: function (folderId) {
+                            return $http.delete('/speedvocab/api/deletefolder/' + folderId).then(function (res) {
+                                return res;
+                            })
+                        }
+                    }
+                    ctrl.deleteFolder = function (folder) {
+                        return Folder.deleteFolder(folder._id).then(function (res) {
+                            if (res.data == 'OK') {
+                                _.remove(ctrl.folders, function (n) {
+                                    return n._id == folder._id;
+                                })
+                            }
+                            return res;
+                        });
+                    };
+                    // -------------
                     ctrl.deleteFolder(folderToDelete)
                         .then(deleteFolderHandler);
+                    //$httpBackend.expectDELETE('/speedvocab/api/deletefolder/55477a205234dd0c177278d0').respond(200,'OK');
                     $httpBackend.expectDELETE('/speedvocab/api/deletefolder/55477a205234dd0c177278d0');
                     $httpBackend.flush();
-                    expect(ctrl.folders.length).toEqual(6);
+                    expect(ctrl.folders.length).toEqual(4);
 
                     //$rootScope.$digest();
                     //expect(deleteFolderSpy).toHaveBeenCalled();

@@ -31,7 +31,17 @@ module.exports = function(config) {
       'app/app.module.js',
       'app/app.config.js',
       'app/app.run.js',
-      'app/*/**/*.js',
+
+      'app/services/dist/services.js',
+      'app/filters/orderByScoreFilter.js',
+      'app/controllers/LearnController2.js',
+      'app/controllers/MainController/dist/MainController.js',
+      'app/controllers/FeedbackController.js',
+      'app/directives/languageSelection.js',
+      'app/notification/dist/notification.js',
+      'app/dashboard/dist/dashboard.js',
+      'app/charts/dist/charts.js',
+      'app/relativity_sequence/dist/relativity_sequence.js',
 
       'test/**/*.js',
     ],
