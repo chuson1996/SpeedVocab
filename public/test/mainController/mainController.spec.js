@@ -64,17 +64,20 @@ describe('Main Controller', function () {
                     var folderToDelete = {"_id":"55477a205234dd0c177278d0","userId":"554771ebc27a79641de2a15f","name":"NO NAME","fromLang":"fi","toLang":"ru","__v":0,"createdAt":"2015-05-04T13:54:40.000Z"};
                     var deleteFolderHandler = function (res) {
                         //$rootScope.$digest();
-                        console.log(res);
+                        console.log('ákdfhakhdfkajhdsfkjah');
                         $httpBackend.expectDELETE('/speedvocab/api/deletefolder/55477a205234dd0c177278d0');
                         $httpBackend.flush();
                         expect(ctrl.folders.length).toEqual(6);
-                    }
+                    };
                     var deleteFolderSpy = jasmine.createSpy('deleteFolderHandler');
-                    expect(ctrl.deleteFolder).toBeDefined();
                     ctrl.deleteFolder(folderToDelete)
-                        .then(deleteFolderSpy);
-                    $rootScope.$digest();
-                    expect(deleteFolderSpy).toHaveBeenCalled();
+                        .then(deleteFolderHandler);
+                    $httpBackend.expectDELETE('/speedvocab/api/deletefolder/55477a205234dd0c177278d0');
+                    $httpBackend.flush();
+                    expect(ctrl.folders.length).toEqual(6);
+
+                    //$rootScope.$digest();
+                    //expect(deleteFolderSpy).toHaveBeenCalled();
 
 
                 })
