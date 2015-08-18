@@ -28,7 +28,7 @@ angular.module('controllers')
                 })
             }
             function addFolder(){
-                Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then(function(res){
+                return Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then(function(res){
                     console.log(res);
                     vm.folders.push(res.data);
                     vm.folders = vm.folders.sort(function(a,b){
@@ -40,13 +40,13 @@ angular.module('controllers')
                 })
             }
             function deleteFolder(folder){
-                Folder.deleteFolder(folder._id).then(function (res){
-                    console.log(res);
+                return Folder.deleteFolder(folder._id).then(function (res){
                     if (res.data=='OK'){
                         _.remove(vm.folders, function(n){
-                            return n==folder;
+                            return n._id==folder._id;
                         })
                     }
+                    return res;
                 });
             }
         }

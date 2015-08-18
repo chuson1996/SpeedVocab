@@ -28,7 +28,7 @@ angular.module('controllers')
                 })
             }
             function addFolder(){
-                Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then(function(res){
+                return Folder.addFolder(this.newnameF, this.newfromLangF, this.newtoLangF).then(function(res){
                     console.log(res);
                     vm.folders.push(res.data);
                     vm.folders = vm.folders.sort(function(a,b){
@@ -40,13 +40,13 @@ angular.module('controllers')
                 })
             }
             function deleteFolder(folder){
-                Folder.deleteFolder(folder._id).then(function (res){
-                    console.log(res);
+                return Folder.deleteFolder(folder._id).then(function (res){
                     if (res.data=='OK'){
                         _.remove(vm.folders, function(n){
-                            return n==folder;
+                            return n._id==folder._id;
                         })
                     }
+                    return res;
                 });
             }
         }
@@ -124,6 +124,8 @@ function MainController(Word, Folder, $stateParams, mainControllerFolder, mainCo
     vm.wordCart = [];
     //console.log('$stateParams', $stateParams);
 
+    vm.currentOpeningFolder = null;
+
     mainControllerFolder.call(vm);
     mainControllerWordlist.call(vm);
     mainControllerWord.call(vm);
@@ -140,13 +142,14 @@ function MainController(Word, Folder, $stateParams, mainControllerFolder, mainCo
             wordCollection: false
         };
 
+
         // Get folders
         if ($stateParams.fid){
             vm.currentOpeningFolder = $stateParams.fid;
             vm.getWords(vm.currentOpeningFolder);
 
         }else{
-
+            vm.currentOpeningFolder = null;
             Folder.getFolders().then(function (data){
                 vm.folders = data;
                 //console.log(data);
@@ -295,7 +298,7 @@ angular.module('controllers')
             function getSuggestedImages(text){
                 vm.loading.imageSuggestion = true;
                 vm.newimage='';
-                helper.getSuggestedImages(text).then(function(res){
+                return helper.getSuggestedImages(text).then(function(res){
                     vm.suggestedImages=res;
                     vm.loading.imageSuggestion = false;
                 });
@@ -336,8 +339,7 @@ angular.module('controllers')
             })
 
             function addTerm(){
-                var defer = $q.defer();
-                defer.promise.then(function(res, err){
+                return Word.addWord(vm.currentOpeningFolder, vm.newword, vm.newmeaning, vm.newexample, vm.newimage).then(function(res, err){
                     if (err) return console.error(err);
                     res.editing = false;
                     vm.resetForm();
@@ -353,9 +355,6 @@ angular.module('controllers')
                     //
                     //});
                 });
-                Word.addWord(vm.currentOpeningFolder, vm.newword, vm.newmeaning, vm.newexample, vm.newimage).then(function(res){
-                    defer.resolve(res);
-                });
             }
             function enableEditTerm(item){
                 item.editing=true;
@@ -363,14 +362,11 @@ angular.module('controllers')
             function editTerm(item) {
                 item.editing = false;
                 //console.log(item);
-                Word.editWord(item._id, vm.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
+                return Word.editWord(item._id, vm.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
                     //console.log(res);
                 });
             }
             function deleteTerm(item){
-                Word.deleteWord(item._id).then(function(res){
-                    console.log('deleted');
-                });
                 vm.currentWordlist.splice(vm.currentWordlist.indexOf(item),1);
                 vm.refreshPage();
                 if (vm.wordCart && vm.wordCart.length>0){
@@ -380,12 +376,15 @@ angular.module('controllers')
                         vm.wordCart.splice(vm.wordCart.indexOf(item),1);
                     }
                 }
+                return Word.deleteWord(item._id).then(function(res){
+                    console.log('deleted');
+                });
             }
             function defineWord(word){
                 vm.loading.definition = true;
                 var from,to;
 
-                Folder.getFolderById(vm.currentOpeningFolder).then(function(res){
+                return Folder.getFolderById(vm.currentOpeningFolder).then(function(res){
                     //console.log(res);
                     from = res.fromLang;
                     to = res.toLang;
@@ -559,9 +558,7 @@ angular.module('controllers')
                 $('.viewA').animate({
                     opacity:0.3
                 },1000);
-                var defer = $q.defer();
-
-                defer.promise.then(function (data){
+                return Word.getWords(folderId).then(function(data){
                     if (data) vm.openingPage= 1;
                     //$('img.loading').hide(300);
                     $('.viewA').stop().animate({
@@ -581,10 +578,6 @@ angular.module('controllers')
                     $timeout(function () {
                         $(window).resize();
                     },0);
-
-                });
-                Word.getWords(folderId).then(function(data){
-                    defer.resolve(data);
                 });
             }
             function wordLoaded(){

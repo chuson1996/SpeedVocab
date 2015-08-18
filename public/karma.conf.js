@@ -1,5 +1,5 @@
 // Karma configuration
-// Generated on Thu Jul 16 2015 20:20:40 GMT+0300 (FLE Daylight Time)
+// Generated on Tue Aug 18 2015 10:19:06 GMT+0300 (FLE Daylight Time)
 
 module.exports = function(config) {
   config.set({
@@ -15,23 +15,34 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/jquery/dist/jquery.js',
-      'bower_components/angular/angular.js',
+      'bower_components/angular/angular.min.js',
       'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.min.js',
+      'bower_components/angular-animate/angular-animate.min.js',
+      'bower_components/angular-ui-sortable/sortable.js',
+      'bower_components/angular-ui-sortable/ng-sortable.js',
+      'bower_components/jquery/dist/jquery.min.js',
+      'bower_components/lodash/lodash.min.js',
+      'bower_components/d3/d3.min.js',
+      'app/lib/textAngular.min.js',
+      'app/lib/textAngular-rangy.min.js',
+      'app/lib/textAngular-sanitize.min.js',
 
       'app/app.module.js',
       'app/app.config.js',
-      'app/notification/*.js',
-      'test/**/*.spec.js',
+      'app/app.run.js',
+      'app/*/**/*.js',
 
+      'test/**/*.js',
     ],
 
 
     // list of files to exclude
     exclude: [
-      'soundcloud/**/*.js',
-      'lib/**/*.js',
-      'practices/**/*.js'
+      'bower_components/bootstrap/**/*.js',
+      'bower_components/jquery-ui/**/*.js',
+      'app/practices/**/*.js',
+      'app/**/src/**/*.js'
     ],
 
 
@@ -74,3 +85,4 @@ module.exports = function(config) {
     singleRun: false
   })
 }
+

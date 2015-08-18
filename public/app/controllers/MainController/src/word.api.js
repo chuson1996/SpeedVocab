@@ -18,8 +18,7 @@ angular.module('controllers')
             })
 
             function addTerm(){
-                var defer = $q.defer();
-                defer.promise.then(function(res, err){
+                return Word.addWord(vm.currentOpeningFolder, vm.newword, vm.newmeaning, vm.newexample, vm.newimage).then(function(res, err){
                     if (err) return console.error(err);
                     res.editing = false;
                     vm.resetForm();
@@ -35,9 +34,6 @@ angular.module('controllers')
                     //
                     //});
                 });
-                Word.addWord(vm.currentOpeningFolder, vm.newword, vm.newmeaning, vm.newexample, vm.newimage).then(function(res){
-                    defer.resolve(res);
-                });
             }
             function enableEditTerm(item){
                 item.editing=true;
@@ -45,14 +41,11 @@ angular.module('controllers')
             function editTerm(item) {
                 item.editing = false;
                 //console.log(item);
-                Word.editWord(item._id, vm.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
+                return Word.editWord(item._id, vm.currentOpeningFolder, item.word, item.meaning, item.example, item.image).then(function (res) {
                     //console.log(res);
                 });
             }
             function deleteTerm(item){
-                Word.deleteWord(item._id).then(function(res){
-                    console.log('deleted');
-                });
                 vm.currentWordlist.splice(vm.currentWordlist.indexOf(item),1);
                 vm.refreshPage();
                 if (vm.wordCart && vm.wordCart.length>0){
@@ -62,12 +55,15 @@ angular.module('controllers')
                         vm.wordCart.splice(vm.wordCart.indexOf(item),1);
                     }
                 }
+                return Word.deleteWord(item._id).then(function(res){
+                    console.log('deleted');
+                });
             }
             function defineWord(word){
                 vm.loading.definition = true;
                 var from,to;
 
-                Folder.getFolderById(vm.currentOpeningFolder).then(function(res){
+                return Folder.getFolderById(vm.currentOpeningFolder).then(function(res){
                     //console.log(res);
                     from = res.fromLang;
                     to = res.toLang;

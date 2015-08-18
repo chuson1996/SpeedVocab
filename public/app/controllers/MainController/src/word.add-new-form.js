@@ -25,7 +25,7 @@ angular.module('controllers')
             function getSuggestedImages(text){
                 vm.loading.imageSuggestion = true;
                 vm.newimage='';
-                helper.getSuggestedImages(text).then(function(res){
+                return helper.getSuggestedImages(text).then(function(res){
                     vm.suggestedImages=res;
                     vm.loading.imageSuggestion = false;
                 });

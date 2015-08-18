@@ -22,9 +22,7 @@ angular.module('controllers')
                 $('.viewA').animate({
                     opacity:0.3
                 },1000);
-                var defer = $q.defer();
-
-                defer.promise.then(function (data){
+                return Word.getWords(folderId).then(function(data){
                     if (data) vm.openingPage= 1;
                     //$('img.loading').hide(300);
                     $('.viewA').stop().animate({
@@ -44,10 +42,6 @@ angular.module('controllers')
                     $timeout(function () {
                         $(window).resize();
                     },0);
-
-                });
-                Word.getWords(folderId).then(function(data){
-                    defer.resolve(data);
                 });
             }
             function wordLoaded(){

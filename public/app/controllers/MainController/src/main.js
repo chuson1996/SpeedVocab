@@ -22,6 +22,8 @@ function MainController(Word, Folder, $stateParams, mainControllerFolder, mainCo
     vm.wordCart = [];
     //console.log('$stateParams', $stateParams);
 
+    vm.currentOpeningFolder = null;
+
     mainControllerFolder.call(vm);
     mainControllerWordlist.call(vm);
     mainControllerWord.call(vm);
@@ -38,13 +40,14 @@ function MainController(Word, Folder, $stateParams, mainControllerFolder, mainCo
             wordCollection: false
         };
 
+
         // Get folders
         if ($stateParams.fid){
             vm.currentOpeningFolder = $stateParams.fid;
             vm.getWords(vm.currentOpeningFolder);
 
         }else{
-
+            vm.currentOpeningFolder = null;
             Folder.getFolders().then(function (data){
                 vm.folders = data;
                 //console.log(data);
